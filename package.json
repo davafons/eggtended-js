@@ -4,7 +4,8 @@
   "description": "A extended version of the Egg programming language from the Eloquent Javascript book.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
     "Egg",
@@ -17,9 +18,9 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^3.0.3",
-    "istanbul": "^0.4.5",
     "mocha": "^6.1.2",
     "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^13.3.0",
     "should": "^13.2.3"
   }
 }
