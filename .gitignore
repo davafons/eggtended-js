@@ -1,0 +1,9 @@
+# Files
+*.swp
+*~
+
+# Directories
+node_modules/
+
+
+
