@@ -60,3 +60,53 @@ describe("Regex for WORD token", () => {
     tokenRegex.WORD.reset().exec("fun, ").should.be.eql(expected);
   });
 });
+
+describe("Regex for NUMBER token", () => {
+  it("should match integers, with and without sign", () => {
+
+    // Normal int
+    let expected = { type: "NUMBER", value: "323", start: 1, end: 3};
+    tokenRegex.NUMBER.reset().exec("323").should.be.eql(expected);
+
+    // With positive sign
+    expected = { type: "NUMBER", value: "+2", start: 1, end: 2};
+    tokenRegex.NUMBER.reset().exec("+2").should.be.eql(expected);
+
+    // With negative sign
+    expected = { type: "NUMBER", value: "-123", start: 1, end: 4};
+    tokenRegex.NUMBER.reset().exec("-123").should.be.eql(expected);
+
+    // Signs can't go alone!!
+    should.not.exists(tokenRegex.NUMBER.reset().exec("-"));
+    should.not.exists(tokenRegex.NUMBER.reset().exec("+"));
+  });
+
+  it("should match for floats, floating point and exponential notation", () => {
+
+    // Normal float
+    let expected = { type: "NUMBER", value: "12.34", start: 1, end: 5};
+    tokenRegex.NUMBER.reset().exec("12.34").should.be.eql(expected);
+
+    // Float starting with .
+    expected = { type: "NUMBER", value: ".35", start: 1, end: 3};
+    tokenRegex.NUMBER.reset().exec(".35").should.be.eql(expected);
+
+    // Float in exponential notation
+    expected = { type: "NUMBER", value: "2e5", start: 1, end: 3};
+    tokenRegex.NUMBER.reset().exec("2e5").should.be.eql(expected);
+
+    // Float with decimals and exponential notation
+    expected = { type: "NUMBER", value: "45.8e5", start: 1, end: 6};
+    tokenRegex.NUMBER.reset().exec("45.8e5").should.be.eql(expected);
+
+    // Float with exponential notation with sign and E
+    expected = { type: "NUMBER", value: "8E-34", start: 1, end: 5};
+    tokenRegex.NUMBER.reset().exec("8E-34").should.be.eql(expected);
+
+    // Shouldn't match exponential alone or without exponential num
+    should.not.exists(tokenRegex.NUMBER.reset().exec("e45"));
+    should.not.exists(tokenRegex.NUMBER.reset().exec("E"));
+  });
+
+});
+
