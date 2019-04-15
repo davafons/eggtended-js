@@ -35,6 +35,13 @@ describe("Regex for RP token", () => {
   });
 });
 
+describe("Regex for COMMA token", () => {
+  it("should recognize , as valid a token", () => {
+    const expected = { type: "COMMA", value: ",", start: 1, end: 1};
+    tokenRegex.COMMA.reset().exec(",").should.be.eql(expected);
+  });
+});
+
 describe("Regex for STRING token", () => {
   it("should recognize anything between \" \" as valid a token", () => {
     const expected = { type: "STRING", value: "hello world", start: 3, end: 13};
