@@ -54,9 +54,22 @@ describe("Regex for STRING token", () => {
 });
 
 describe("Regex for WORD token", () => {
-  it("should match any name identifier combining characters, numbers and symbols", () => {
-    const expected = { type: "WORD", value: "MY_!D3n7if@er", start: 1, end: 13};
-    tokenRegex.WORD.reset().exec("MY_!D3n7if@er").should.be.eql(expected);
+  it("should match javascript identifier naming rules", () => {
+
+    // Identifiers starting with $
+    let expected = { type: "WORD", value: "$", start: 1, end: 1};
+    tokenRegex.WORD.reset().exec("$").should.be.eql(expected);
+
+    // Identifiers starting with _
+    expected = { type: "WORD", value: "_", start: 1, end: 1};
+    tokenRegex.WORD.reset().exec("_").should.be.eql(expected);
+
+    // Identifiers containing letters and numbers and _ $
+    expected = { type: "WORD", value: "h3llo_w0rld$", start: 1, end: 12};
+    tokenRegex.WORD.reset().exec("h3llo_w0rld$").should.be.eql(expected);
+
+    // Identifiers can't start with numeric values
+    should.not.exists(tokenRegex.WORD.reset().exec("42id"));
   });
 
   it ("shouldn't include special characters on the identifier, like ()[]{},", () => {
