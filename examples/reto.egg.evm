@@ -1,0 +1,251 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "sum"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "->"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "nums"
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "do"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": ":="
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "i"
+                    },
+                    {
+                      "type": "value",
+                      "value": 0
+                    }
+                  ]
+                },
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": ":="
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "s"
+                    },
+                    {
+                      "type": "value",
+                      "value": 0
+                    }
+                  ]
+                },
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "while"
+                  },
+                  "args": [
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "<"
+                      },
+                      "args": [
+                        {
+                          "type": "word",
+                          "name": "i"
+                        },
+                        {
+                          "type": "apply",
+                          "operator": {
+                            "type": "word",
+                            "name": "length"
+                          },
+                          "args": [
+                            {
+                              "type": "word",
+                              "name": "nums"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "do"
+                      },
+                      "args": [
+                        {
+                          "type": "apply",
+                          "operator": {
+                            "type": "word",
+                            "name": "="
+                          },
+                          "args": [
+                            {
+                              "type": "word",
+                              "name": "s"
+                            },
+                            {
+                              "type": "apply",
+                              "operator": {
+                                "type": "word",
+                                "name": "+"
+                              },
+                              "args": [
+                                {
+                                  "type": "word",
+                                  "name": "s"
+                                },
+                                {
+                                  "type": "apply",
+                                  "operator": {
+                                    "type": "word",
+                                    "name": "<-"
+                                  },
+                                  "args": [
+                                    {
+                                      "type": "word",
+                                      "name": "nums"
+                                    },
+                                    {
+                                      "type": "word",
+                                      "name": "i"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "apply",
+                          "operator": {
+                            "type": "word",
+                            "name": "="
+                          },
+                          "args": [
+                            {
+                              "type": "word",
+                              "name": "i"
+                            },
+                            {
+                              "type": "apply",
+                              "operator": {
+                                "type": "word",
+                                "name": "+"
+                              },
+                              "args": [
+                                {
+                                  "type": "word",
+                                  "name": "i"
+                                },
+                                {
+                                  "type": "value",
+                                  "value": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "word",
+                  "name": "s"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "+"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "sum(array[1, 2, 3]) := "
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "sum"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "array"
+                  },
+                  "args": [
+                    {
+                      "type": "value",
+                      "value": 1
+                    },
+                    {
+                      "type": "value",
+                      "value": 2
+                    },
+                    {
+                      "type": "value",
+                      "value": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
