@@ -1,0 +1,108 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "arr"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "arr"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": 1
+                },
+                {
+                  "type": "value",
+                  "value": 4
+                }
+              ]
+            },
+            {
+              "type": "value",
+              "value": 5
+            },
+            {
+              "type": "value",
+              "value": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "[]"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "[]"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

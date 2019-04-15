@@ -1,0 +1,86 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "value",
+          "value": -4.5
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "y"
+        },
+        {
+          "type": "value",
+          "value": 400
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "z"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "+"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "word",
+              "name": "y"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "z"
+        }
+      ]
+    }
+  ]
+}

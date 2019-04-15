@@ -37,6 +37,11 @@ describe("Test for simple cases", () => {
   it("should throw SyntaxError if there is more input after parsing", () => {
     should.throws(() => { parser.parse("do(a)b") }, SyntaxError);
   });
+
+  it("should throw SyntaxError if there is , or ) missing", () => {
+    should.throws(() => { parser.parse("do(a b)") }, SyntaxError);
+    should.throws(() => { parser.parse("do(a, b") }, SyntaxError);
+  });
 });
 
 describe("Test program 'examples/one.egg'", () => {
@@ -54,5 +59,23 @@ describe("Test program 'examples/scope.egg'", () => {
     const expected_evm = JSON.parse(raw_data);
 
     parser.parseFromFile("examples/scope.egg").should.be.eql(expected_evm);
+  });
+});
+
+describe("Test program 'examples/string.egg'", () => {
+  it("should be parsed correctly", () => {
+    const raw_data = fs.readFileSync('examples/string.egg.evm');
+    const expected_evm = JSON.parse(raw_data);
+
+    parser.parseFromFile("examples/string.egg").should.be.eql(expected_evm);
+  });
+});
+
+describe("Test program 'examples/sum.egg'", () => {
+  it("should be parsed correctly", () => {
+    const raw_data = fs.readFileSync('examples/sum.egg.evm');
+    const expected_evm = JSON.parse(raw_data);
+
+    parser.parseFromFile("examples/sum.egg").should.be.eql(expected_evm);
   });
 });

@@ -1,0 +1,13 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "print"
+  },
+  "args": [
+    {
+      "type": "value",
+      "value": "s"
+    }
+  ]
+}
