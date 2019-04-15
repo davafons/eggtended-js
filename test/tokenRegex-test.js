@@ -45,3 +45,18 @@ describe("Regex for STRING token", () => {
     should.not.exists(tokenRegex.STRING.reset().exec("hello world"))
   });
 });
+
+describe("Regex for WORD token", () => {
+  it("should match any name identifier combining characters, numbers and symbols", () => {
+    const expected = { type: "WORD", value: "MY_!D3n7if@er", start: 1, end: 13};
+    tokenRegex.WORD.reset().exec("MY_!D3n7if@er").should.be.eql(expected);
+  });
+
+  it ("shouldn't include special characters on the identifier, like ()[]{},", () => {
+    const expected = { type: "WORD", value: "fun", start: 1, end: 3};
+    tokenRegex.WORD.reset().exec("fun()").should.be.eql(expected);
+    tokenRegex.WORD.reset().exec("fun[]").should.be.eql(expected);
+    tokenRegex.WORD.reset().exec("fun{}").should.be.eql(expected);
+    tokenRegex.WORD.reset().exec("fun, ").should.be.eql(expected);
+  });
+});
