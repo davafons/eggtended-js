@@ -33,6 +33,10 @@ describe("Test for simple cases", () => {
 
     parser.parse("do(a)(b)").should.be.eql(expected);
   });
+
+  it("should throw SyntaxError if there is more input after parsing", () => {
+    should.throws(() => { parser.parse("do(a)b") }, SyntaxError);
+  });
 });
 
 describe("Test program 'examples/one.egg'", () => {
