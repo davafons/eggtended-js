@@ -8,4 +8,4 @@ An extended version of the __Egg__ programming language from the _"Eloquent Java
 
 ## Author
 
-__David Afonso Dorta__ - [University of La Laguna. Computer Engineering, 3rd year](https://www.ull.es/grados/ingenieria-informatica/)
+__David Afonso Dorta__ - [University of La Laguna](https://www.ull.es/grados/ingenieria-informatica/). Computer Engineering, 3rd year
