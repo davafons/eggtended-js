@@ -37,10 +37,18 @@ describe("Test for simple cases", () => {
 
 describe("Test program 'examples/one.egg'", () => {
   it("should be parsed correctly", () => {
-    const raw_data = fs.readFileSync('examples/one.evm');
+    const raw_data = fs.readFileSync('examples/one.egg.evm');
     const expected_evm = JSON.parse(raw_data);
 
     parser.parseFromFile("examples/one.egg").should.be.eql(expected_evm);
   });
 });
 
+describe("Test program 'examples/scope.egg'", () => {
+  it("should be parsed correctly", () => {
+    const raw_data = fs.readFileSync('examples/scope.egg.evm');
+    const expected_evm = JSON.parse(raw_data);
+
+    parser.parseFromFile("examples/scope.egg").should.be.eql(expected_evm);
+  });
+});

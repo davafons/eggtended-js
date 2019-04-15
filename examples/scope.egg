@@ -1,0 +1,9 @@
+do(
+  def(x,9),
+  def(f, ->(def(x, 4))),
+  def(g, ->(set(x, 8))),
+  f(),
+  print(x),
+  g(),
+  print(x)
+)

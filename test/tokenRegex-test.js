@@ -42,6 +42,31 @@ describe("Regex for COMMA token", () => {
   });
 });
 
+describe("Regex for WHITES token", () => {
+  it("should recognize any quantity of space", () => {
+    const expected = { type: "WHITE", value: "  ", start: 1, end: 2};
+    tokenRegex.WHITES.reset().exec("  ").should.be.eql(expected);
+  });
+
+  it("should recognize as white even strings with newlines", () => {
+    const expected = { type: "WHITE", value: "  \n  ", start: 1, end: 5};
+    tokenRegex.WHITES.reset().exec("  \n  ").should.be.eql(expected);
+  })
+
+  it("should recognize as white one-line comments with # or ;", () => {
+    let expected = { type: "WHITE", value: "# commen t", start: 1, end: 10};
+    tokenRegex.WHITES.reset().exec("# commen t").should.be.eql(expected);
+
+    expected = { type: "WHITE", value: "; commen t", start: 1, end: 10};
+    tokenRegex.WHITES.reset().exec("; commen t").should.be.eql(expected);
+  });
+
+  it("should recognize as white multiline commments with /* */", () => {
+    const expected = { type: "WHITE", value: "/* this is \n a multiline\n comment */", start: 1, end: 36};
+    tokenRegex.WHITES.reset().exec("/* this is \n a multiline\n comment */").should.be.eql(expected);
+  });
+});
+
 describe("Regex for STRING token", () => {
   it("should recognize anything between \" \" as valid a token", () => {
     const expected = { type: "STRING", value: "hello world", start: 3, end: 13};
@@ -54,24 +79,6 @@ describe("Regex for STRING token", () => {
 });
 
 describe("Regex for WORD token", () => {
-  it("should match javascript identifier naming rules", () => {
-
-    // Identifiers starting with $
-    let expected = { type: "WORD", value: "$", start: 1, end: 1};
-    tokenRegex.WORD.reset().exec("$").should.be.eql(expected);
-
-    // Identifiers starting with _
-    expected = { type: "WORD", value: "_", start: 1, end: 1};
-    tokenRegex.WORD.reset().exec("_").should.be.eql(expected);
-
-    // Identifiers containing letters and numbers and _ $
-    expected = { type: "WORD", value: "h3llo_w0rld$", start: 1, end: 12};
-    tokenRegex.WORD.reset().exec("h3llo_w0rld$").should.be.eql(expected);
-
-    // Identifiers can't start with numeric values
-    should.not.exists(tokenRegex.WORD.reset().exec("42id"));
-  });
-
   it ("shouldn't include special characters on the identifier, like ()[]{},", () => {
     const expected = { type: "WORD", value: "fun", start: 1, end: 3};
     tokenRegex.WORD.reset().exec("fun()").should.be.eql(expected);
@@ -127,6 +134,5 @@ describe("Regex for NUMBER token", () => {
     should.not.exists(tokenRegex.NUMBER.reset().exec("e45"));
     should.not.exists(tokenRegex.NUMBER.reset().exec("E"));
   });
-
 });
 
