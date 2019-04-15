@@ -40,4 +40,8 @@ describe("Regex for STRING token", () => {
     const expected = { type: "STRING", value: "hello world", start: 3, end: 13};
     tokenRegex.STRING.reset().exec("\"hello world\"").should.be.eql(expected);
   });
+
+  it ("shouldn't recognize strings without \" \". Those are words", () => {
+    should.not.exists(tokenRegex.STRING.reset().exec("hello world"))
+  });
 });
