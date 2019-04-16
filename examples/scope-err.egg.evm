@@ -1,0 +1,39 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "set"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "value",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        }
+      ]
+    }
+  ]
+}

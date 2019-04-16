@@ -29,6 +29,19 @@ describe('Test program \'examples/scope.egg\'', () => {
   });
 });
 
+describe('Test program \'examples/scope-err.egg\'', () => {
+  it('should be parsed correctly', () => {
+    const rawData = fs.readFileSync('examples/scope-err.egg.evm');
+    const expected = JSON.parse(rawData);
+
+    parser.parseFromFile('examples/scope-err.egg').should.be.eql(expected);
+  });
+
+  it('should return the expected output after executing', () => {
+    should.throws( () => { eggvm.runFromEVM('examples/scope-err.egg.evm')}, ReferenceError );
+  });
+});
+
 describe('Test program \'examples/string.egg\'', () => {
   it('should be parsed correctly', () => {
     const rawData = fs.readFileSync('examples/string.egg.evm');
