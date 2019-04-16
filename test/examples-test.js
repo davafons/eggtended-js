@@ -1,5 +1,6 @@
 const fs = require('fs');
 const should = require('should');
+const sinon = require('sinon');
 
 const {Parser} = require('../lib/parse.js');
 const {Eggvm} = require('../lib/eggvm.js');
@@ -7,6 +8,15 @@ const parser = new Parser();
 const eggvm = new Eggvm();
 
 describe('Test program \'examples/one.egg\'', () => {
+
+  beforeEach(() => {
+    this.logSpy = sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    this.logSpy.restore();
+  });
+
   it('should be parsed correctly', () => {
     const rawData = fs.readFileSync('examples/one.egg.evm');
     const expected = JSON.parse(rawData);
@@ -17,6 +27,7 @@ describe('Test program \'examples/one.egg\'', () => {
   it('should return the expected output after executing', () => {
     const expected = 50;
     eggvm.runFromEVM('examples/one.egg.evm').should.be.eql(expected);
+    this.logSpy.calledWith(50).should.be.true();
   });
 });
 
