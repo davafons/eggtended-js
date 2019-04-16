@@ -31,7 +31,7 @@ describe('Test SpecialForms', () => {
     });
   });
 
-  describe('[def|define](word, value)', () => {
+  describe('[def|define|:=](word, value)', () => {
     it('should throw if trying to acces an undefined word', () => {
       should.throws(() => { ev.run('do(x)'); }, ReferenceError);
     });
@@ -40,8 +40,10 @@ describe('Test SpecialForms', () => {
       ev.run('do(define(x, 3), x)').should.be.eql(3);
     });
 
-    it('should treat \'def\' and \'define\' as synonyms', () => {
+    it('should treat \'def\', \'define\', and \':=\' as synonyms', () => {
       ev.run('do(def(x, 3), x)').should.be.eql(3);
+      ev.run('do(define(x, 3), x)').should.be.eql(3);
+      ev.run('do(:=(x, 3), x)').should.be.eql(3);
     });
   });
 
