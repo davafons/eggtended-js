@@ -1,9 +1,9 @@
 const should = require('should');
 
-const {Evaluator} = require('../lib/eggvm.js');
+const {Eggvm} = require('../lib/eggvm.js');
 
 describe('Test SpecialForms', () => {
-  const ev = new Evaluator();
+  const ev = new Eggvm();
 
   describe('do(...)', () => {
     it('should return the argument evaluated', () => {
@@ -48,7 +48,7 @@ describe('Test SpecialForms', () => {
 
 
 describe('Test TopEnv', () => {
-  const ev = new Evaluator();
+  const ev = new Eggvm();
 
   describe('boolean values', () => {
     it('should evaluate true to true, and false to false', () => {
