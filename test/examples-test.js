@@ -28,7 +28,23 @@ describe('Testing programs from \'examples/\' folder', () => {
     it('should return the expected output after executing', () => {
       const expected = 50;
       eggvm.runFromEVM('examples/one.egg.evm').should.be.eql(expected);
-      this.logSpy.calledWith(50).should.be.true();
+      this.logSpy.calledWith(expected).should.be.true();
+    });
+  });
+
+  describe('Test \'examples/two.egg\'', () => {
+
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/two.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/two.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      const expected = 9;
+      eggvm.runFromEVM('examples/two.egg.evm').should.be.eql(expected);
+      this.logSpy.calledWith(expected).should.be.true();
     });
   });
 
@@ -38,6 +54,12 @@ describe('Testing programs from \'examples/\' folder', () => {
       const expected = JSON.parse(rawData);
 
       parser.parseFromFile('examples/scope.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/scope.egg.evm');
+      this.logSpy.calledWith(9).should.be.true();
+      this.logSpy.calledWith(8).should.be.true();
     });
   });
 
@@ -75,6 +97,27 @@ describe('Testing programs from \'examples/\' folder', () => {
 
       parser.parseFromFile('examples/sum.egg').should.be.eql(expected);
     });
+
+    it('should return the expected output after executing', () => {
+      const expected = 395.5;
+      eggvm.runFromEVM('examples/sum.egg.evm').should.be.eql(expected);
+      this.logSpy.calledWith(expected).should.be.true();
+    });
+  });
+
+  describe('Test \'examples/array.egg\'', () => {
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/array.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/array.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/array.egg.evm');
+      this.logSpy.calledWith([ 1, 4 ]).should.be.true();
+      this.logSpy.calledWith(5).should.be.true();
+    });
   });
 
   describe('Test \'examples/reto.egg\'', () => {
@@ -90,6 +133,4 @@ describe('Testing programs from \'examples/\' folder', () => {
       this.logSpy.calledWith('sum(array[1, 2, 3]) := 6').should.be.true();
     });
   });
-
-
 });
