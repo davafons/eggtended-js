@@ -8,5 +8,5 @@ if (file && file.length > 0) {
   let eggvm = new Eggvm();
   let returnValue = eggvm.runFromFile(file);
 
-  console.log("Return value: " + returnValue);
+  console.log('Return value: ' + returnValue);
 }

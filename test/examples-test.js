@@ -72,7 +72,7 @@ describe('Testing programs from \'examples/\' folder', () => {
     });
 
     it('should return the expected output after executing', () => {
-      should.throws( () => { eggvm.runFromEVM('examples/scope-err.egg.evm')}, ReferenceError );
+      should.throws( () => { eggvm.runFromEVM('examples/scope-err.egg.evm');}, ReferenceError );
     });
   });
 

@@ -9,7 +9,7 @@ if (file && file.length > 0) {
   let parser = new Parser();
   let tree = parser.parseFromFile(file);
 
-  const json = JSON.stringify(tree, null, "  ");
-  fs.writeFileSync(file+".evm", json);
+  const json = JSON.stringify(tree, null, '  ');
+  fs.writeFileSync(file + '.evm', json);
   console.log(json);
 }
