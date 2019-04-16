@@ -1,4 +1,4 @@
-# eggtended-js
+![Eggtended Logo](https://i.imgur.com/9N4qe98.png)
 
 An extended version of the __Egg__ programming language from the _"Eloquent Javascript"_ book.
 
