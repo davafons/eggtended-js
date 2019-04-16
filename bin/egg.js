@@ -6,6 +6,7 @@ const process = require('process');
 const file = process.argv.slice(2).shift();
 if (file && file.length > 0) {
   let eggvm = new Eggvm();
-  let output = eggvm.runFromFile(file);
-  console.log(output);
+  let returnValue = eggvm.runFromFile(file);
+
+  console.log("Return value: " + returnValue);
 }

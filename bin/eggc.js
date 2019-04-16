@@ -11,6 +11,5 @@ if (file && file.length > 0) {
 
   const json = JSON.stringify(tree, null, "  ");
   fs.writeFileSync(file+".evm", json);
-
   console.log(json);
 }
