@@ -14,8 +14,9 @@ describe('Test program \'examples/one.egg\'', () => {
     parser.parseFromFile('examples/one.egg').should.be.eql(expected);
   });
 
-  it('should return the correct output after executing', () => {
-
+  it('should return the expected output after executing', () => {
+    const expected = 50;
+    eggvm.runFromEVM('examples/one.egg.evm').should.be.eql(expected);
   });
 });
 
@@ -34,6 +35,11 @@ describe('Test program \'examples/string.egg\'', () => {
     const expected = JSON.parse(rawData);
 
     parser.parseFromFile('examples/string.egg').should.be.eql(expected);
+  });
+
+  it('should return the expected output after executing', () => {
+    const expected = 's';
+    eggvm.runFromEVM('examples/string.egg.evm').should.be.eql(expected);
   });
 });
 

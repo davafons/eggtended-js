@@ -1,4 +1,4 @@
-do( 
+do(
   def(x,9),
   /* def crea una nueva variable local */
   def(f, ->(def(x, 4))),
