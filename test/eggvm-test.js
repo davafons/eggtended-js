@@ -128,13 +128,17 @@ describe('Test TopEnv', () => {
     });
   });
 
-  describe('array and length', () => {
+  describe('array operators', () => {
     it('should be able to define arrays', () => {
       ev.run('array(1, 2, 3)').should.be.eql([1, 2, 3]);
     });
 
-    it('should be able to recognize the size of an array', () => {
+    it('should be able to get the size of an array', () => {
       ev.run('length(arr(1, 3, 5, 7))').should.be.eql(4);
+    });
+
+    it('should be able to get a value with an array index', () => {
+      ev.run('<-(arr(1, 3, 5, 7), 2)').should.be.eql(5);
     });
   });
 });
