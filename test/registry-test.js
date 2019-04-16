@@ -138,9 +138,12 @@ describe('Test TopEnv', () => {
     });
 
     it('should be able to get a value with an array index', () => {
-      ev.run('[](arr(1, 3, 5, 7), 0)').should.be.eql(1); // Alias
-      ev.run('<-(arr(1, 3, 5, 7), 1)').should.be.eql(3);
+      ev.run('[](arr(1, 3, 5, 7), 0)').should.be.eql(1);
+      ev.run('<-(arr(1, 3, 5, 7), 1)').should.be.eql(3); // Alias
       ev.run('element(arr(1, 3, 5, 7), 2)').should.be.eql(5); // Alias
+
+      // Can't access index out of bounds
+      should.throws(() => { ev.run('<-(arr(1, 2, 3), 50)'); }, RangeError);
     });
   });
 });
