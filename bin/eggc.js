@@ -2,6 +2,7 @@
 
 const {Parser} = require('../lib/parse.js');
 const fs = require('fs');
+const process = require('process');
 
 const file = process.argv.slice(2).shift();
 if (file && file.length > 0) {
