@@ -45,3 +45,45 @@ describe("Test SpecialForms", () => {
     });
   });
 });
+
+
+describe("Test TopEnv", () => {
+  const ev = new Evaluator();
+
+  describe("boolean values", () => {
+    it("should evaluate true to true, and false to false", () => {
+      ev.run("do(true)").should.be.true();
+      ev.run("do(false)").should.be.false();
+    });
+  });
+
+  describe("operators", () => {
+    it("should evaluate arithmetic operators", () => {
+      // Add
+      ev.run("do(+(-2.5, 5))").should.be.eql(2.5);
+
+      // Sub
+      ev.run("do(-(-2, 5.8))").should.be.eql(-7.8);
+
+      // Mul
+      ev.run("do(*(-2, 5))").should.be.eql(-10);
+
+      // Div (result is float)
+      ev.run("do(/(5, 2))").should.be.eql(2.5);
+    });
+
+    it("should evaluate boolean operators", () => {
+      // Equal / Not Equal for nums
+      ev.run("do(==(5.4, 5.4))").should.be.true();
+      ev.run("do(!=(5.4, 5.4))").should.be.false();
+      ev.run("do(==(5, 2))").should.be.false();
+      ev.run("do(!=(5, 2))").should.be.true();
+
+      // Equal / Not Equal for strings
+      ev.run("do(==(\"hello\", \"hello\"))").should.be.true();
+      ev.run("do(!=(\"hello\", \"hello\"))").should.be.false();
+      ev.run("do(==(\"hello\", \"bye\"))").should.be.false();
+      ev.run("do(!=(\"hello\", \"bye\"))").should.be.true();
+    });
+  });
+});
