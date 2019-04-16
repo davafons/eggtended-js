@@ -49,6 +49,39 @@ describe('Test SpecialForms', () => {
     it('should be able to call user defined functions', () => {
       ev.run('do(def(plusOne, fun(x, +(x, 1))), plusOne(10))').should.be.eql(11);
     });
+
+    it('should only allow argument names to be words', () => {
+      should.throws(() => { ev.run('fun(3, +(3, 1))'); }, SyntaxError);
+    });
+
+    it('should detect that the number of arguments passed is correct', () => {
+      should.throws(() => { ev.run('do(def(f, fun(x, +(x, 3))), f(3, 4))'); }, TypeError);
+    });
+
+    it('should allow to define a function without arguments', () => {
+      ev.run('do(def(mf, fun(3)), mf())').should.be.eql(3);
+    });
+  });
+
+  describe('set(name, value)', () => {
+    it('should be able to set values of variables in outer scopes', () => {
+      ev.run('do(def(os, 3), def(mf, fun(set(os, 4))), mf(), os)').should.be.eql(4);
+    });
+
+    it('should change only the variable on the inner scope', () => {
+      ev.run(`do(
+                def(var, 3),
+                def(m1f, fun(
+                            do(
+                              def(var, 3),
+                              set(var, 4)
+                              )
+                            )
+                   ),
+                m1f(),
+                var
+                )`).should.be.eql(3);
+    });
   });
 });
 
