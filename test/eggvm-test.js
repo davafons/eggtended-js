@@ -98,7 +98,7 @@ describe('Test TopEnv', () => {
     });
   });
 
-  describe('operators', () => {
+  describe('basic operators', () => {
     it('should evaluate arithmetic operators', () => {
       // Add
       ev.run('do(+(-2.5, 5))').should.be.eql(2.5);
@@ -138,7 +138,9 @@ describe('Test TopEnv', () => {
     });
 
     it('should be able to get a value with an array index', () => {
-      ev.run('<-(arr(1, 3, 5, 7), 2)').should.be.eql(5);
+      ev.run('[](arr(1, 3, 5, 7), 0)').should.be.eql(1); // Alias
+      ev.run('<-(arr(1, 3, 5, 7), 1)').should.be.eql(3);
+      ev.run('element(arr(1, 3, 5, 7), 2)').should.be.eql(5); // Alias
     });
   });
 });
