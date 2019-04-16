@@ -44,6 +44,12 @@ describe('Test SpecialForms', () => {
       ev.run('do(def(x, 3), x)').should.be.eql(3);
     });
   });
+
+  describe('fun(args, body)', () => {
+    it('should be able to call user defined functions', () => {
+      ev.run('do(def(plusOne, fun(x, +(x, 1))), plusOne(10))').should.be.eql(11);
+    });
+  });
 });
 
 
