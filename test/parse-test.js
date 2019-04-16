@@ -42,39 +42,3 @@ describe('Test for simple cases', () => {
     should.throws(() => { parser.parse('do(a, b'); }, SyntaxError);
   });
 });
-
-describe('Test program \'examples/one.egg\'', () => {
-  it('should be parsed correctly', () => {
-    const rawData = fs.readFileSync('examples/one.egg.evm');
-    const expected = JSON.parse(rawData);
-
-    parser.parseFromFile('examples/one.egg').should.be.eql(expected);
-  });
-});
-
-describe('Test program \'examples/scope.egg\'', () => {
-  it('should be parsed correctly', () => {
-    const rawData = fs.readFileSync('examples/scope.egg.evm');
-    const expected = JSON.parse(rawData);
-
-    parser.parseFromFile('examples/scope.egg').should.be.eql(expected);
-  });
-});
-
-describe('Test program \'examples/string.egg\'', () => {
-  it('should be parsed correctly', () => {
-    const rawData = fs.readFileSync('examples/string.egg.evm');
-    const expected = JSON.parse(rawData);
-
-    parser.parseFromFile('examples/string.egg').should.be.eql(expected);
-  });
-});
-
-describe('Test program \'examples/sum.egg\'', () => {
-  it('should be parsed correctly', () => {
-    const rawData = fs.readFileSync('examples/sum.egg.evm');
-    const expected = JSON.parse(rawData);
-
-    parser.parseFromFile('examples/sum.egg').should.be.eql(expected);
-  });
-});
