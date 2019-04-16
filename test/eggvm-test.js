@@ -16,7 +16,8 @@ describe("Test SpecialForms", () => {
     ev.run("do(\"hola\")").should.be.eql("hola");
   });
 
-  it("should evaluate sum(...)", () => {
-
+  it("should evaluate if(exp, r1, r2)", () => {
+    ev.run("if(true, 3, 4)").should.be.eql(3);
+    ev.run("if(false, 3, 4)").should.be.eql(4);
   });
 });
