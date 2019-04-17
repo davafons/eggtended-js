@@ -1,0 +1,9 @@
+do {
+  def(x, map["x", 4, "y", map["z", 3]]),
+  print(x),                               # { x: 4, y: { z: 3 } }
+  print(element(x, "x")),                 # 4
+  print(element(x, "y")),                 # { z: 3 }
+  print(element(x, "y", "z")),            # 3
+  set(x, "y", "z", 50),
+  print(element(x, "y"))                  # { z: 50 }
+}
