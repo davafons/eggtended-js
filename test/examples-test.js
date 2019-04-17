@@ -152,4 +152,20 @@ describe('Testing programs from \'examples/\' folder', () => {
       this.logSpy.getCall(4).calledWithExactly(2).should.be.true();
     });
   });
+
+  describe('Test \'examples/array-set-index.egg\'', () => {
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/array-set-index.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/array-set-index.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/array-set-index.egg.evm');
+      this.logSpy.callCount.should.be.eql(2);
+      /* this.logSpy.getCall(0).calledWithExactly([1, 2, 9, [9, 8, 7]]).should.be.true(); */
+      this.logSpy.getCall(1).calledWithExactly([1, 2, 9, [9, 1000, 7]]).should.be.true();
+    });
+  });
 });
