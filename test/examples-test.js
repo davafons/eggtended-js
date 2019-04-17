@@ -134,18 +134,22 @@ describe('Testing programs from \'examples/\' folder', () => {
     });
   });
 
-  describe('Test \'examples/chained-array.egg\'', () => {
+  describe('Test \'examples/array-index.egg\'', () => {
     it('should be parsed correctly', () => {
-      const rawData = fs.readFileSync('examples/chained-array.egg.evm');
+      const rawData = fs.readFileSync('examples/array-index.egg.evm');
       const expected = JSON.parse(rawData);
 
-      parser.parseFromFile('examples/chained-array.egg').should.be.eql(expected);
+      parser.parseFromFile('examples/array-index.egg').should.be.eql(expected);
     });
 
     it('should return the expected output after executing', () => {
-      eggvm.runFromEVM('examples/chained-array.egg.evm');
-      this.logSpy.calledWith(6).should.be.true();
-      this.logSpy.calledWith(3).should.be.true();
+      eggvm.runFromEVM('examples/array-index.egg.evm');
+      this.logSpy.callCount.should.be.eql(5);
+      this.logSpy.getCall(0).calledWithExactly(1).should.be.true();
+      this.logSpy.getCall(1).calledWithExactly([2, 3]).should.be.true();
+      this.logSpy.getCall(2).calledWithExactly(3).should.be.true();
+      this.logSpy.getCall(3).calledWithExactly(3).should.be.true();
+      this.logSpy.getCall(4).calledWithExactly(2).should.be.true();
     });
   });
 });

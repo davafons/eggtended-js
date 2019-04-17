@@ -1,5 +1,0 @@
-do(
-  define(x, arr(1, arr(2, arr(3, 4), 5), 6)),
-  print(element(x, -1)),   # 6
-  print(element(x, 1, 1, 0))  # 3
-)

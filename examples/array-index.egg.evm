@@ -9,7 +9,7 @@
       "type": "apply",
       "operator": {
         "type": "word",
-        "name": "define"
+        "name": "def"
       },
       "args": [
         {
@@ -20,7 +20,7 @@
           "type": "apply",
           "operator": {
             "type": "word",
-            "name": "arr"
+            "name": "array"
           },
           "args": [
             {
@@ -31,7 +31,7 @@
               "type": "apply",
               "operator": {
                 "type": "word",
-                "name": "arr"
+                "name": "array"
               },
               "args": [
                 {
@@ -39,31 +39,10 @@
                   "value": 2
                 },
                 {
-                  "type": "apply",
-                  "operator": {
-                    "type": "word",
-                    "name": "arr"
-                  },
-                  "args": [
-                    {
-                      "type": "value",
-                      "value": 3
-                    },
-                    {
-                      "type": "value",
-                      "value": 4
-                    }
-                  ]
-                },
-                {
                   "type": "value",
-                  "value": 5
+                  "value": 3
                 }
               ]
-            },
-            {
-              "type": "value",
-              "value": 6
             }
           ]
         }
@@ -86,6 +65,92 @@
             {
               "type": "word",
               "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "element"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "element"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 1
+            },
+            {
+              "type": "value",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "element"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": -1
             },
             {
               "type": "value",
@@ -115,11 +180,7 @@
             },
             {
               "type": "value",
-              "value": 1
-            },
-            {
-              "type": "value",
-              "value": 1
+              "value": -1
             },
             {
               "type": "value",
