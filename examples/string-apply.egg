@@ -1,0 +1,4 @@
+do {
+  print("hello"("length")),
+  print(4("toFixed", 2))
+}

@@ -1,0 +1,57 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "value",
+            "value": "hello"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "length"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "value",
+            "value": 4
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "toFixed"
+            },
+            {
+              "type": "value",
+              "value": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
