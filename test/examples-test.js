@@ -153,19 +153,33 @@ describe('Testing programs from \'examples/\' folder', () => {
     });
   });
 
-  describe('Test \'examples/array-set-index.egg\'', () => {
+  describe('Test \'examples/method3.egg\'', () => {
     it('should be parsed correctly', () => {
-      const rawData = fs.readFileSync('examples/array-set-index.egg.evm');
+      const rawData = fs.readFileSync('examples/method3.egg.evm');
       const expected = JSON.parse(rawData);
 
-      parser.parseFromFile('examples/array-set-index.egg').should.be.eql(expected);
+      parser.parseFromFile('examples/method3.egg').should.be.eql(expected);
     });
 
     it('should return the expected output after executing', () => {
-      eggvm.runFromEVM('examples/array-set-index.egg.evm');
-      this.logSpy.callCount.should.be.eql(2);
-      /* this.logSpy.getCall(0).calledWithExactly([1, 2, 9, [9, 8, 7]]).should.be.true(); */
-      this.logSpy.getCall(1).calledWithExactly([1, 2, 9, [9, 1000, 7]]).should.be.true();
+      eggvm.runFromEVM('examples/method3.egg.evm');
+      this.logSpy.callCount.should.be.eql(1);
+      this.logSpy.getCall(0).calledWithExactly("A-B-C").should.be.true();
+    });
+  });
+
+  describe('Test \'examples/method-concatenation.egg\'', () => {
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/method-concatenation.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/method-concatenation.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/method-concatenation.egg.evm');
+      this.logSpy.callCount.should.be.eql(1);
+      this.logSpy.getCall(0).calledWithExactly('1-hello egg').should.be.true();
     });
   });
 });

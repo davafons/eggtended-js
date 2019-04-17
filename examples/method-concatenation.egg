@@ -1,0 +1,3 @@
+do(
+  print(array[1,4,5]("join", "-")("substring",0,2)("concat", "hello egg"))
+)

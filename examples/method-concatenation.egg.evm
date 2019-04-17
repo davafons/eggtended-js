@@ -1,0 +1,82 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "apply",
+            "operator": {
+              "type": "apply",
+              "operator": {
+                "type": "apply",
+                "operator": {
+                  "type": "word",
+                  "name": "array"
+                },
+                "args": [
+                  {
+                    "type": "value",
+                    "value": 1
+                  },
+                  {
+                    "type": "value",
+                    "value": 4
+                  },
+                  {
+                    "type": "value",
+                    "value": 5
+                  }
+                ]
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": "join"
+                },
+                {
+                  "type": "value",
+                  "value": "-"
+                }
+              ]
+            },
+            "args": [
+              {
+                "type": "value",
+                "value": "substring"
+              },
+              {
+                "type": "value",
+                "value": 0
+              },
+              {
+                "type": "value",
+                "value": 2
+              }
+            ]
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "concat"
+            },
+            {
+              "type": "value",
+              "value": "hello egg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

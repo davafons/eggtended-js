@@ -1,0 +1,78 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "array"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "a"
+            },
+            {
+              "type": "value",
+              "value": "b"
+            },
+            {
+              "type": "value",
+              "value": "c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "apply",
+            "operator": {
+              "type": "word",
+              "name": "x"
+            },
+            "args": [
+              {
+                "type": "value",
+                "value": "join"
+              },
+              {
+                "type": "value",
+                "value": "-"
+              }
+            ]
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "toUpperCase"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

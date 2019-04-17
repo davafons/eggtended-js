@@ -1,0 +1,4 @@
+do{
+  def(x, array["a", "b", "c"]),
+  print(x("join", "-")("toUpperCase"))
+}
