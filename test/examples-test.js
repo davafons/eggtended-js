@@ -145,6 +145,7 @@ describe('Testing programs from \'examples/\' folder', () => {
     it('should return the expected output after executing', () => {
       eggvm.runFromEVM('examples/chained-array.egg.evm');
       this.logSpy.calledWith(6).should.be.true();
+      this.logSpy.calledWith(3).should.be.true();
     });
   });
 });

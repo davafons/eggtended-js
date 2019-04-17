@@ -94,6 +94,40 @@
           ]
         }
       ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "element"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "value",
+              "value": 1
+            },
+            {
+              "type": "value",
+              "value": 1
+            },
+            {
+              "type": "value",
+              "value": 0
+            }
+          ]
+        }
+      ]
     }
   ]
 }
