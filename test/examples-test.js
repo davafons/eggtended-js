@@ -182,4 +182,20 @@ describe('Testing programs from \'examples/\' folder', () => {
       this.logSpy.getCall(0).calledWithExactly('1-hello egg').should.be.true();
     });
   });
+
+  describe('Test \'examples/property.egg\'', () => {
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/property.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/property.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/property.egg.evm');
+      this.logSpy.callCount.should.be.eql(2);
+      this.logSpy.getCall(0).calledWithExactly(2).should.be.true();
+      this.logSpy.getCall(1).calledWithExactly(3).should.be.true();
+    });
+  });
 });

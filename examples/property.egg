@@ -1,0 +1,5 @@
+do( # test properties in egg
+  def(x, array[1,array[3,2,5]]),
+  print(x("length")),          # 2
+  print(x["sub", 1]("length")) # 3
+)
