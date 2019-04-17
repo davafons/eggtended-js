@@ -1,0 +1,39 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "value",
+            "value": "hegglo"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "undefined-method"
+            },
+            {
+              "type": "value",
+              "value": "a"
+            },
+            {
+              "type": "value",
+              "value": "b"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

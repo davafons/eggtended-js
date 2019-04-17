@@ -1,0 +1,3 @@
+do(
+  print("hegglo"("undefined-method", "a", "b"))
+)

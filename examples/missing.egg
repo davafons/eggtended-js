@@ -1,0 +1,3 @@
+do(
+  print(4("undefined-method", 2, 3)) # 9. Calls 'missing', aliased to '+'
+)

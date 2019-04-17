@@ -83,6 +83,9 @@ describe('Testing programs from \'examples/\' folder', () => {
     [new Map([['x', 4], ['y', new Map([['z', 3]])]]),
      4, new Map([['z', 3]]), 3, new Map([['z', 50]])]);
 
+  tests.set('examples/missing.egg', [9]);
+  tests.set('examples/missing-err.egg', SyntaxError);
+
   // Execute all the defined tests
   executeTests(tests);
 });
