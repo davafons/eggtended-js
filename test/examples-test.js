@@ -133,4 +133,18 @@ describe('Testing programs from \'examples/\' folder', () => {
       this.logSpy.calledWith('sum(array[1, 2, 3]) := 6').should.be.true();
     });
   });
+
+  describe('Test \'examples/chained-array.egg\'', () => {
+    it('should be parsed correctly', () => {
+      const rawData = fs.readFileSync('examples/chained-array.egg.evm');
+      const expected = JSON.parse(rawData);
+
+      parser.parseFromFile('examples/chained-array.egg').should.be.eql(expected);
+    });
+
+    it('should return the expected output after executing', () => {
+      eggvm.runFromEVM('examples/chained-array.egg.evm');
+      this.logSpy.calledWith(6).should.be.true();
+    });
+  });
 });
