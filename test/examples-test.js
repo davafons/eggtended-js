@@ -78,7 +78,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/method3.egg', ['A-B-C']);
   tests.set('examples/method-concatenation.egg', ['1-hello egg']);
   tests.set('examples/property.egg', [2, 3]);
-  tests.set('examples/string-apply.egg', [5, '4.00']);
+  tests.set('examples/string-apply.egg', [5, '4.00', 19]);
 
   // Execute all the defined tests
   executeTests(tests);

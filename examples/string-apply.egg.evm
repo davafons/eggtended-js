@@ -52,6 +52,40 @@
           ]
         }
       ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "value",
+            "value": 4
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "+"
+            },
+            {
+              "type": "value",
+              "value": 5
+            },
+            {
+              "type": "value",
+              "value": 7
+            },
+            {
+              "type": "value",
+              "value": 3
+            }
+          ]
+        }
+      ]
     }
   ]
 }
