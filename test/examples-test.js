@@ -114,6 +114,8 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/missing-err.egg', SyntaxError);
   tests.set('examples/objects.egg', [0, 4, 5]);
 
+  /* tests.set('examples/regex.egg', ['true', '0', '2015', '02']); */
+
   // Execute all the defined tests
   executeTests(tests);
 });

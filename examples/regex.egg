@@ -1,0 +1,28 @@
+do {
+  :=(d, r/
+         (?<year>  \d{4} ) -?  # year
+         (?<month> \d{2} ) -?  # month
+         (?<day>   \d{2} )     # day
+        /x),
+  print(d("test", "1987-07-14")),  # true
+  :=(m, d("exec", "1987-07-14")),
+  /* print(m), #  [ '1987-07-14', '1987', '07', '14', index: 0, input: '1987-07-14' ] */
+  print(m("index")), # 0
+
+  :=(x, RegExp("exec", "2015-02-22", d)),
+                  /*
+                  [ '2015-02-22',
+                    '2015',
+                    '02',
+                    '22',
+                    index: 0,
+                    input: '2015-02-22',
+                    year: '2015',
+                    month: '02',
+                    day: '22' ]
+                  */
+  /* print(x), */
+  print(x("year")), # 2015
+  print(x("month")) # 02
+}
+
