@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const {repl} = require('../lib/repl/repl.js');
 const {Eggvm} = require('../lib/eggvm.js');
 const process = require('process');
 
@@ -12,4 +13,7 @@ if (file && file.length > 0) {
   let returnValue = eggvm.runFromFile(file);
 
   console.log('Return value: ' + ins(returnValue));
+
+} else {
+  repl();
 }
