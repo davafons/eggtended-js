@@ -1,0 +1,101 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": ":="
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "d"
+        },
+        {
+          "type": "value",
+          "value": {
+            "xregexp": {
+              "captureNames": [
+                "year",
+                "month",
+                "day"
+              ],
+              "source": "\n         (?<year>  \\d{4} ) -?  # year\n         (?<month> \\d{2} ) -?  # month\n         (?<day>   \\d{2} )     # day\n        ",
+              "flags": "x"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "value",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "d"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "test"
+            },
+            {
+              "type": "value",
+              "value": "1987-07-14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "d"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "test"
+            },
+            {
+              "type": "value",
+              "value": "adfasdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

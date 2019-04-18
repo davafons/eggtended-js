@@ -1,0 +1,10 @@
+do {
+  :=(d, r/
+         (?<year>  \d{4} ) -?  # year
+         (?<month> \d{2} ) -?  # month
+         (?<day>   \d{2} )     # day
+        /x),
+  print(3),
+  print(d("test", "1987-07-14")),
+  print(d("test", "adfasdf"))
+}
