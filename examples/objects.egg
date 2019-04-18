@@ -1,0 +1,14 @@
+do (
+  def(x, object (
+    "c", 0,
+    "gc", ->{element[this, "c"]},
+    "sc", ->{value, =(this, "c", value)},
+    "inc", ->{=(this, "c", +(element[this, "c"],1))}
+  )),
+  /* print(x), */
+  print(x("gc")),   # 0
+  x("sc", 4),
+  print(x("gc")),   # 4
+  x("inc"),
+  print(x("gc")),   # 5
+)
