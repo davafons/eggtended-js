@@ -75,6 +75,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/array-index.egg', [1, [2, 3], 3, 3, 2]);
   tests.set('examples/array-properties.egg', [1, [5, 3], 3]);
   tests.set('examples/set-error.egg', TypeError);
+  tests.set('examples/set-error2.egg', TypeError);
   tests.set('examples/method3.egg', ['A-B-C']);
   tests.set('examples/method-concatenation.egg', ['1-hello egg']);
   tests.set('examples/property.egg', [2, 3]);

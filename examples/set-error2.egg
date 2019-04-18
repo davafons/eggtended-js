@@ -1,0 +1,5 @@
+do(
+  def(x, "hola"),
+  set(x, 0, "m"),
+  print(x)
+)
