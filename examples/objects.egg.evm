@@ -1,0 +1,263 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "object"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "c"
+            },
+            {
+              "type": "value",
+              "value": 0
+            },
+            {
+              "type": "value",
+              "value": "gc"
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "->"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "element"
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "this"
+                    },
+                    {
+                      "type": "value",
+                      "value": "c"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "value",
+              "value": "sc"
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "->"
+              },
+              "args": [
+                {
+                  "type": "word",
+                  "name": "value"
+                },
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "="
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "this"
+                    },
+                    {
+                      "type": "value",
+                      "value": "c"
+                    },
+                    {
+                      "type": "word",
+                      "name": "value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "value",
+              "value": "inc"
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "->"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "="
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "this"
+                    },
+                    {
+                      "type": "value",
+                      "value": "c"
+                    },
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "+"
+                      },
+                      "args": [
+                        {
+                          "type": "apply",
+                          "operator": {
+                            "type": "word",
+                            "name": "element"
+                          },
+                          "args": [
+                            {
+                              "type": "word",
+                              "name": "this"
+                            },
+                            {
+                              "type": "value",
+                              "value": "c"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "value",
+                          "value": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "x"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "gc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "x"
+      },
+      "args": [
+        {
+          "type": "value",
+          "value": "sc"
+        },
+        {
+          "type": "value",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "x"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "gc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "x"
+      },
+      "args": [
+        {
+          "type": "value",
+          "value": "inc"
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "x"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "gc"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

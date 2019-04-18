@@ -98,6 +98,7 @@ describe('Testing programs from \'examples/\' folder', () => {
 
   tests.set('examples/missing.egg', [9]);
   tests.set('examples/missing-err.egg', SyntaxError);
+  tests.set('examples/objects.egg', [0, 4, 5]);
 
   // Execute all the defined tests
   executeTests(tests);
