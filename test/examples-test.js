@@ -79,9 +79,21 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/method-concatenation.egg', ['1-hello egg']);
   tests.set('examples/property.egg', [2, 3]);
   tests.set('examples/string-apply.egg', [5, '4.00', 19]);
+
   tests.set('examples/map.egg',
     [new Map([['x', 4], ['y', new Map([['z', 3]])]]),
-     4, new Map([['z', 3]]), 3, new Map([['z', 50]])]);
+      4,
+      new Map([['z', 3]]),
+      3,
+      new Map([['z', 50]])]);
+
+  tests.set('examples/map-colon.egg',
+    [new Map([['x', 4], ['y', new Map([['z', 3]])]]),
+      4,
+      new Map([['z', 3]]),
+      3,
+      new Map([['z', 50]])]);
+
   tests.set('examples/map-sub.egg', [1, new Map([['d', 5], ['e', 3]]) ,3]);
 
   tests.set('examples/missing.egg', [9]);

@@ -40,6 +40,14 @@ describe('Regex for COMMA token', () => {
     const expected = { type: 'COMMA', value: ',', start: 1, end: 1};
     tokenRegex.COMMA.reset().exec(',').should.be.eql(expected);
   });
+
+  it('should recognize the : as an alias for ,', () => {
+    const expected = { type: 'COMMA', value: ':', start: 1, end: 1};
+    tokenRegex.COMMA.reset().exec(':').should.be.eql(expected);
+
+    // Only when is not followed by a =
+    should.not.exists(tokenRegex.COMMA.reset().exec(':='));
+  });
 });
 
 describe('Regex for WHITES token', () => {
@@ -79,12 +87,23 @@ describe('Regex for STRING token', () => {
 });
 
 describe('Regex for WORD token', () => {
-  it ('shouldn\'t include special characters on the identifier, like ()[]{},', () => {
+  it ('shouldn\'t include some special characters on the identifier', () => {
     const expected = { type: 'WORD', value: 'fun', start: 1, end: 3};
     tokenRegex.WORD.reset().exec('fun()').should.be.eql(expected);
     tokenRegex.WORD.reset().exec('fun[]').should.be.eql(expected);
     tokenRegex.WORD.reset().exec('fun{}').should.be.eql(expected);
     tokenRegex.WORD.reset().exec('fun, ').should.be.eql(expected);
+    tokenRegex.WORD.reset().exec('fun:, ').should.be.eql(expected);
+  });
+
+  it('should detect [] as a whole WORD, instead of LP, RP', () => {
+    const expected = { type: 'WORD', value: '[]', start: 1, end: 2};
+    tokenRegex.WORD.reset().exec('[]').should.be.eql(expected);
+  })
+
+  it('should detect := as a whole WORD; instead of COMMA, WORD', () => {
+    const expected = { type: 'WORD', value: ':=', start: 1, end: 2};
+    tokenRegex.WORD.reset().exec(':=').should.be.eql(expected);
   });
 });
 
