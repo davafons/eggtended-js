@@ -99,7 +99,7 @@ describe('Regex for WORD token', () => {
   it('should detect [] as a whole WORD, instead of LP, RP', () => {
     const expected = { type: 'WORD', value: '[]', start: 1, end: 2};
     tokenRegex.WORD.reset().exec('[]').should.be.eql(expected);
-  })
+  });
 
   it('should detect := as a whole WORD; instead of COMMA, WORD', () => {
     const expected = { type: 'WORD', value: ':=', start: 1, end: 2};

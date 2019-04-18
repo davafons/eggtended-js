@@ -53,7 +53,7 @@ describe('Testing programs from \'examples/\' folder', () => {
 
         } else {
           it(`should throw an exception of type ${outputs.name}`, () => {
-            should.throws(() => {eggvm.runFromEVM(fileEVM)}, outputs);
+            should.throws(() => {eggvm.runFromEVM(fileEVM);}, outputs);
           });
         }
 
@@ -106,9 +106,9 @@ describe('Testing programs from \'examples/\' folder', () => {
       [3, 4],
       new Map([['x', 2], ['y', 5]]),
       [0, 1]
-    ])
+    ]);
 
-  tests.set('examples/map-sub.egg', [1, new Map([['d', 5], ['e', 3]]) ,3]);
+  tests.set('examples/map-sub.egg', [1, new Map([['d', 5], ['e', 3]]), 3]);
 
   tests.set('examples/missing.egg', [9]);
   tests.set('examples/missing-err.egg', SyntaxError);
