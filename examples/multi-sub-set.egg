@@ -1,0 +1,10 @@
+do(
+  define(x, arr[1, map{x: 2, y: arr[3, 4]}]),
+  print(element(x, 0)),         # 1
+  print(<-(x, 1)),              # Map {x => 2, y => [3, 4]}
+  print(x("sub", 1, "y")),      # [3, 4]
+  =(x, 1, "y", 5),
+  print(element(x, 1)),         # Map {x => 2, y => 5}
+  =(x, 1, "x", arr[0, 1]),
+  print(element(x, 1, "x"))     # [0, 1]
+)

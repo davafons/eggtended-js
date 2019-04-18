@@ -81,18 +81,31 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/string-apply.egg', [5, '4.00', 19]);
 
   tests.set('examples/map.egg',
-    [new Map([['x', 4], ['y', new Map([['z', 3]])]]),
+    [
+      new Map([['x', 4], ['y', new Map([['z', 3]])]]),
       4,
       new Map([['z', 3]]),
       3,
-      new Map([['z', 50]])]);
+      new Map([['z', 50]])
+    ]);
 
   tests.set('examples/map-colon.egg',
-    [new Map([['x', 4], ['y', new Map([['z', 3]])]]),
+    [
+      new Map([['x', 4], ['y', new Map([['z', 3]])]]),
       4,
       new Map([['z', 3]]),
       3,
-      new Map([['z', 50]])]);
+      new Map([['z', 50]])
+    ]);
+
+  tests.set('examples/multi-sub-set.egg',
+    [
+      1,
+      new Map([['x', 2], ['y', [3, 4]]]),
+      [3, 4],
+      new Map([['x', 2], ['y', 5]]),
+      [0, 1]
+    ])
 
   tests.set('examples/map-sub.egg', [1, new Map([['d', 5], ['e', 3]]) ,3]);
 
