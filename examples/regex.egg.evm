@@ -17,18 +17,9 @@
           "name": "d"
         },
         {
-          "type": "value",
-          "value": {
-            "xregexp": {
-              "captureNames": [
-                "year",
-                "month",
-                "day"
-              ],
-              "source": "\n         (?<year>  \\d{4} ) -?  # year\n         (?<month> \\d{2} ) -?  # month\n         (?<day>   \\d{2} )     # day\n        ",
-              "flags": "x"
-            }
-          }
+          "type": "regex",
+          "body": "\n         (?<year>  \\d{4} ) -?  # year\n         (?<month> \\d{2} ) -?  # month\n         (?<day>   \\d{2} )     # day\n        ",
+          "flags": "x"
         }
       ]
     },

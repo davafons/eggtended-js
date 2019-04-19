@@ -10,7 +10,14 @@ const ins = (x) => inspect(x, {depth: 'null'});
 const file = process.argv.slice(2).shift();
 if (file && file.length > 0) {
   let eggvm = new Eggvm();
-  let returnValue = eggvm.runFromFile(file);
+
+  let returnValue = undefined;
+  if(file.split('.').pop() === 'evm') {
+    returnValue = eggvm.runFromEVM(file);
+
+  } else {
+    returnValue = eggvm.runFromFile(file);
+  }
 
   console.log('Return value: ' + ins(returnValue));
 
