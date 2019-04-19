@@ -1,0 +1,7 @@
+do{
+  print(4.toFixed(2)),
+  def(x, 4),
+  print(x("toFixed", 2)),
+  def(z, x.toFixed(2)),
+  print(z),
+}

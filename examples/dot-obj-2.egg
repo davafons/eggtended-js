@@ -1,0 +1,19 @@
+do (
+  def(x, object (
+    c:   0,
+    gc:  ->{this.c},
+    sc:  ->{value, =(this, "c", value)},
+    inc: ->{=(this, "c", +(this.c, 1))}
+  )),
+  /* print(x), */
+  print(x["c"]),
+  print(x.c),
+  print(x.gc),             # calls the function!
+  /* print(element(x, "gc")), # [Function: bound ] */
+  /* print(x("sub", "gc")),   # [Function: bound ] */
+  /* print(x.sub("gc")),      # [Function: bound ] */
+  print(x.sc(5)),
+  print(x("sc", 5)),
+  print(x.gc)
+)
+

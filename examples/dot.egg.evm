@@ -1,0 +1,138 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "array"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": 1
+            },
+            {
+              "type": "value",
+              "value": 4
+            },
+            {
+              "type": "value",
+              "value": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "def"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "s"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "x"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "join"
+            },
+            {
+              "type": "value",
+              "value": "-"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "s"
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "apply",
+            "operator": {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "array"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": 1
+                },
+                {
+                  "type": "value",
+                  "value": 4
+                },
+                {
+                  "type": "value",
+                  "value": 5
+                }
+              ]
+            },
+            "args": [
+              {
+                "type": "value",
+                "value": "join"
+              },
+              {
+                "type": "value",
+                "value": "-"
+              }
+            ]
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "length"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

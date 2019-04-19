@@ -115,6 +115,10 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/objects.egg', [0, 4, 5]);
   tests.set('examples/regex.egg', [true, 0, '2015', '02']);
 
+  tests.set('examples/dot.egg', ['1-4-5', 5]);
+  tests.set('examples/dot-obj-2.egg', [0, 0, 0, 5, 5, 5]);
+  tests.set('examples/dot-num.egg', ['4.00', '4.00', '4.00']);
+
   // Execute all the defined tests
   executeTests(tests);
 });

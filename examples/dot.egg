@@ -1,0 +1,6 @@
+do(
+  def(x, array[1,4,5]),
+  def(s, x.join("-")),                 # The same as x("join", "-")
+  print(s),                            # 1-4-5
+  print(array[1,4,5].join("-").length) # 5
+)
