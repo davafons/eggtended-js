@@ -121,6 +121,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/dot-num.egg', ['4.00', '4.00', '4.00']);
 
   tests.set('examples/for.egg', [0, 1, 2, 3, 4]);
+  tests.set('examples/foreach.egg', [1, 2, 3, "A", "B", "C"]);
 
   // Execute all the defined tests
   executeTests(tests);
