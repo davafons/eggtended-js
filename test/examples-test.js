@@ -5,7 +5,6 @@ const sinon = require('sinon');
 const {Parser} = require('../lib/parse.js');
 const {Eggvm} = require('../lib/eggvm.js');
 const parser = new Parser();
-const eggvm = new Eggvm();
 
 describe('Testing programs from \'examples/\' folder', () => {
 
@@ -47,13 +46,13 @@ describe('Testing programs from \'examples/\' folder', () => {
         // -- TEST EXECUTION --
         if(Array.isArray(outputs)) {
           it('should print the expected output after execution', () => {
-            eggvm.runFromEVM(fileEVM);
+            Eggvm.runFromEVM(fileEVM);
             assertOutput(outputs);
           });
 
         } else {
           it(`should throw an exception of type ${outputs.name}`, () => {
-            should.throws(() => {eggvm.runFromEVM(fileEVM);}, outputs);
+            should.throws(() => {Eggvm.runFromEVM(fileEVM);}, outputs);
           });
         }
 
