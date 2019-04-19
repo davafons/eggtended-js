@@ -114,6 +114,7 @@ describe('Testing programs from \'examples/\' folder', () => {
     ]);
 
   tests.set('examples/map-sub.egg', [1, new Map([['d', 5], ['e', 3]]), 3]);
+  tests.set('examples/fun-inside-map.egg', [7, 4]);
 
   tests.set('examples/missing.egg', [9]);
   tests.set('examples/missing-err.egg', SyntaxError);

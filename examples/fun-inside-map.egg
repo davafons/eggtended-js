@@ -1,0 +1,5 @@
+do(
+  def(mymap, map(x: ->(x, +(x, 3)), y: 4)),
+  print(mymap.x(4)),
+  print(mymap.y)
+)
