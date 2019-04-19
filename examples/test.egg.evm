@@ -1,0 +1,22 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "print"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "i"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "++"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+do(
+  define(x, 5),
+  define(inc, 5),
+  print(++(x)),       # 6
+  print(--(x)),       # 5
+  print(+=(x, inc)),  # 10
+  print(-=(x, 15)),   # -5
+  print(+(x, inc)),   # 0
+  print(-(x, 5)),     # -10
+)

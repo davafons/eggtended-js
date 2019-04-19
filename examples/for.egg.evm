@@ -50,29 +50,12 @@
           "type": "apply",
           "operator": {
             "type": "word",
-            "name": "define"
+            "name": "++"
           },
           "args": [
             {
               "type": "word",
               "name": "x"
-            },
-            {
-              "type": "apply",
-              "operator": {
-                "type": "word",
-                "name": "+"
-              },
-              "args": [
-                {
-                  "type": "word",
-                  "name": "x"
-                },
-                {
-                  "type": "value",
-                  "value": 1
-                }
-              ]
             }
           ]
         },

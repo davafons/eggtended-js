@@ -80,6 +80,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/method-concatenation.egg', ['1-hello egg']);
   tests.set('examples/property.egg', [2, 3]);
   tests.set('examples/string-apply.egg', [5, '4.00', 19]);
+  tests.set('examples/operators-arithm.egg', [6, 5, 10, -5, 0, -10])
 
   tests.set('examples/map.egg',
     [
