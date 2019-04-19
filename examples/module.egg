@@ -1,0 +1,12 @@
+# module. Exports z
+do {
+  print("inside module"),
+  :=(z, map{inc: ->{x,
+                     +(x,1)
+                   } # end fun
+           } # end map
+  ), # end of :=
+  set(exports, object(
+    "z", z
+  ))
+}

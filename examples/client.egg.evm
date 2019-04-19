@@ -1,0 +1,105 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": ":="
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "z"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "apply",
+            "operator": {
+              "type": "word",
+              "name": "require"
+            },
+            "args": [
+              {
+                "type": "value",
+                "value": "examples/module.egg"
+              }
+            ]
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "z"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "inc"
+            },
+            {
+              "type": "value",
+              "value": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": ":="
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "w"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "apply",
+            "operator": {
+              "type": "word",
+              "name": "require"
+            },
+            "args": [
+              {
+                "type": "value",
+                "value": "examples/module.egg"
+              }
+            ]
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
