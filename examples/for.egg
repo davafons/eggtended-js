@@ -1,0 +1,5 @@
+do(
+  for(define(x, 0), <(x, 5), define(x, +(x, 1)),
+    print(x)
+  )
+)

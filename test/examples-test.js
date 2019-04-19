@@ -119,6 +119,8 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/dot-obj-2.egg', [0, 0, 0, 5, 5, 5]);
   tests.set('examples/dot-num.egg', ['4.00', '4.00', '4.00']);
 
+  tests.set('examples/for.egg', [0, 1, 2, 3, 4]);
+
   // Execute all the defined tests
   executeTests(tests);
 });
