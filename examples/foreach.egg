@@ -1,6 +1,6 @@
 do {
   def(x, arr(1, 2, 3)),
-  foreach(x, x, print(x)),
+  foreach(x, x, print(x)), # Different x from inner and outer scope
 
   def(y, map(a: 1, b: 2, c: 3)),
   foreach(key, y.keys(), print(key.toUpperCase()))

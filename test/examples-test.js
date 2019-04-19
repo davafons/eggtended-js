@@ -67,17 +67,22 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/two.egg', [9]);
   tests.set('examples/scope.egg', [9, 8]);
   tests.set('examples/scope-err.egg', ReferenceError);
+
   tests.set('examples/string.egg', ['s']);
   tests.set('examples/sum.egg', [395.5]);
-  tests.set('examples/array.egg', [[1, 4], 5]);
   tests.set('examples/reto.egg', ['sum(array[1, 2, 3]) := 6']);
+
+  tests.set('examples/array.egg', [[1, 4], 5]);
   tests.set('examples/array-index.egg', [1, [2, 3], 3, 3, 2]);
   tests.set('examples/array-properties.egg', [1, [5, 3], 3]);
+
   tests.set('examples/set-error.egg', TypeError);
   tests.set('examples/set-error2.egg', TypeError);
+
   tests.set('examples/method3.egg', ['A-B-C']);
   tests.set('examples/method-concatenation.egg', ['1-hello egg']);
   tests.set('examples/property.egg', [2, 3]);
+
   tests.set('examples/string-apply.egg', [5, '4.00', 19]);
   tests.set('examples/operators-arithm.egg', [6, 5, 10, -5, 0, -10])
 
