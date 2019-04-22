@@ -85,7 +85,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/property.egg', [2, 3]);
 
   tests.set('examples/string-apply.egg', [5, '4.00', 19]);
-  tests.set('examples/operators-arithm.egg', [6, 5, 10, -5, 0, -10])
+  tests.set('examples/operators-arithm.egg', [6, 5, 10, -5, 0, -10]);
 
   tests.set('examples/map.egg',
     [
@@ -127,7 +127,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/dot-num.egg', ['4.00', '4.00', '4.00']);
 
   tests.set('examples/for.egg', [0, 1, 2, 3, 4]);
-  tests.set('examples/foreach.egg', [1, 2, 3, "A", "B", "C"]);
+  tests.set('examples/foreach.egg', [1, 2, 3, 'A', 'B', 'C']);
 
   tests.set('examples/client.egg', ['inside module', 5]);
 
