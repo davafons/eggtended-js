@@ -67,6 +67,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/two.egg', [9]);
   tests.set('examples/scope.egg', [9, 8]);
   tests.set('examples/scope-err.egg', ReferenceError);
+  tests.set('examples/boolean.egg', ['true']);
 
   tests.set('examples/string.egg', ['s']);
   tests.set('examples/sum.egg', [395.5]);
