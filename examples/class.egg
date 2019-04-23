@@ -1,0 +1,7 @@
+do(
+  def(X, class()),
+  def(myobj, new(X, 3, 4)),
+  def(myobj2, new(X, 4, 4)),
+  print(myobj.x),
+  print(myobj2.x)
+)
