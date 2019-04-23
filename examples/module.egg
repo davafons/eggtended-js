@@ -6,7 +6,9 @@ do {
                    } # end fun
            } # end map
   ), # end of :=
-  set(exports, object(
-    "z", z
-  ))
+  set(module, "exports", object(
+    "z", z,
+    "three", 3,
+  )),
+  set(module, "exports", "consolelog", fun(x, print(x)))
 }

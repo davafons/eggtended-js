@@ -83,15 +83,83 @@
       "args": [
         {
           "type": "word",
-          "name": "exports"
+          "name": "module"
         },
         {
           "type": "value",
-          "value": "hue"
+          "value": "exports"
         },
         {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "object"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "z"
+            },
+            {
+              "type": "word",
+              "name": "z"
+            },
+            {
+              "type": "value",
+              "value": "three"
+            },
+            {
+              "type": "value",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "set"
+      },
+      "args": [
+        {
           "type": "word",
-          "name": "z"
+          "name": "module"
+        },
+        {
+          "type": "value",
+          "value": "exports"
+        },
+        {
+          "type": "value",
+          "value": "consolelog"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "fun"
+          },
+          "args": [
+            {
+              "type": "word",
+              "name": "x"
+            },
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "word",
+                  "name": "x"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

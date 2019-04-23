@@ -75,27 +75,61 @@
       "args": [
         {
           "type": "word",
-          "name": "w"
+          "name": "mod"
         },
         {
           "type": "apply",
           "operator": {
-            "type": "apply",
-            "operator": {
-              "type": "word",
-              "name": "require"
-            },
-            "args": [
-              {
-                "type": "value",
-                "value": "examples/module.egg"
-              }
-            ]
+            "type": "word",
+            "name": "require"
           },
           "args": [
             {
               "type": "value",
-              "value": "z"
+              "value": "examples/module.egg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "mod"
+      },
+      "args": [
+        {
+          "type": "value",
+          "value": "consolelog"
+        },
+        {
+          "type": "value",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "mod"
+      },
+      "args": [
+        {
+          "type": "value",
+          "value": "consolelog"
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "mod"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "three"
             }
           ]
         }

@@ -1,5 +1,7 @@
 do {
   :=(z, require("examples/module.egg").z),
   print(z.inc(4)),
-  :=(w, require("examples/module.egg").z),
+  :=(mod, require("examples/module.egg")),
+  mod.consolelog(5),    # print(5)
+  mod.consolelog(mod.three)    # print(3)
 }
