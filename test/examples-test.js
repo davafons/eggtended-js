@@ -35,24 +35,25 @@ describe('Testing programs from \'examples/\' folder', () => {
       describe(`Test for ${file}`, () => {
 
         // -- TEST PARSING --
-        it('should be parsed correctly', () => {
+        xit('should be parsed correctly', () => {
           const rawData = fs.readFileSync(fileEVM);
           const expectedTree = JSON.parse(rawData);
 
-          parser.parseFromFile(file).should.be.eql(expectedTree);
+          parser.parseFromFile(file).should.be.deepEqual(expectedTree);
         });
 
 
         // -- TEST EXECUTION --
         if(Array.isArray(outputs)) {
           it('should print the expected output after execution', () => {
-            Eggvm.runFromEVM(fileEVM);
+            // Eggvm.runFromEVM(fileEVM);
+            Eggvm.runFromFile(file);
             assertOutput(outputs);
           });
 
         } else {
           it(`should throw an exception of type ${outputs.name}`, () => {
-            should.throws(() => {Eggvm.runFromEVM(fileEVM);}, outputs);
+            should.throws(() => {Eggvm.runFromFile(file);}, outputs);
           });
         }
 

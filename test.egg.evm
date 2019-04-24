@@ -1,0 +1,13 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "word",
+      "name": "a"
+    }
+  ]
+}

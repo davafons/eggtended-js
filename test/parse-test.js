@@ -5,7 +5,7 @@ const parser = new parse.Parser();
 
 
 describe('Test for simple cases', () => {
-  it('should parse a simple, one-line empty program', () => {
+  xit('should parse a simple, one-line empty program', () => {
     const expected = { type: 'apply',
         operator: { type: 'word', name: 'do' },
         args: [] };
@@ -13,7 +13,7 @@ describe('Test for simple cases', () => {
     parser.parse('do()').should.be.eql(expected);
   });
 
-  it('should parse a simple, one-line program with arguments', () => {
+  xit('should parse a simple, one-line program with arguments', () => {
     const expected = { type: 'apply',
         operator: { type: 'word', name: 'do' },
         args: [ { type: 'word', name: 'a' } ] };
@@ -21,7 +21,7 @@ describe('Test for simple cases', () => {
     parser.parse('do(a)').should.be.eql(expected);
   });
 
-  it('should be able to parse chained applies', () => {
+  xit('should be able to parse chained applies', () => {
     const expected = { type: 'apply',
       operator:
       { type: 'apply',
