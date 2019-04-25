@@ -1,4 +1,4 @@
-const tokenRegex = require('../lib/tokenRegex.js');
+const tokenRegex = require('../lib/parser/tokenRegex.js');
 const should = require('should');
 
 describe('Regex for LP token', () => {

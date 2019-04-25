@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const {repl} = require('../lib/repl/repl.js');
-const {Eggvm} = require('../lib/eggvm.js');
+const {Eggvm} = require('../lib/interp/eggvm.js');
 const process = require('process');
 
 const inspect = require('util').inspect;

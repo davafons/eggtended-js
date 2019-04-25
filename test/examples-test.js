@@ -2,8 +2,8 @@ const fs = require('fs');
 const should = require('should');
 const sinon = require('sinon');
 
-const {Parser} = require('../lib/parse.js');
-const {Eggvm} = require('../lib/eggvm.js');
+const {Parser} = require('../lib/parser/parse.js');
+const {Eggvm} = require('../lib/interp/eggvm.js');
 const parser = new Parser();
 
 describe('Testing programs from \'examples/\' folder', () => {

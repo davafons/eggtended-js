@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const {Parser} = require('../lib/parse.js');
+const {Parser} = require('../lib/parser/parse.js');
 const fs = require('fs');
 const process = require('process');
 

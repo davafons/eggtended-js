@@ -1,6 +1,6 @@
 const should = require('should');
 
-const {Eggvm} = require('../lib/eggvm.js');
+const {Eggvm} = require('../lib/interp/eggvm.js');
 
 describe('Test SpecialForms', () => {
 
