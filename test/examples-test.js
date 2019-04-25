@@ -35,11 +35,11 @@ describe('Testing programs from \'examples/\' folder', () => {
       describe(`Test for ${file}`, () => {
 
         // -- TEST PARSING --
-        xit('should be parsed correctly', () => {
+        it('should be parsed correctly', () => {
           const rawData = fs.readFileSync(fileEVM);
           const expectedTree = JSON.parse(rawData);
 
-          parser.parseFromFile(file).should.be.deepEqual(expectedTree);
+          parser.parseFromFile(file).should.match(expectedTree);
         });
 
 

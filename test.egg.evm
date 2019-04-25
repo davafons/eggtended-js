@@ -4,10 +4,5 @@
     "type": "word",
     "name": "do"
   },
-  "args": [
-    {
-      "type": "word",
-      "name": "a"
-    }
-  ]
+  "args": []
 }
