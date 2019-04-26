@@ -47,7 +47,7 @@ describe('Testing programs from \'examples/\' folder', () => {
         if(Array.isArray(outputs)) {
           it('should print the expected output after execution', () => {
             // Eggvm.runFromEVM(fileEVM);
-            Eggvm.runFromFile(file);
+            Eggvm.runFromEVM(fileEVM);
             assertOutput(outputs);
           });
 
