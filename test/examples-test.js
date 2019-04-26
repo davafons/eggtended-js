@@ -131,6 +131,7 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/foreach.egg', [1, 2, 3, 'A', 'B', 'C']);
 
   tests.set('examples/client.egg', ['inside module', 5, 5, 3]);
+  tests.set('examples/ects-context.egg', [0, 4, 5]);
 
   // Execute all the defined tests
   executeTests(tests);
