@@ -1,8 +1,0 @@
-{
-  "type": "apply",
-  "operator": {
-    "type": "word",
-    "name": "do"
-  },
-  "args": []
-}
