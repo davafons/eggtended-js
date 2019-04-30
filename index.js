@@ -1,6 +1,6 @@
 const {Lexer, Parser, TokenRegex, json2AST} = require('./lib/parser')
-const {Eggvm} = require('./lib/interp');
+const {Eggvm, Value, Word, Apply, Regex} = require('./lib/interp');
 
 module.exports = {
-  Lexer, Parser, TokenRegex, json2AST, Eggvm
+  Lexer, Parser, TokenRegex, json2AST, Eggvm, Value, Word, Apply, Regex
 }
