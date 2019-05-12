@@ -1,0 +1,12 @@
+do(
+  def(x, object(
+    "c", 0,
+    "gc", ->{c},
+    "sc", ->{value, =(c, value)},
+    "inc", ->{=(c, +(c, 1))}
+  )),
+  def(y, child(x)),
+  print(y.sc(5)),
+  print(y.c),
+  print(x.c)
+)
