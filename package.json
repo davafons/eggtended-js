@@ -51,6 +51,8 @@
         "git add"
       ]
     },
-    "ignore": ["**/docs/**/*.js"]
+    "ignore": [
+      "**/docs/**/*.js"
+    ]
   }
 }

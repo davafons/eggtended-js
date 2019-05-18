@@ -1,5 +1,233 @@
 window.esdocSearchIndex = [
   [
+    "eggtended-js/lib/interp/ast.js~apply",
+    "class/lib/interp/ast.js~Apply.html",
+    "<span>Apply</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/ast.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/repl/colors.js~blue",
+    "variable/index.html#static-variable-BLUE",
+    "<span>BLUE</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/colors.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~comma",
+    "variable/index.html#static-variable-COMMA",
+    "<span>COMMA</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/colors.js~default",
+    "variable/index.html#static-variable-DEFAULT",
+    "<span>DEFAULT</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/colors.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/interp/eggvm.js~eggvm",
+    "class/lib/interp/eggvm.js~Eggvm.html",
+    "<span>Eggvm</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/eggvm.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/repl/colors.js~green",
+    "variable/index.html#static-variable-GREEN",
+    "<span>GREEN</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/colors.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~lp",
+    "variable/index.html#static-variable-LP",
+    "<span>LP</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/lexer.js~lexer",
+    "class/lib/parser/lexer.js~Lexer.html",
+    "<span>Lexer</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/lexer.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~newline",
+    "variable/index.html#static-variable-NEWLINE",
+    "<span>NEWLINE</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~number",
+    "variable/index.html#static-variable-NUMBER",
+    "<span>NUMBER</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/parse.js~parser",
+    "class/lib/parser/parse.js~Parser.html",
+    "<span>Parser</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/parse.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/repl/colors.js~red",
+    "variable/index.html#static-variable-RED",
+    "<span>RED</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/colors.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~regex",
+    "variable/index.html#static-variable-REGEX",
+    "<span>REGEX</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~rp",
+    "variable/index.html#static-variable-RP",
+    "<span>RP</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/interp/ast.js~regex",
+    "class/lib/interp/ast.js~Regex.html",
+    "<span>Regex</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/ast.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~string",
+    "variable/index.html#static-variable-STRING",
+    "<span>STRING</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/interp/registry.js~specialforms",
+    "variable/index.html#static-variable-SpecialForms",
+    "<span>SpecialForms</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/registry.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~tokenregex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html",
+    "<span>TokenRegex</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/interp/registry.js~topenv",
+    "variable/index.html#static-variable-TopEnv",
+    "<span>TopEnv</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/registry.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/interp/ast.js~value",
+    "class/lib/interp/ast.js~Value.html",
+    "<span>Value</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/ast.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~whites",
+    "variable/index.html#static-variable-WHITES",
+    "<span>WHITES</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/parser/tokenregex.js~word",
+    "variable/index.html#static-variable-WORD",
+    "<span>WORD</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/interp/ast.js~word",
+    "class/lib/interp/ast.js~Word.html",
+    "<span>Word</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/ast.js</span>",
+    "class"
+  ],
+  [
+    "eggtended-js/lib/repl/colors.js~yellow",
+    "variable/index.html#static-variable-YELLOW",
+    "<span>YELLOW</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/colors.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/utils.js~checkiterable",
+    "function/index.html#static-function-checkIterable",
+    "<span>checkIterable</span> <span class=\"search-result-import-path\">eggtended-js/lib/utils.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/utils.js~chunk",
+    "function/index.html#static-function-chunk",
+    "<span>chunk</span> <span class=\"search-result-import-path\">eggtended-js/lib/utils.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~eggclear",
+    "variable/index.html#static-variable-eggClear",
+    "<span>eggClear</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~eggcompleter",
+    "function/index.html#static-function-eggCompleter",
+    "<span>eggCompleter</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~eggexit",
+    "variable/index.html#static-variable-eggExit",
+    "<span>eggExit</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~egghelp",
+    "variable/index.html#static-variable-eggHelp",
+    "<span>eggHelp</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~egginfo",
+    "variable/index.html#static-variable-eggInfo",
+    "<span>eggInfo</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~eggrun",
+    "variable/index.html#static-variable-eggRun",
+    "<span>eggRun</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~eggversion",
+    "variable/index.html#static-variable-eggVersion",
+    "<span>eggVersion</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "variable"
+  ],
+  [
+    "eggtended-js/lib/repl/extensions.js~getpromptline",
+    "function/index.html#static-function-getPromptLine",
+    "<span>getPromptLine</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/extensions.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/utils.js~getvalidindex",
+    "function/index.html#static-function-getValidIndex",
+    "<span>getValidIndex</span> <span class=\"search-result-import-path\">eggtended-js/lib/utils.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/utils.js~ins",
+    "function/index.html#static-function-ins",
+    "<span>ins</span> <span class=\"search-result-import-path\">eggtended-js/lib/utils.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/parser/json2ast.js~json2ast",
+    "function/index.html#static-function-json2AST",
+    "<span>json2AST</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/json2AST.js</span>",
+    "function"
+  ],
+  [
+    "eggtended-js/lib/repl/repl.js~repl",
+    "function/index.html#static-function-repl",
+    "<span>repl</span> <span class=\"search-result-import-path\">eggtended-js/lib/repl/repl.js</span>",
+    "function"
+  ],
+  [
     "",
     "test-file/test/tokenRegex-test.js.html#lineNumber50",
     "Regex for COMMA token",
@@ -480,10 +708,148 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/interp/ast.js~apply#args",
+    "class/lib/interp/ast.js~Apply.html#instance-member-args",
+    "lib/interp/ast.js~Apply#args",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~apply#constructor",
+    "class/lib/interp/ast.js~Apply.html#instance-constructor-constructor",
+    "lib/interp/ast.js~Apply#constructor",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~apply#evaluate",
+    "class/lib/interp/ast.js~Apply.html#instance-method-evaluate",
+    "lib/interp/ast.js~Apply#evaluate",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~apply#operator",
+    "class/lib/interp/ast.js~Apply.html#instance-member-operator",
+    "lib/interp/ast.js~Apply#operator",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~apply#type",
+    "class/lib/interp/ast.js~Apply.html#instance-member-type",
+    "lib/interp/ast.js~Apply#type",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~regex#body",
+    "class/lib/interp/ast.js~Regex.html#instance-member-body",
+    "lib/interp/ast.js~Regex#body",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~regex#constructor",
+    "class/lib/interp/ast.js~Regex.html#instance-constructor-constructor",
+    "lib/interp/ast.js~Regex#constructor",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~regex#evaluate",
+    "class/lib/interp/ast.js~Regex.html#instance-method-evaluate",
+    "lib/interp/ast.js~Regex#evaluate",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~regex#flags",
+    "class/lib/interp/ast.js~Regex.html#instance-member-flags",
+    "lib/interp/ast.js~Regex#flags",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~regex#type",
+    "class/lib/interp/ast.js~Regex.html#instance-member-type",
+    "lib/interp/ast.js~Regex#type",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~value#constructor",
+    "class/lib/interp/ast.js~Value.html#instance-constructor-constructor",
+    "lib/interp/ast.js~Value#constructor",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~value#evaluate",
+    "class/lib/interp/ast.js~Value.html#instance-method-evaluate",
+    "lib/interp/ast.js~Value#evaluate",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~value#type",
+    "class/lib/interp/ast.js~Value.html#instance-member-type",
+    "lib/interp/ast.js~Value#type",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~value#value",
+    "class/lib/interp/ast.js~Value.html#instance-member-value",
+    "lib/interp/ast.js~Value#value",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~word#constructor",
+    "class/lib/interp/ast.js~Word.html#instance-constructor-constructor",
+    "lib/interp/ast.js~Word#constructor",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~word#evaluate",
+    "class/lib/interp/ast.js~Word.html#instance-method-evaluate",
+    "lib/interp/ast.js~Word#evaluate",
+    "method"
+  ],
+  [
+    "lib/interp/ast.js~word#name",
+    "class/lib/interp/ast.js~Word.html#instance-member-name",
+    "lib/interp/ast.js~Word#name",
+    "member"
+  ],
+  [
+    "lib/interp/ast.js~word#type",
+    "class/lib/interp/ast.js~Word.html#instance-member-type",
+    "lib/interp/ast.js~Word#type",
+    "member"
+  ],
+  [
     "lib/interp/eggvm.js",
     "file/lib/interp/eggvm.js.html",
     "lib/interp/eggvm.js",
     "file"
+  ],
+  [
+    "lib/interp/eggvm.js~eggvm.eval",
+    "class/lib/interp/eggvm.js~Eggvm.html#static-method-eval",
+    "lib/interp/eggvm.js~Eggvm.eval",
+    "method"
+  ],
+  [
+    "lib/interp/eggvm.js~eggvm.getenvfromfile",
+    "class/lib/interp/eggvm.js~Eggvm.html#static-method-getEnvFromFile",
+    "lib/interp/eggvm.js~Eggvm.getEnvFromFile",
+    "method"
+  ],
+  [
+    "lib/interp/eggvm.js~eggvm.run",
+    "class/lib/interp/eggvm.js~Eggvm.html#static-method-run",
+    "lib/interp/eggvm.js~Eggvm.run",
+    "method"
+  ],
+  [
+    "lib/interp/eggvm.js~eggvm.runfromevm",
+    "class/lib/interp/eggvm.js~Eggvm.html#static-method-runFromEVM",
+    "lib/interp/eggvm.js~Eggvm.runFromEVM",
+    "method"
+  ],
+  [
+    "lib/interp/eggvm.js~eggvm.runfromfile",
+    "class/lib/interp/eggvm.js~Eggvm.html#static-method-runFromFile",
+    "lib/interp/eggvm.js~Eggvm.runFromFile",
+    "method"
   ],
   [
     "lib/interp/environment.js",
@@ -534,16 +900,238 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/parser/lexer.js~lexer#__transformtokens",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-__transformTokens",
+    "lib/parser/lexer.js~Lexer#__transformTokens",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#__updatelastindices",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-__updateLastIndices",
+    "lib/parser/lexer.js~Lexer#__updateLastIndices",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#_gettoken",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-_getToken",
+    "lib/parser/lexer.js~Lexer#_getToken",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#_gettokens",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-_getTokens",
+    "lib/parser/lexer.js~Lexer#_getTokens",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#constructor",
+    "class/lib/parser/lexer.js~Lexer.html#instance-constructor-constructor",
+    "lib/parser/lexer.js~Lexer#constructor",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#getparbalance",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-getParBalance",
+    "lib/parser/lexer.js~Lexer#getParBalance",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#lastindex",
+    "class/lib/parser/lexer.js~Lexer.html#instance-member-lastIndex",
+    "lib/parser/lexer.js~Lexer#lastIndex",
+    "member"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#line",
+    "class/lib/parser/lexer.js~Lexer.html#instance-member-line",
+    "lib/parser/lexer.js~Lexer#line",
+    "member"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#program",
+    "class/lib/parser/lexer.js~Lexer.html#instance-member-program",
+    "lib/parser/lexer.js~Lexer#program",
+    "member"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#setprogram",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-setProgram",
+    "lib/parser/lexer.js~Lexer#setProgram",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#tokenize",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-tokenize",
+    "lib/parser/lexer.js~Lexer#tokenize",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer#tokenizefromfile",
+    "class/lib/parser/lexer.js~Lexer.html#instance-method-tokenizeFromFile",
+    "lib/parser/lexer.js~Lexer#tokenizeFromFile",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer.settokens",
+    "class/lib/parser/lexer.js~Lexer.html#static-method-setTokens",
+    "lib/parser/lexer.js~Lexer.setTokens",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer.tokenize",
+    "class/lib/parser/lexer.js~Lexer.html#static-method-tokenize",
+    "lib/parser/lexer.js~Lexer.tokenize",
+    "method"
+  ],
+  [
+    "lib/parser/lexer.js~lexer.tokenizefromfile",
+    "class/lib/parser/lexer.js~Lexer.html#static-method-tokenizeFromFile",
+    "lib/parser/lexer.js~Lexer.tokenizeFromFile",
+    "method"
+  ],
+  [
     "lib/parser/parse.js",
     "file/lib/parser/parse.js.html",
     "lib/parser/parse.js",
     "file"
   ],
   [
+    "lib/parser/parse.js~parser#__nexttoken",
+    "class/lib/parser/parse.js~Parser.html#instance-method-__nextToken",
+    "lib/parser/parse.js~Parser#__nextToken",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#__parsersyntaxerror",
+    "class/lib/parser/parse.js~Parser.html#instance-method-__parserSyntaxError",
+    "lib/parser/parse.js~Parser#__parserSyntaxError",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#constructor",
+    "class/lib/parser/parse.js~Parser.html#instance-constructor-constructor",
+    "lib/parser/parse.js~Parser#constructor",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#index",
+    "class/lib/parser/parse.js~Parser.html#instance-member-index",
+    "lib/parser/parse.js~Parser#index",
+    "member"
+  ],
+  [
+    "lib/parser/parse.js~parser#lookahead",
+    "class/lib/parser/parse.js~Parser.html#instance-member-lookahead",
+    "lib/parser/parse.js~Parser#lookahead",
+    "member"
+  ],
+  [
+    "lib/parser/parse.js~parser#parse",
+    "class/lib/parser/parse.js~Parser.html#instance-method-parse",
+    "lib/parser/parse.js~Parser#parse",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#parseapply",
+    "class/lib/parser/parse.js~Parser.html#instance-method-parseApply",
+    "lib/parser/parse.js~Parser#parseApply",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#parseexpression",
+    "class/lib/parser/parse.js~Parser.html#instance-method-parseExpression",
+    "lib/parser/parse.js~Parser#parseExpression",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#parsefromfile",
+    "class/lib/parser/parse.js~Parser.html#instance-method-parseFromFile",
+    "lib/parser/parse.js~Parser#parseFromFile",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#program",
+    "class/lib/parser/parse.js~Parser.html#instance-member-program",
+    "lib/parser/parse.js~Parser#program",
+    "member"
+  ],
+  [
+    "lib/parser/parse.js~parser#setprogram",
+    "class/lib/parser/parse.js~Parser.html#instance-method-setProgram",
+    "lib/parser/parse.js~Parser#setProgram",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser#tokens",
+    "class/lib/parser/parse.js~Parser.html#instance-member-tokens",
+    "lib/parser/parse.js~Parser#tokens",
+    "member"
+  ],
+  [
+    "lib/parser/parse.js~parser.parse",
+    "class/lib/parser/parse.js~Parser.html#static-method-parse",
+    "lib/parser/parse.js~Parser.parse",
+    "method"
+  ],
+  [
+    "lib/parser/parse.js~parser.parsefromfile",
+    "class/lib/parser/parse.js~Parser.html#static-method-parseFromFile",
+    "lib/parser/parse.js~Parser.parseFromFile",
+    "method"
+  ],
+  [
     "lib/parser/tokenregex.js",
     "file/lib/parser/tokenRegex.js.html",
     "lib/parser/tokenRegex.js",
     "file"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#constructor",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-constructor-constructor",
+    "lib/parser/tokenRegex.js~TokenRegex#constructor",
+    "method"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#exec",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-method-exec",
+    "lib/parser/tokenRegex.js~TokenRegex#exec",
+    "method"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#expression",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-member-expression",
+    "lib/parser/tokenRegex.js~TokenRegex#expression",
+    "member"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#lastindex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-set-lastIndex",
+    "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
+    "member"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#lastindex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-get-lastIndex",
+    "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
+    "member"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#name",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-member-name",
+    "lib/parser/tokenRegex.js~TokenRegex#name",
+    "member"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#reset",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-method-reset",
+    "lib/parser/tokenRegex.js~TokenRegex#reset",
+    "method"
+  ],
+  [
+    "lib/parser/tokenregex.js~tokenregex#test",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-method-test",
+    "lib/parser/tokenRegex.js~TokenRegex#test",
+    "method"
   ],
   [
     "lib/repl/colors.js",

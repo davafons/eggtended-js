@@ -576,48 +576,6 @@
   },
   {
     "__docId__": 49,
-    "kind": "variable",
-    "name": "SpecialForms",
-    "memberof": "lib/interp/arithm.js",
-    "static": true,
-    "longname": "lib/interp/arithm.js~SpecialForms",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/arithm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 50,
-    "kind": "variable",
-    "name": "Value",
-    "memberof": "lib/interp/arithm.js",
-    "static": true,
-    "longname": "lib/interp/arithm.js~Value",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/arithm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 51,
     "kind": "function",
     "name": "incrementHelper",
     "memberof": "lib/interp/arithm.js",
@@ -660,7 +618,7 @@
     "ignore": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 50,
     "kind": "file",
     "name": "lib/interp/ast.js",
     "content": "// AST class nodes\nconst xRegExp = require(\"xregexp\");\nconst utils = require(\"../utils.js\");\n\nconst { SpecialForms } = require(\"./environment.js\");\n\nclass Value {\n  constructor(token) {\n    this.type = \"value\";\n    this.value = token.value;\n  }\n\n  evaluate() {\n    return this.value;\n  }\n}\n\nclass Word {\n  constructor(token) {\n    this.type = \"word\";\n    this.name = token.value;\n  }\n\n  evaluate(env) {\n    // Variable\n    if (this.name in env) {\n      return env[this.name];\n\n      // Variable in const scope\n    } else if (this.name in env[\"__const__\"]) {\n      return env[\"__const__\"][this.name];\n\n      // Object variable referenced without using 'this'\n    } else if (\"this\" in env && this.name in env[\"this\"]) {\n      return env[\"this\"][this.name];\n    } else {\n      throw new ReferenceError(`Undefined variable: ${this.name}`);\n    }\n  }\n}\n\nclass Apply {\n  constructor(expr) {\n    this.type = \"apply\";\n    this.operator = expr;\n    this.args = [];\n  }\n\n  evaluate(env) {\n    // Check if its a specialForm function\n    if (this.operator.type === \"word\" && this.operator.name in SpecialForms) {\n      return SpecialForms[this.operator.name](this.args, env);\n    }\n\n    // Evaluated operator\n    let op = this.operator.evaluate(env);\n    // Evaluated arguments\n    let evArgs = this.args.map(arg => arg.evaluate(env));\n\n    if (typeof op === \"function\") {\n      // Is a function\n      return op(...evArgs);\n    }\n\n    if (typeof op !== \"undefined\") {\n      // Is an object, number, string or boolean\n      let name = evArgs[0];\n      let methodArgs = evArgs.slice(1);\n\n      // Check if the name of the method/property is defined on the object\n      if (typeof op[name] !== \"undefined\") {\n        // Execute as function\n        if (typeof op[name] === \"function\") {\n          return op[name](...methodArgs);\n\n          // Return as property\n        } else {\n          return op[name];\n        }\n\n        // If the name of the method is not defined on the object...\n      } else {\n        // Check if its a Map property.\n        if (op instanceof Map) {\n          if (typeof op.get(name) === \"function\") {\n            return op.get(name)(...methodArgs);\n          } else {\n            return op.get(name);\n          }\n        }\n\n        // Try to call the 'missing' method\n        if (typeof op[\"__missing__\"] === \"function\") {\n          return op[\"__missing__\"](...methodArgs);\n\n          // As a last resort, throw an Exception\n        } else {\n          throw new SyntaxError(`The method '${name}' was not found on the\n          object '${utils.ins(op)}'`);\n        }\n      }\n    }\n\n    throw new TypeError(`Could not resolve the apply expression`);\n  }\n}\n\nclass Regex {\n  constructor(token) {\n    this.type = \"regex\";\n\n    this.body = token.body;\n    this.flags = token.flags;\n  }\n\n  evaluate() {\n    return new xRegExp(this.body, this.flags);\n  }\n}\n\nmodule.exports = {\n  Value,\n  Word,\n  Apply,\n  Regex\n};\n",
@@ -671,87 +629,23 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 53,
-    "kind": "variable",
-    "name": "xRegExp",
-    "memberof": "lib/interp/ast.js",
-    "static": true,
-    "longname": "lib/interp/ast.js~xRegExp",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 54,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "lib/interp/ast.js",
-    "static": true,
-    "longname": "lib/interp/ast.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 55,
-    "kind": "variable",
-    "name": "SpecialForms",
-    "memberof": "lib/interp/ast.js",
-    "static": true,
-    "longname": "lib/interp/ast.js~SpecialForms",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 56,
+    "__docId__": 51,
     "kind": "class",
     "name": "Value",
     "memberof": "lib/interp/ast.js",
     "static": true,
     "longname": "lib/interp/ast.js~Value",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
+    "importStyle": "{Value}",
     "description": null,
     "lineNumber": 7,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 57,
+    "__docId__": 52,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/interp/ast.js~Value",
@@ -765,7 +659,7 @@
     "undocument": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 53,
     "kind": "member",
     "name": "type",
     "memberof": "lib/interp/ast.js~Value",
@@ -782,7 +676,7 @@
     }
   },
   {
-    "__docId__": 59,
+    "__docId__": 54,
     "kind": "member",
     "name": "value",
     "memberof": "lib/interp/ast.js~Value",
@@ -799,7 +693,7 @@
     }
   },
   {
-    "__docId__": 60,
+    "__docId__": 55,
     "kind": "method",
     "name": "evaluate",
     "memberof": "lib/interp/ast.js~Value",
@@ -819,24 +713,23 @@
     }
   },
   {
-    "__docId__": 61,
+    "__docId__": 56,
     "kind": "class",
     "name": "Word",
     "memberof": "lib/interp/ast.js",
     "static": true,
     "longname": "lib/interp/ast.js~Word",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
+    "importStyle": "{Word}",
     "description": null,
     "lineNumber": 18,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 62,
+    "__docId__": 57,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/interp/ast.js~Word",
@@ -850,7 +743,7 @@
     "undocument": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 58,
     "kind": "member",
     "name": "type",
     "memberof": "lib/interp/ast.js~Word",
@@ -867,7 +760,7 @@
     }
   },
   {
-    "__docId__": 64,
+    "__docId__": 59,
     "kind": "member",
     "name": "name",
     "memberof": "lib/interp/ast.js~Word",
@@ -884,7 +777,7 @@
     }
   },
   {
-    "__docId__": 65,
+    "__docId__": 60,
     "kind": "method",
     "name": "evaluate",
     "memberof": "lib/interp/ast.js~Word",
@@ -911,24 +804,23 @@
     }
   },
   {
-    "__docId__": 66,
+    "__docId__": 61,
     "kind": "class",
     "name": "Apply",
     "memberof": "lib/interp/ast.js",
     "static": true,
     "longname": "lib/interp/ast.js~Apply",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
+    "importStyle": "{Apply}",
     "description": null,
     "lineNumber": 42,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 67,
+    "__docId__": 62,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/interp/ast.js~Apply",
@@ -942,7 +834,7 @@
     "undocument": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 63,
     "kind": "member",
     "name": "type",
     "memberof": "lib/interp/ast.js~Apply",
@@ -959,7 +851,7 @@
     }
   },
   {
-    "__docId__": 69,
+    "__docId__": 64,
     "kind": "member",
     "name": "operator",
     "memberof": "lib/interp/ast.js~Apply",
@@ -976,7 +868,7 @@
     }
   },
   {
-    "__docId__": 70,
+    "__docId__": 65,
     "kind": "member",
     "name": "args",
     "memberof": "lib/interp/ast.js~Apply",
@@ -993,7 +885,7 @@
     }
   },
   {
-    "__docId__": 71,
+    "__docId__": 66,
     "kind": "method",
     "name": "evaluate",
     "memberof": "lib/interp/ast.js~Apply",
@@ -1020,24 +912,23 @@
     }
   },
   {
-    "__docId__": 72,
+    "__docId__": 67,
     "kind": "class",
     "name": "Regex",
     "memberof": "lib/interp/ast.js",
     "static": true,
     "longname": "lib/interp/ast.js~Regex",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/ast.js",
-    "importStyle": null,
+    "importStyle": "{Regex}",
     "description": null,
     "lineNumber": 108,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 73,
+    "__docId__": 68,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/interp/ast.js~Regex",
@@ -1051,7 +942,7 @@
     "undocument": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 69,
     "kind": "member",
     "name": "type",
     "memberof": "lib/interp/ast.js~Regex",
@@ -1068,7 +959,7 @@
     }
   },
   {
-    "__docId__": 75,
+    "__docId__": 70,
     "kind": "member",
     "name": "body",
     "memberof": "lib/interp/ast.js~Regex",
@@ -1085,7 +976,7 @@
     }
   },
   {
-    "__docId__": 76,
+    "__docId__": 71,
     "kind": "member",
     "name": "flags",
     "memberof": "lib/interp/ast.js~Regex",
@@ -1102,7 +993,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 72,
     "kind": "method",
     "name": "evaluate",
     "memberof": "lib/interp/ast.js~Regex",
@@ -1122,7 +1013,7 @@
     }
   },
   {
-    "__docId__": 78,
+    "__docId__": 73,
     "kind": "file",
     "name": "lib/interp/eggvm.js",
     "content": "// Add monkey-patching functions and extended functions\nrequire(\"./monkey-patching.js\");\nrequire(\"./require.js\");\nrequire(\"./arithm.js\");\n\nconst fs = require(\"fs\");\n\nconst { Parser } = require(\"../parser/parse.js\");\nconst { TopEnv } = require(\"./environment.js\");\nconst { json2AST } = require(\"../parser/json2AST.js\");\n\nclass Eggvm {\n  static run(program) {\n    const tree = Parser.parse(program);\n\n    return Eggvm.eval(tree);\n  }\n\n  static runFromFile(file) {\n    const program = fs.readFileSync(file, \"utf8\");\n\n    return Eggvm.run(program);\n  }\n\n  static runFromEVM(file) {\n    const rawData = fs.readFileSync(file);\n    let json = JSON.parse(rawData);\n\n    const tree = json2AST(json);\n\n    return Eggvm.eval(tree);\n  }\n\n  static eval(tree, env) {\n    // Create a new env if not already defined on parameters\n    if (env === undefined || env === null) {\n      env = Object.create(TopEnv);\n    }\n\n    return tree !== null ? tree.evaluate(env) : null;\n  }\n\n  static getEnvFromFile(file) {\n    const env = Object.create(TopEnv);\n    const tree = Parser.parseFromFile(file);\n    Eggvm.eval(tree, env);\n\n    return env;\n  }\n}\n\nmodule.exports = {\n  Eggvm\n};\n",
@@ -1133,108 +1024,23 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 79,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "lib/interp/eggvm.js",
-    "static": true,
-    "longname": "lib/interp/eggvm.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/eggvm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 80,
-    "kind": "variable",
-    "name": "Parser",
-    "memberof": "lib/interp/eggvm.js",
-    "static": true,
-    "longname": "lib/interp/eggvm.js~Parser",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/eggvm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 8,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 81,
-    "kind": "variable",
-    "name": "TopEnv",
-    "memberof": "lib/interp/eggvm.js",
-    "static": true,
-    "longname": "lib/interp/eggvm.js~TopEnv",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/eggvm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 9,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 82,
-    "kind": "variable",
-    "name": "json2AST",
-    "memberof": "lib/interp/eggvm.js",
-    "static": true,
-    "longname": "lib/interp/eggvm.js~json2AST",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/eggvm.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 83,
+    "__docId__": 74,
     "kind": "class",
     "name": "Eggvm",
     "memberof": "lib/interp/eggvm.js",
     "static": true,
     "longname": "lib/interp/eggvm.js~Eggvm",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/eggvm.js",
-    "importStyle": null,
+    "importStyle": "{Eggvm}",
     "description": null,
     "lineNumber": 12,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 84,
+    "__docId__": 75,
     "kind": "method",
     "name": "run",
     "memberof": "lib/interp/eggvm.js~Eggvm",
@@ -1261,7 +1067,7 @@
     }
   },
   {
-    "__docId__": 85,
+    "__docId__": 76,
     "kind": "method",
     "name": "runFromFile",
     "memberof": "lib/interp/eggvm.js~Eggvm",
@@ -1288,7 +1094,7 @@
     }
   },
   {
-    "__docId__": 86,
+    "__docId__": 77,
     "kind": "method",
     "name": "runFromEVM",
     "memberof": "lib/interp/eggvm.js~Eggvm",
@@ -1315,7 +1121,7 @@
     }
   },
   {
-    "__docId__": 87,
+    "__docId__": 78,
     "kind": "method",
     "name": "eval",
     "memberof": "lib/interp/eggvm.js~Eggvm",
@@ -1348,7 +1154,7 @@
     }
   },
   {
-    "__docId__": 88,
+    "__docId__": 79,
     "kind": "method",
     "name": "getEnvFromFile",
     "memberof": "lib/interp/eggvm.js~Eggvm",
@@ -1375,7 +1181,7 @@
     }
   },
   {
-    "__docId__": 89,
+    "__docId__": 80,
     "kind": "file",
     "name": "lib/interp/environment.js",
     "content": "const { SpecialForms, TopEnv } = require(\"./registry.js\");\n\nmodule.exports = {\n  SpecialForms,\n  TopEnv\n};\n",
@@ -1386,28 +1192,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 90,
-    "kind": "variable",
-    "name": "SpecialForms",
-    "memberof": "lib/interp/environment.js",
-    "static": true,
-    "longname": "lib/interp/environment.js~SpecialForms",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/environment.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 91,
+    "__docId__": 81,
     "kind": "file",
     "name": "lib/interp/index.js",
     "content": "const { Eggvm } = require(\"./eggvm.js\");\nconst { Value, Word, Apply, Regex } = require(\"./ast.js\");\n\nmodule.exports = {\n  Eggvm,\n  Value,\n  Word,\n  Apply,\n  Regex\n};\n",
@@ -1418,49 +1203,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 92,
-    "kind": "variable",
-    "name": "Eggvm",
-    "memberof": "lib/interp/index.js",
-    "static": true,
-    "longname": "lib/interp/index.js~Eggvm",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 93,
-    "kind": "variable",
-    "name": "Value",
-    "memberof": "lib/interp/index.js",
-    "static": true,
-    "longname": "lib/interp/index.js~Value",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 94,
+    "__docId__": 82,
     "kind": "file",
     "name": "lib/interp/monkey-patching.js",
     "content": "//  SUB\nconst utils = require(\"../utils.js\");\n\nObject.prototype.sub = function(...indices) {\n  utils.checkIterable(this, indices.length);\n\n  // Get index\n  let index = indices[0];\n  if (this instanceof Array) {\n    index = utils.getValidIndex(this.length, indices[0]);\n  }\n\n  // Get value\n  let value;\n  if (this instanceof Map) {\n    value = this.get(index);\n  } else {\n    value = this[index];\n  }\n\n  // Return value or keep recursion\n  if (indices.length === 1) {\n    return value;\n  }\n\n  return value.sub(...indices.slice(1));\n};\n\n// SETELEM\n\nObject.prototype.setelem = function(value, ...indices) {\n  utils.checkIterable(this, indices.length);\n\n  // Get index\n  let index = indices[0];\n  if (this instanceof Array) {\n    index = utils.getValidIndex(this.length, indices[0]);\n  }\n\n  // Set value or continue the recursion\n  if (indices.length === 1) {\n    if (this instanceof Map) {\n      this.set(index, value);\n    } else {\n      this[index] = value;\n    }\n\n    return value;\n  }\n\n  const obj = this.sub(index);\n  return obj.setelem(value, ...indices.slice(1));\n};\n\n// NUMBER\n\n[\"+\", \"-\", \"*\", \"/\"].forEach(op => {\n  Number.prototype[op] = new Function(\n    \"...values\",\n    `return [this, ...values].reduce((a, b) => a ${op} b);`\n  );\n});\n\nNumber.prototype[\"__missing__\"] = Number.prototype[\"+\"];\n",
@@ -1471,28 +1214,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 95,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "lib/interp/monkey-patching.js",
-    "static": true,
-    "longname": "lib/interp/monkey-patching.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/monkey-patching.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 96,
+    "__docId__": 83,
     "kind": "function",
     "name": "sub",
     "memberof": "lib/interp/monkey-patching.js",
@@ -1524,7 +1246,7 @@
     "ignore": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 84,
     "kind": "function",
     "name": "setelem",
     "memberof": "lib/interp/monkey-patching.js",
@@ -1562,7 +1284,7 @@
     "ignore": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 85,
     "kind": "file",
     "name": "lib/interp/registry.js",
     "content": "const xRegExp = require(\"xregexp\");\n\nconst utils = require(\"../utils.js\");\n\n// specialForms and topEnv maps\nconst SpecialForms = Object.create(null);\nconst TopEnv = Object.create(null);\n\nSpecialForms[\"if\"] = (args, env) => {\n  if (args.length !== 3) {\n    throw new SyntaxError(\"Bad number of args passed to if\");\n  }\n\n  if (args[0].evaluate(env) === true) {\n    return args[1].evaluate(env);\n  } else {\n    return args[2].evaluate(env);\n  }\n};\n\nSpecialForms[\"while\"] = (args, env) => {\n  if (args.length !== 2) {\n    throw new SyntaxError(\"Bad number of args passed to while\");\n  }\n\n  while (args[0].evaluate(env) === true) {\n    args[1].evaluate(env);\n  }\n\n  // Egg has no undefined so we return false when there's no meaningful result\n  return false;\n};\n\nSpecialForms[\"for\"] = (args, env) => {\n  if (args.length !== 4) {\n    throw new SyntaxError(\"Bad number of args passed to for\");\n  }\n\n  const forEnv = Object.create(env);\n  forEnv[\"__const__\"] = {};\n\n  // Variable\n  args[0].evaluate(forEnv);\n\n  // Condition\n  while (args[1].evaluate(forEnv) === true) {\n    // Body\n    args[3].evaluate(forEnv);\n\n    // Increment\n    args[2].evaluate(forEnv);\n  }\n\n  return false;\n};\n\nSpecialForms[\"foreach\"] = (args, env) => {\n  if (args.length !== 3) {\n    throw new SyntaxError(\"Bad number of args passed to foreach\");\n  }\n\n  if (args[0].type !== \"word\") {\n    throw new SyntaxError(\"The first argument to foreach must be a valid word\");\n  }\n\n  const localEnv = Object.create(env);\n\n  const iterable = args[1].evaluate(localEnv);\n  for (const val of iterable) {\n    localEnv[args[0].name] = val;\n    args[2].evaluate(localEnv);\n  }\n\n  return false;\n};\n\nSpecialForms[\"do\"] = (args, env) => {\n  let value = false;\n\n  args.forEach(arg => {\n    value = arg.evaluate(env);\n  });\n\n  return value;\n};\n\nSpecialForms[\"def\"] = SpecialForms[\"define\"] = SpecialForms[\":=\"] = (args, env) => {\n  if (args.length !== 2 || args[0].type !== \"word\") {\n    throw new SyntaxError(\"Bad use of define\");\n  }\n\n  let value = args[1].evaluate(env);\n\n  let valName = args[0].name;\n\n  if (valName in env[\"__const__\"]) {\n    throw new ReferenceError(`Trying to change 'const' variable ${args[0].name}`);\n  }\n\n  env[valName] = value;\n  return value;\n};\n\nSpecialForms[\"fun\"] = SpecialForms[\"->\"] = (args, env) => {\n  if (!args.length) {\n    throw new SyntaxError(\"Functions need a body.\");\n  }\n\n  function name(expr) {\n    if (expr.type !== \"word\") {\n      throw new SyntaxError(\"Arg names must be words\");\n    }\n\n    return expr.name;\n  }\n\n  let argNames = args.slice(0, args.length - 1).map(name);\n  let body = args[args.length - 1];\n\n  return function() {\n    if (arguments.length !== argNames.length) {\n      throw new TypeError(\"Wrong number of arguments\");\n    }\n\n    let localEnv = Object.create(env);\n    localEnv[\"__const__\"] = {};\n\n    for (let i = 0; i < arguments.length; i++) {\n      localEnv[argNames[i]] = arguments[i];\n    }\n\n    return body.evaluate(localEnv);\n  };\n};\n\nSpecialForms[\"set\"] = SpecialForms[\"=\"] = (args, env) => {\n  if (args[0].type !== \"word\") {\n    throw new SyntaxError(\"Bad use of set\");\n  }\n\n  let valName = args[0].name;\n\n  let indices = args.slice(1, -1).map(arg => arg.evaluate(env));\n\n  let value = args[args.length - 1].evaluate(env);\n\n  for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {\n    if (valName in scope[\"__const__\"]) {\n      throw new ReferenceError(`Trying to change 'const' variable ${args[0].name}`);\n    }\n\n    // TODO: Reduce code duplication\n    if (\"this\" in scope) {\n      // TODO: use hasOwnProperty ?\n\n      if (Object.prototype.hasOwnProperty.call(scope[\"this\"], valName)) {\n        if (indices.length === 0) {\n          scope[\"this\"][valName] = value;\n        } else {\n          scope[\"this\"][valName].setelem(value, ...indices);\n        }\n\n        return value;\n      }\n    }\n\n    if (Object.prototype.hasOwnProperty.call(scope, valName)) {\n      if (indices.length === 0) {\n        scope[valName] = value;\n      } else {\n        scope[valName].setelem(value, ...indices);\n      }\n\n      return value;\n    }\n  }\n\n  throw new ReferenceError(`Tried setting an undefined variable: ${valName}`);\n};\n\nSpecialForms[\"object\"] = (args, env) => {\n  // Create a new object and a new scope\n  const object = {};\n  const objectEnv = Object.create(env);\n  objectEnv[\"__const__\"] = {};\n\n  // Add the variable 'this' as a reference to the current object\n  objectEnv[\"this\"] = object;\n\n  // Evaluate the arguments and add the methods/properties to the object\n  const evArgs = args.map(arg => arg.evaluate(objectEnv));\n\n  for (const pair of utils.chunk(evArgs, 2)) {\n    const name = pair[0];\n    const value = pair[1];\n\n    object[name] = value;\n  }\n\n  return object;\n};\n\nSpecialForms[\"const\"] = (args, env) => {\n  if (args[0].type !== \"word\") {\n    throw new SyntaxError(\"Bad number of arguments\");\n  }\n\n  let value = args[1].evaluate(env);\n  env[\"__const__\"][args[0].name] = value;\n\n  return value;\n};\n\nSpecialForms[\"try\"] = (args, env) => {\n  if (args.length < 2) {\n    throw new SyntaxError(\"Bad use of try-catch block\");\n  }\n\n  const body = args[0];\n  const catch_body = args[1];\n\n  try {\n    body.evaluate(env);\n  } catch (err) {\n    env[\"__error__\"] = err;\n    catch_body.evaluate(env);\n  } finally {\n    if (args.length === 3) {\n      const finally_body = args[2];\n\n      finally_body.evaluate(env);\n    }\n  }\n\n  return false;\n};\n\n// TODO: Continue implementing class?\n//\n// SpecialForms['class'] = (args, env) => {\n//   // const evArgs = args.map((arg) => evaluate(arg, env));\n//\n//   const newClass = function(x, y) {\n//     this.x = x;\n//     this.y = y;\n//   }\n//\n//   return newClass;\n// }\n\n[\"+\", \"-\", \"*\", \"/\", \"==\", \"!=\", \"<\", \">\", \">=\", \"<=\", \"&&\", \"||\"].forEach(op => {\n  TopEnv[op] = new Function(\"a, b\", `return a ${op} b;`);\n});\n\nTopEnv[\"true\"] = true;\nTopEnv[\"false\"] = false;\nTopEnv[\"null\"] = null;\n\nTopEnv[\"__const__\"] = {};\n\nTopEnv[\"print\"] = value => {\n  console.log(value);\n  return value;\n};\n\nTopEnv[\"arr\"] = TopEnv[\"array\"] = (...args) => {\n  return args;\n};\n\nTopEnv[\"map\"] = TopEnv[\"dict\"] = (...args) => {\n  return new Map(utils.chunk(args, 2));\n};\n\nTopEnv[\"<-\"] = TopEnv[\"[]\"] = TopEnv[\"element\"] = (object, ...indices) => {\n  return object.sub(...indices);\n};\n\nTopEnv[\"length\"] = array => {\n  return array.length;\n};\n\nTopEnv[\"RegExp\"] = (method, ...args) => {\n  return xRegExp[method](...args);\n};\n\nTopEnv[\"child\"] = parent => {\n  return Object.create(parent);\n};\n\nTopEnv[\"throw\"] = obj => {\n  throw obj;\n};\n\n// WIP: Continue implementing class?\n// TopEnv['new'] = (...args) => {\n//   const className = args[0];\n//\n//   // TODO: Check for more exceptions\n//   if(typeof className !== \"function\") {\n//     throw new SyntaxError(`${className} must be a class with a constructor.`)\n//   }\n//\n//   return new className(...args.slice(1));\n//\n\nmodule.exports = {\n  SpecialForms,\n  TopEnv\n};\n",
@@ -1573,58 +1295,16 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 99,
-    "kind": "variable",
-    "name": "xRegExp",
-    "memberof": "lib/interp/registry.js",
-    "static": true,
-    "longname": "lib/interp/registry.js~xRegExp",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/registry.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 100,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "lib/interp/registry.js",
-    "static": true,
-    "longname": "lib/interp/registry.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/registry.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 101,
+    "__docId__": 86,
     "kind": "variable",
     "name": "SpecialForms",
     "memberof": "lib/interp/registry.js",
     "static": true,
     "longname": "lib/interp/registry.js~SpecialForms",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/registry.js",
-    "importStyle": null,
+    "importStyle": "{SpecialForms}",
     "description": null,
     "lineNumber": 6,
     "undocument": true,
@@ -1632,20 +1312,19 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 102,
+    "__docId__": 87,
     "kind": "variable",
     "name": "TopEnv",
     "memberof": "lib/interp/registry.js",
     "static": true,
     "longname": "lib/interp/registry.js~TopEnv",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/interp/registry.js",
-    "importStyle": null,
+    "importStyle": "{TopEnv}",
     "description": null,
     "lineNumber": 7,
     "undocument": true,
@@ -1653,11 +1332,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 103,
+    "__docId__": 88,
     "kind": "file",
     "name": "lib/interp/require.js",
     "content": "const { TopEnv } = require(\"./environment.js\");\nconst { Parser } = require(\"../parser/parse.js\");\n\nTopEnv[\"require\"] = file => {\n  if (!(file in TopEnv[\"require\"].cache)) {\n    const tree = Parser.parseFromFile(file);\n    const env = Object.create(TopEnv);\n\n    tree.evaluate(env);\n\n    const module = { exports: env[\"module\"].exports };\n\n    TopEnv[\"require\"].cache[file] = module;\n  }\n\n  return TopEnv[\"require\"].cache[file].exports;\n};\n\nTopEnv[\"require\"].cache = Object.create(null);\nTopEnv[\"module\"] = { exports: {} };\n",
@@ -1668,49 +1346,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 104,
-    "kind": "variable",
-    "name": "TopEnv",
-    "memberof": "lib/interp/require.js",
-    "static": true,
-    "longname": "lib/interp/require.js~TopEnv",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/require.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 105,
-    "kind": "variable",
-    "name": "Parser",
-    "memberof": "lib/interp/require.js",
-    "static": true,
-    "longname": "lib/interp/require.js~Parser",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/interp/require.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 106,
+    "__docId__": 89,
     "kind": "file",
     "name": "lib/parser/index.js",
     "content": "const { Lexer } = require(\"./lexer.js\");\nconst { Parser } = require(\"./parse.js\");\nconst { TokenRegex } = require(\"./tokenRegex.js\");\nconst { json2AST } = require(\"./json2AST.js\");\n\nmodule.exports = {\n  Lexer,\n  Parser,\n  TokenRegex,\n  json2AST\n};\n",
@@ -1721,91 +1357,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 107,
-    "kind": "variable",
-    "name": "Lexer",
-    "memberof": "lib/parser/index.js",
-    "static": true,
-    "longname": "lib/parser/index.js~Lexer",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 108,
-    "kind": "variable",
-    "name": "Parser",
-    "memberof": "lib/parser/index.js",
-    "static": true,
-    "longname": "lib/parser/index.js~Parser",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 109,
-    "kind": "variable",
-    "name": "TokenRegex",
-    "memberof": "lib/parser/index.js",
-    "static": true,
-    "longname": "lib/parser/index.js~TokenRegex",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 110,
-    "kind": "variable",
-    "name": "json2AST",
-    "memberof": "lib/parser/index.js",
-    "static": true,
-    "longname": "lib/parser/index.js~json2AST",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 111,
+    "__docId__": 90,
     "kind": "file",
     "name": "lib/parser/json2AST.js",
     "content": "const { Value, Word, Apply, Regex } = require(\"../interp/ast.js\");\nconst utils = require(\"../utils.js\");\n\nconst json2AST = tree => {\n  let obj = null;\n\n  if (tree.type == \"apply\") {\n    obj = new Apply(tree);\n    obj.operator = json2AST(tree.operator);\n    obj.args = tree.args.map(arg => json2AST(arg));\n  } else if (tree.type == \"word\") {\n    obj = new Word(tree);\n    obj.name = tree.name;\n  } else if (tree.type == \"value\") {\n    obj = new Value(tree);\n  } else if (tree.type == \"regex\") {\n    obj = new Regex(tree);\n    obj.body = tree.body;\n    obj.flags = tree.flags;\n  } else {\n    throw new SyntaxError(`Unrecognized token ${utils.ins(tree)}`);\n  }\n\n  return obj;\n};\n\nmodule.exports = {\n  json2AST\n};\n",
@@ -1816,49 +1368,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 112,
-    "kind": "variable",
-    "name": "Value",
-    "memberof": "lib/parser/json2AST.js",
-    "static": true,
-    "longname": "lib/parser/json2AST.js~Value",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/json2AST.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 113,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "lib/parser/json2AST.js",
-    "static": true,
-    "longname": "lib/parser/json2AST.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/json2AST.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 114,
+    "__docId__": 91,
     "kind": "function",
     "name": "json2AST",
     "memberof": "lib/parser/json2AST.js",
@@ -1867,9 +1377,9 @@
     "static": true,
     "longname": "lib/parser/json2AST.js~json2AST",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/json2AST.js",
-    "importStyle": null,
+    "importStyle": "{json2AST}",
     "description": null,
     "lineNumber": 4,
     "undocument": true,
@@ -1885,11 +1395,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 115,
+    "__docId__": 92,
     "kind": "file",
     "name": "lib/parser/lexer.js",
     "content": "const tokenRegex = require(\"./tokenRegex.js\");\nconst fs = require(\"fs\");\n\nclass Lexer {\n  constructor() {\n    this.lastIndex = 0;\n    this.line = 1;\n  }\n\n  setProgram(program) {\n    this.program = program;\n\n    this.lastIndex = 0;\n    this.line = 1;\n\n    return this;\n  }\n\n  tokenize(program) {\n    this.setProgram(program);\n\n    return this._getTokens();\n  }\n\n  static tokenize(program) {\n    return new Lexer().tokenize(program);\n  }\n\n  tokenizeFromFile(file) {\n    const program = fs.readFileSync(file, \"utf8\");\n\n    return this.tokenize(program);\n  }\n\n  static tokenizeFromFile(file) {\n    return new Lexer().tokenizeFromFile(file);\n  }\n\n  static setTokens(tokens) {\n    Lexer.TOKENS = tokens;\n  }\n\n  getParBalance(program) {\n    this.setProgram(program);\n\n    let stack = 0;\n    const tokens = this._getTokens();\n    for (const token of tokens) {\n      if (token.type === \"LP\") {\n        ++stack;\n      } else if (token.type === \"RP\") {\n        --stack;\n      }\n    }\n\n    return stack;\n  }\n\n  _getTokens() {\n    const tokens = [];\n\n    let currentToken = this._getToken();\n    while (currentToken !== null) {\n      tokens.push(currentToken);\n\n      currentToken = this._getToken();\n    }\n\n    return this.__transformTokens(tokens);\n  }\n\n  _getToken() {\n    // Update lastIndex property for each expression used\n    this.__updateLastIndices();\n\n    // Match and ignore whitespaces and newlines\n    let whitespaces = Lexer.WHITES.exec(this.program);\n    if (whitespaces !== null) {\n      if (Lexer.NEWLINE.exec(whitespaces.value)) {\n        ++this.line;\n      }\n      this.lastIndex = Lexer.WHITES.lastIndex;\n\n      return this._getToken();\n    }\n\n    // Iterate through each regex\n    let token = null;\n    for (let i = 0; i < Lexer.TOKENS.length; ++i) {\n      let match = Lexer.TOKENS[i].exec(this.program);\n\n      // When matching a expression, add the current line and set the token\n      if (match !== null) {\n        match.line = this.line;\n        this.lastIndex = Lexer.TOKENS[i].lastIndex;\n\n        token = match;\n        break;\n      }\n    }\n\n    // Return the matched token, or null if anything was found\n    return token;\n  }\n\n  __transformTokens(tokens) {\n    for (let i = 0; i < tokens.length; ++i) {\n      // x: => \"x\",\n      if (tokens[i].type === \"WORD\") {\n        const nextToken = tokens[i + 1];\n        if (nextToken && nextToken.value === \":\") {\n          tokens[i].type = \"STRING\";\n        }\n      }\n\n      // Replace dots with parentehsis\n      // a.b   =>    a(\"b\")\n      // a.b.c   =>  a(\"b\")(\"c\")\n      // a.b(c, d)   => a(\"b\", c, d)\n      if (tokens[i].type === \"LP\" && tokens[i].value === \".\") {\n        tokens[i].value = \"(\";\n\n        const expr = tokens[i + 1];\n        const arg = tokens[i + 2];\n\n        if (expr && expr.type === \"WORD\") {\n          expr.type = \"STRING\";\n        }\n\n        if (arg && arg.type === \"LP\" && arg.value !== \".\") {\n          arg.type = \"COMMA\";\n          arg.value = \",\";\n        } else {\n          tokens.splice(i + 2, 0, { type: \"RP\", value: \")\" });\n        }\n      }\n    }\n\n    return tokens;\n  }\n\n  __updateLastIndices() {\n    Lexer.TOKENS.forEach(expr => {\n      expr.lastIndex = this.lastIndex;\n    });\n    Lexer.WHITES.lastIndex = this.lastIndex;\n    Lexer.NEWLINE.lastIndex = this.lastIndex;\n  }\n}\n\nLexer.TOKENS = [\n  tokenRegex.NUMBER,\n  tokenRegex.STRING,\n  tokenRegex.REGEX,\n  tokenRegex.WORD,\n  tokenRegex.LP,\n  tokenRegex.RP,\n  tokenRegex.COMMA\n];\n\nLexer.WHITES = tokenRegex.WHITES;\nLexer.NEWLINE = tokenRegex.NEWLINE;\n\nmodule.exports = {\n  Lexer\n};\n",
@@ -1900,66 +1409,23 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 116,
-    "kind": "variable",
-    "name": "tokenRegex",
-    "memberof": "lib/parser/lexer.js",
-    "static": true,
-    "longname": "lib/parser/lexer.js~tokenRegex",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/lexer.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 117,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "lib/parser/lexer.js",
-    "static": true,
-    "longname": "lib/parser/lexer.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/lexer.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 118,
+    "__docId__": 93,
     "kind": "class",
     "name": "Lexer",
     "memberof": "lib/parser/lexer.js",
     "static": true,
     "longname": "lib/parser/lexer.js~Lexer",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/lexer.js",
-    "importStyle": null,
+    "importStyle": "{Lexer}",
     "description": null,
     "lineNumber": 4,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 119,
+    "__docId__": 94,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -1973,7 +1439,7 @@
     "undocument": true
   },
   {
-    "__docId__": 120,
+    "__docId__": 95,
     "kind": "member",
     "name": "lastIndex",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -1990,7 +1456,7 @@
     }
   },
   {
-    "__docId__": 121,
+    "__docId__": 96,
     "kind": "member",
     "name": "line",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2007,7 +1473,7 @@
     }
   },
   {
-    "__docId__": 122,
+    "__docId__": 97,
     "kind": "method",
     "name": "setProgram",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2034,7 +1500,7 @@
     }
   },
   {
-    "__docId__": 123,
+    "__docId__": 98,
     "kind": "member",
     "name": "program",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2051,7 +1517,7 @@
     }
   },
   {
-    "__docId__": 126,
+    "__docId__": 101,
     "kind": "method",
     "name": "tokenize",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2078,7 +1544,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 102,
     "kind": "method",
     "name": "tokenize",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2105,7 +1571,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 103,
     "kind": "method",
     "name": "tokenizeFromFile",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2132,7 +1598,7 @@
     }
   },
   {
-    "__docId__": 129,
+    "__docId__": 104,
     "kind": "method",
     "name": "tokenizeFromFile",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2159,7 +1625,7 @@
     }
   },
   {
-    "__docId__": 130,
+    "__docId__": 105,
     "kind": "method",
     "name": "setTokens",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2182,7 +1648,7 @@
     "return": null
   },
   {
-    "__docId__": 131,
+    "__docId__": 106,
     "kind": "method",
     "name": "getParBalance",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2209,7 +1675,7 @@
     }
   },
   {
-    "__docId__": 132,
+    "__docId__": 107,
     "kind": "method",
     "name": "_getTokens",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2229,7 +1695,7 @@
     }
   },
   {
-    "__docId__": 133,
+    "__docId__": 108,
     "kind": "method",
     "name": "_getToken",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2249,7 +1715,7 @@
     }
   },
   {
-    "__docId__": 136,
+    "__docId__": 111,
     "kind": "method",
     "name": "__transformTokens",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2276,7 +1742,7 @@
     }
   },
   {
-    "__docId__": 137,
+    "__docId__": 112,
     "kind": "method",
     "name": "__updateLastIndices",
     "memberof": "lib/parser/lexer.js~Lexer",
@@ -2292,10 +1758,10 @@
     "return": null
   },
   {
-    "__docId__": 138,
+    "__docId__": 113,
     "kind": "file",
     "name": "lib/parser/parse.js",
-    "content": "const fs = require(\"fs\");\n\nconst { Lexer } = require(\"./lexer.js\");\nconst { Value, Word, Apply, Regex } = require(\"../interp/ast.js\");\n\n/**\n * Parser class. Iterates through the given string, tokenizes it and returns a AST tree.\n */\nclass Parser {\n  constructor() {\n    this.index = 0;\n    this.tokens = [];\n    this.lookahead = null;\n  }\n\n  setProgram(program) {\n    this.program = program;\n\n    this.index = 0;\n    this.tokens = [];\n    this.lookahead = null;\n\n    return this;\n  }\n\n  parse(program) {\n    this.setProgram(program);\n\n    // Get array of tokens\n    this.tokens = Lexer.tokenize(program);\n\n    let tree = null;\n\n    // Parse if the array is not empty\n    if (this.tokens.length > 0) {\n      this.lookahead = this.__nextToken();\n      tree = this.parseExpression();\n    }\n\n    if (this.lookahead !== null) {\n      throw this.__parserSyntaxError(\"Unexpected input after the end of file.\");\n    }\n\n    return tree;\n  }\n\n  static parse(program) {\n    return new Parser().parse(program);\n  }\n\n  parseFromFile(file) {\n    const program = fs.readFileSync(file, \"utf8\");\n\n    return this.parse(program);\n  }\n\n  static parseFromFile(file) {\n    return new Parser().parseFromFile(file);\n  }\n\n  parseExpression() {\n    let expr;\n    if (this.lookahead.type === \"STRING\") {\n      expr = new Value(this.lookahead);\n    } else if (this.lookahead.type === \"NUMBER\") {\n      this.lookahead.value = Number(this.lookahead.value);\n      expr = new Value(this.lookahead);\n    } else if (this.lookahead.type === \"REGEX\") {\n      const fields = this.lookahead.value.split(\"/\");\n      expr = new Regex({ body: fields[1], flags: fields[2] });\n    } else if (this.lookahead.type === \"WORD\") {\n      expr = new Word(this.lookahead);\n    } else {\n      throw this.__parserSyntaxError(\"Unrecognized token while parsing the expression.\");\n    }\n\n    return this.parseApply(expr);\n  }\n\n  parseApply(expr) {\n    // Get next token\n    this.lookahead = this.__nextToken();\n\n    // Return if apply is empty (not left parenthesis or null)\n    if (!this.lookahead || this.lookahead.type !== \"LP\") {\n      return expr;\n    }\n\n    let tree = new Apply(expr);\n\n    this.lookahead = this.__nextToken();\n    // Parse all arguments inside the parenthesis\n    while (this.lookahead && this.lookahead.type !== \"RP\") {\n      let arg = this.parseExpression();\n      tree.args.push(arg);\n\n      if (\n        !this.lookahead ||\n        (this.lookahead.type !== \"COMMA\" && this.lookahead.type !== \"RP\")\n      ) {\n        throw this.__parserSyntaxError(`Missing , or ) after the expression`);\n      }\n\n      // Don't consume RPs as argument tokens\n      if (this.lookahead && this.lookahead.type !== \"RP\") {\n        this.lookahead = this.__nextToken();\n      }\n    }\n\n    return this.parseApply(tree);\n  }\n\n  __nextToken() {\n    const token = this.tokens[this.index++];\n\n    return token !== undefined ? token : null;\n  }\n\n  __parserSyntaxError(message) {\n    let start = this.lookahead ? this.lookahead.start : this.lastIndex;\n\n    return new SyntaxError(\n      `Parser::Line ${this.line}::Col ${start}\\n${message}\\n${this.program.slice(\n        start - 1,\n        start + 10\n      )}`\n    );\n  }\n}\n\nmodule.exports = {\n  Parser\n};\n",
+    "content": "const fs = require(\"fs\");\n\nconst { Lexer } = require(\"./lexer.js\");\nconst { Value, Word, Apply, Regex } = require(\"../interp/ast.js\");\n\n/**\n * Parser class. Iterates through the given string, tokenizes it and returns a AST tree.\n * @access public\n */\nclass Parser {\n  /**\n   * Attributes used by the parser, set to default values\n   */\n  constructor() {\n    this.index = 0;\n    this.tokens = [];\n    this.lookahead = null;\n  }\n\n  setProgram(program) {\n    this.program = program;\n\n    this.index = 0;\n    this.tokens = [];\n    this.lookahead = null;\n\n    return this;\n  }\n\n  parse(program) {\n    this.setProgram(program);\n\n    // Get array of tokens\n    this.tokens = Lexer.tokenize(program);\n\n    let tree = null;\n\n    // Parse if the array is not empty\n    if (this.tokens.length > 0) {\n      this.lookahead = this.__nextToken();\n      tree = this.parseExpression();\n    }\n\n    if (this.lookahead !== null) {\n      throw this.__parserSyntaxError(\"Unexpected input after the end of file.\");\n    }\n\n    return tree;\n  }\n\n  static parse(program) {\n    return new Parser().parse(program);\n  }\n\n  parseFromFile(file) {\n    const program = fs.readFileSync(file, \"utf8\");\n\n    return this.parse(program);\n  }\n\n  static parseFromFile(file) {\n    return new Parser().parseFromFile(file);\n  }\n\n  parseExpression() {\n    let expr;\n    if (this.lookahead.type === \"STRING\") {\n      expr = new Value(this.lookahead);\n    } else if (this.lookahead.type === \"NUMBER\") {\n      this.lookahead.value = Number(this.lookahead.value);\n      expr = new Value(this.lookahead);\n    } else if (this.lookahead.type === \"REGEX\") {\n      const fields = this.lookahead.value.split(\"/\");\n      expr = new Regex({ body: fields[1], flags: fields[2] });\n    } else if (this.lookahead.type === \"WORD\") {\n      expr = new Word(this.lookahead);\n    } else {\n      throw this.__parserSyntaxError(\"Unrecognized token while parsing the expression.\");\n    }\n\n    return this.parseApply(expr);\n  }\n\n  parseApply(expr) {\n    // Get next token\n    this.lookahead = this.__nextToken();\n\n    // Return if apply is empty (not left parenthesis or null)\n    if (!this.lookahead || this.lookahead.type !== \"LP\") {\n      return expr;\n    }\n\n    let tree = new Apply(expr);\n\n    this.lookahead = this.__nextToken();\n    // Parse all arguments inside the parenthesis\n    while (this.lookahead && this.lookahead.type !== \"RP\") {\n      let arg = this.parseExpression();\n      tree.args.push(arg);\n\n      if (\n        !this.lookahead ||\n        (this.lookahead.type !== \"COMMA\" && this.lookahead.type !== \"RP\")\n      ) {\n        throw this.__parserSyntaxError(`Missing , or ) after the expression`);\n      }\n\n      // Don't consume RPs as argument tokens\n      if (this.lookahead && this.lookahead.type !== \"RP\") {\n        this.lookahead = this.__nextToken();\n      }\n    }\n\n    return this.parseApply(tree);\n  }\n\n  __nextToken() {\n    const token = this.tokens[this.index++];\n\n    return token !== undefined ? token : null;\n  }\n\n  __parserSyntaxError(message) {\n    let start = this.lookahead ? this.lookahead.start : this.lastIndex;\n\n    return new SyntaxError(\n      `Parser::Line ${this.line}::Col ${start}\\n${message}\\n${this.program.slice(\n        start - 1,\n        start + 10\n      )}`\n    );\n  }\n}\n\nmodule.exports = {\n  Parser\n};\n",
     "static": true,
     "longname": "/home/dav/eggtended-js/lib/parser/parse.js",
     "access": "public",
@@ -2303,86 +1769,22 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 139,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "lib/parser/parse.js",
-    "static": true,
-    "longname": "lib/parser/parse.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/parse.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 140,
-    "kind": "variable",
-    "name": "Lexer",
-    "memberof": "lib/parser/parse.js",
-    "static": true,
-    "longname": "lib/parser/parse.js~Lexer",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/parse.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 141,
-    "kind": "variable",
-    "name": "Value",
-    "memberof": "lib/parser/parse.js",
-    "static": true,
-    "longname": "lib/parser/parse.js~Value",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/parse.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 142,
+    "__docId__": 114,
     "kind": "class",
     "name": "Parser",
     "memberof": "lib/parser/parse.js",
     "static": true,
     "longname": "lib/parser/parse.js~Parser",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/parse.js",
-    "importStyle": null,
+    "importStyle": "{Parser}",
     "description": "Parser class. Iterates through the given string, tokenizes it and returns a AST tree.",
-    "lineNumber": 9,
-    "interface": false,
-    "ignore": true
+    "lineNumber": 10,
+    "interface": false
   },
   {
-    "__docId__": 143,
+    "__docId__": 115,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2391,12 +1793,11 @@
     "static": false,
     "longname": "lib/parser/parse.js~Parser#constructor",
     "access": "public",
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true
+    "description": "Attributes used by the parser, set to default values",
+    "lineNumber": 14
   },
   {
-    "__docId__": 144,
+    "__docId__": 116,
     "kind": "member",
     "name": "index",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2404,7 +1805,7 @@
     "longname": "lib/parser/parse.js~Parser#index",
     "access": "public",
     "description": null,
-    "lineNumber": 11,
+    "lineNumber": 15,
     "undocument": true,
     "type": {
       "types": [
@@ -2413,7 +1814,7 @@
     }
   },
   {
-    "__docId__": 145,
+    "__docId__": 117,
     "kind": "member",
     "name": "tokens",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2421,7 +1822,7 @@
     "longname": "lib/parser/parse.js~Parser#tokens",
     "access": "public",
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 16,
     "undocument": true,
     "type": {
       "types": [
@@ -2430,56 +1831,12 @@
     }
   },
   {
-    "__docId__": 146,
+    "__docId__": 118,
     "kind": "member",
     "name": "lookahead",
     "memberof": "lib/parser/parse.js~Parser",
     "static": false,
     "longname": "lib/parser/parse.js~Parser#lookahead",
-    "access": "public",
-    "description": null,
-    "lineNumber": 13,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 147,
-    "kind": "method",
-    "name": "setProgram",
-    "memberof": "lib/parser/parse.js~Parser",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/parser/parse.js~Parser#setProgram",
-    "access": "public",
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
-    "params": [
-      {
-        "name": "program",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 148,
-    "kind": "member",
-    "name": "program",
-    "memberof": "lib/parser/parse.js~Parser",
-    "static": false,
-    "longname": "lib/parser/parse.js~Parser#program",
     "access": "public",
     "description": null,
     "lineNumber": 17,
@@ -2491,7 +1848,51 @@
     }
   },
   {
-    "__docId__": 152,
+    "__docId__": 119,
+    "kind": "method",
+    "name": "setProgram",
+    "memberof": "lib/parser/parse.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/parser/parse.js~Parser#setProgram",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "params": [
+      {
+        "name": "program",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 120,
+    "kind": "member",
+    "name": "program",
+    "memberof": "lib/parser/parse.js~Parser",
+    "static": false,
+    "longname": "lib/parser/parse.js~Parser#program",
+    "access": "public",
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 124,
     "kind": "method",
     "name": "parse",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2501,7 +1902,7 @@
     "longname": "lib/parser/parse.js~Parser#parse",
     "access": "public",
     "description": null,
-    "lineNumber": 26,
+    "lineNumber": 30,
     "undocument": true,
     "params": [
       {
@@ -2518,7 +1919,7 @@
     }
   },
   {
-    "__docId__": 155,
+    "__docId__": 127,
     "kind": "method",
     "name": "parse",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2528,7 +1929,7 @@
     "longname": "lib/parser/parse.js~Parser.parse",
     "access": "public",
     "description": null,
-    "lineNumber": 47,
+    "lineNumber": 51,
     "undocument": true,
     "params": [
       {
@@ -2545,7 +1946,7 @@
     }
   },
   {
-    "__docId__": 156,
+    "__docId__": 128,
     "kind": "method",
     "name": "parseFromFile",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2555,7 +1956,7 @@
     "longname": "lib/parser/parse.js~Parser#parseFromFile",
     "access": "public",
     "description": null,
-    "lineNumber": 51,
+    "lineNumber": 55,
     "undocument": true,
     "params": [
       {
@@ -2572,7 +1973,7 @@
     }
   },
   {
-    "__docId__": 157,
+    "__docId__": 129,
     "kind": "method",
     "name": "parseFromFile",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2582,7 +1983,7 @@
     "longname": "lib/parser/parse.js~Parser.parseFromFile",
     "access": "public",
     "description": null,
-    "lineNumber": 57,
+    "lineNumber": 61,
     "undocument": true,
     "params": [
       {
@@ -2599,7 +2000,7 @@
     }
   },
   {
-    "__docId__": 158,
+    "__docId__": 130,
     "kind": "method",
     "name": "parseExpression",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2609,7 +2010,7 @@
     "longname": "lib/parser/parse.js~Parser#parseExpression",
     "access": "public",
     "description": null,
-    "lineNumber": 61,
+    "lineNumber": 65,
     "undocument": true,
     "params": [],
     "return": {
@@ -2619,7 +2020,7 @@
     }
   },
   {
-    "__docId__": 159,
+    "__docId__": 131,
     "kind": "method",
     "name": "parseApply",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2629,7 +2030,7 @@
     "longname": "lib/parser/parse.js~Parser#parseApply",
     "access": "public",
     "description": null,
-    "lineNumber": 80,
+    "lineNumber": 84,
     "undocument": true,
     "params": [
       {
@@ -2646,7 +2047,7 @@
     }
   },
   {
-    "__docId__": 163,
+    "__docId__": 135,
     "kind": "method",
     "name": "__nextToken",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2656,7 +2057,7 @@
     "longname": "lib/parser/parse.js~Parser#__nextToken",
     "access": "private",
     "description": null,
-    "lineNumber": 113,
+    "lineNumber": 117,
     "undocument": true,
     "params": [],
     "return": {
@@ -2666,7 +2067,7 @@
     }
   },
   {
-    "__docId__": 164,
+    "__docId__": 136,
     "kind": "method",
     "name": "__parserSyntaxError",
     "memberof": "lib/parser/parse.js~Parser",
@@ -2676,7 +2077,7 @@
     "longname": "lib/parser/parse.js~Parser#__parserSyntaxError",
     "access": "private",
     "description": null,
-    "lineNumber": 119,
+    "lineNumber": 123,
     "undocument": true,
     "params": [
       {
@@ -2693,7 +2094,7 @@
     }
   },
   {
-    "__docId__": 165,
+    "__docId__": 137,
     "kind": "file",
     "name": "lib/parser/tokenRegex.js",
     "content": "const xRegExp = require(\"xregexp\");\n\nclass TokenRegex {\n  constructor(name, regexLiteral, flags) {\n    this.name = name;\n    this.expression = xRegExp(regexLiteral, flags);\n  }\n\n  get lastIndex() {\n    return this.expression.lastIndex;\n  }\n\n  set lastIndex(index) {\n    this.expression.lastIndex = index;\n  }\n\n  reset() {\n    this.lastIndex = 0;\n\n    return this;\n  }\n\n  exec(program) {\n    let match = this.expression.exec(program);\n\n    if (match !== null) {\n      return {\n        type: this.name,\n        value: match[1],\n        start: this.lastIndex - match[1].length + 1,\n        end: this.lastIndex\n      };\n    }\n\n    return null;\n  }\n\n  test(program) {\n    let savedIndex = this.lastIndex;\n    const result = this.exec(program);\n    this.lastIndex = savedIndex;\n\n    return result !== null;\n  }\n}\n\nconst WHITES = new TokenRegex(\n  \"WHITE\",\n  `(\\\\s+|       # Spaces\n                                [#;].*|     # Single-line comments\n                                \\\\/\\\\*[^]*?\\\\*\\\\/  # Multiline comments\n                               )`,\n  `yx`\n);\n\nconst NEWLINE = new TokenRegex(\n  \"NEWLINE\",\n  `(\\\\r?        # Carriage return (for compatibility)\n                                 \\\\n         # Newline char\n                                )`\n);\n\nconst NUMBER = new TokenRegex(\n  \"NUMBER\",\n  `([-+]?       # Sign\n                                \\\\d*          # Digits\n                                \\\\.?\\\\d+      # Decimals\n                                (?:[eE][-+]?\\\\d+)? # Exp notatio\n                               )`,\n  \"yx\"\n);\n\nconst STRING = new TokenRegex(\n  \"STRING\",\n  `\"([^\"\\\\\\\\]*  # Any character except 'escaped \"'\n                                )\"`,\n  \"yx\"\n);\n\nconst WORD = new TokenRegex(\n  \"WORD\",\n  `(\\\\[\\\\]|     # [] is a reserved word for arrays\n                              :=|         # := is a reserved word for 'define'\n                              [^\\\\s\\\\(\\\\)\\\\{\\\\}\\\\[\\\\]\\\\.,:\"]+   # Avoid some chars\n                              )`,\n  \"yx\"\n);\n\nconst LP = new TokenRegex(\n  \"LP\",\n  `([\\\\(\\\\{\\\\[\\\\.]  # ({[ are synonyms\n                           )`,\n  \"yx\"\n);\n\nconst RP = new TokenRegex(\n  \"RP\",\n  `([\\\\)\\\\}\\\\]]     # }}] are synonyms\n                          )`,\n  \"yx\"\n);\n\nconst COMMA = new TokenRegex(\n  \"COMMA\",\n  `(,|          # comma\n                               :(?!=)      # a : that isn't followed by a = (:= is word)\n                              )`,\n  \"yx\"\n);\n\nconst REGEX = new TokenRegex(\n  \"REGEX\",\n  `(r/[^]*?/       # body of the regex\n                               [nsxAgimuy]*   # flags\n                              )`,\n  \"yx\"\n);\n\nmodule.exports = {\n  WHITES,\n  NEWLINE,\n  NUMBER,\n  STRING,\n  WORD,\n  LP,\n  RP,\n  COMMA,\n  REGEX,\n  TokenRegex\n};\n",
@@ -2704,45 +2105,44 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 166,
+    "__docId__": 138,
     "kind": "variable",
-    "name": "xRegExp",
+    "name": "WHITES",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
-    "longname": "lib/parser/tokenRegex.js~xRegExp",
+    "longname": "lib/parser/tokenRegex.js~WHITES",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{WHITES}",
     "description": null,
-    "lineNumber": 1,
+    "lineNumber": 47,
     "undocument": true,
     "type": {
       "types": [
-        "*"
+        "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 167,
+    "__docId__": 139,
     "kind": "class",
     "name": "TokenRegex",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~TokenRegex",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
     "importStyle": null,
     "description": null,
     "lineNumber": 3,
+    "pseudoExport": true,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 168,
+    "__docId__": 140,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2756,7 +2156,7 @@
     "undocument": true
   },
   {
-    "__docId__": 169,
+    "__docId__": 141,
     "kind": "member",
     "name": "name",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2773,7 +2173,7 @@
     }
   },
   {
-    "__docId__": 170,
+    "__docId__": 142,
     "kind": "member",
     "name": "expression",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2790,7 +2190,7 @@
     }
   },
   {
-    "__docId__": 171,
+    "__docId__": 143,
     "kind": "get",
     "name": "lastIndex",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2809,7 +2209,7 @@
     }
   },
   {
-    "__docId__": 172,
+    "__docId__": 144,
     "kind": "set",
     "name": "lastIndex",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2823,7 +2223,7 @@
     "undocument": true
   },
   {
-    "__docId__": 173,
+    "__docId__": 145,
     "kind": "method",
     "name": "reset",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2843,7 +2243,7 @@
     }
   },
   {
-    "__docId__": 175,
+    "__docId__": 147,
     "kind": "method",
     "name": "exec",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2870,7 +2270,7 @@
     }
   },
   {
-    "__docId__": 176,
+    "__docId__": 148,
     "kind": "method",
     "name": "test",
     "memberof": "lib/parser/tokenRegex.js~TokenRegex",
@@ -2897,37 +2297,16 @@
     }
   },
   {
-    "__docId__": 178,
-    "kind": "variable",
-    "name": "WHITES",
-    "memberof": "lib/parser/tokenRegex.js",
-    "static": true,
-    "longname": "lib/parser/tokenRegex.js~WHITES",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 47,
-    "undocument": true,
-    "type": {
-      "types": [
-        "lib/parser/tokenRegex.js~TokenRegex"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 179,
+    "__docId__": 150,
     "kind": "variable",
     "name": "NEWLINE",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~NEWLINE",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{NEWLINE}",
     "description": null,
     "lineNumber": 56,
     "undocument": true,
@@ -2935,20 +2314,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 180,
+    "__docId__": 151,
     "kind": "variable",
     "name": "NUMBER",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~NUMBER",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{NUMBER}",
     "description": null,
     "lineNumber": 63,
     "undocument": true,
@@ -2956,20 +2334,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 181,
+    "__docId__": 152,
     "kind": "variable",
     "name": "STRING",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~STRING",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{STRING}",
     "description": null,
     "lineNumber": 73,
     "undocument": true,
@@ -2977,20 +2354,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 182,
+    "__docId__": 153,
     "kind": "variable",
     "name": "WORD",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~WORD",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{WORD}",
     "description": null,
     "lineNumber": 80,
     "undocument": true,
@@ -2998,20 +2374,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 183,
+    "__docId__": 154,
     "kind": "variable",
     "name": "LP",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~LP",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{LP}",
     "description": null,
     "lineNumber": 89,
     "undocument": true,
@@ -3019,20 +2394,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 184,
+    "__docId__": 155,
     "kind": "variable",
     "name": "RP",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~RP",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{RP}",
     "description": null,
     "lineNumber": 96,
     "undocument": true,
@@ -3040,20 +2414,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 185,
+    "__docId__": 156,
     "kind": "variable",
     "name": "COMMA",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~COMMA",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{COMMA}",
     "description": null,
     "lineNumber": 103,
     "undocument": true,
@@ -3061,20 +2434,19 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 186,
+    "__docId__": 157,
     "kind": "variable",
     "name": "REGEX",
     "memberof": "lib/parser/tokenRegex.js",
     "static": true,
     "longname": "lib/parser/tokenRegex.js~REGEX",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/parser/tokenRegex.js",
-    "importStyle": null,
+    "importStyle": "{REGEX}",
     "description": null,
     "lineNumber": 111,
     "undocument": true,
@@ -3082,11 +2454,10 @@
       "types": [
         "lib/parser/tokenRegex.js~TokenRegex"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 187,
+    "__docId__": 158,
     "kind": "file",
     "name": "lib/repl/colors.js",
     "content": "const { TopEnv } = require(\"../interp/environment.js\");\nconst style = require(\"ansi-styles\");\n\nconst RED = (TopEnv[\"__RED__\"] = style.red.open);\nconst GREEN = (TopEnv[\"__GREEN__\"] = style.green.open);\nconst YELLOW = (TopEnv[\"__YELLOW__\"] = style.yellow.open);\nconst BLUE = (TopEnv[\"__BLUE__\"] = style.blue.open);\nconst DEFAULT = (TopEnv[\"__DEF__\"] = style.color.close);\n\nconsole.log(RED);\n\nmodule.exports = {\n  RED,\n  GREEN,\n  YELLOW,\n  BLUE,\n  DEFAULT\n};\n",
@@ -3097,58 +2468,16 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 188,
-    "kind": "variable",
-    "name": "TopEnv",
-    "memberof": "lib/repl/colors.js",
-    "static": true,
-    "longname": "lib/repl/colors.js~TopEnv",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 189,
-    "kind": "variable",
-    "name": "style",
-    "memberof": "lib/repl/colors.js",
-    "static": true,
-    "longname": "lib/repl/colors.js~style",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 190,
+    "__docId__": 159,
     "kind": "variable",
     "name": "RED",
     "memberof": "lib/repl/colors.js",
     "static": true,
     "longname": "lib/repl/colors.js~RED",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
+    "importStyle": "{RED}",
     "description": null,
     "lineNumber": 4,
     "undocument": true,
@@ -3156,20 +2485,19 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 191,
+    "__docId__": 160,
     "kind": "variable",
     "name": "GREEN",
     "memberof": "lib/repl/colors.js",
     "static": true,
     "longname": "lib/repl/colors.js~GREEN",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
+    "importStyle": "{GREEN}",
     "description": null,
     "lineNumber": 5,
     "undocument": true,
@@ -3177,20 +2505,19 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 192,
+    "__docId__": 161,
     "kind": "variable",
     "name": "YELLOW",
     "memberof": "lib/repl/colors.js",
     "static": true,
     "longname": "lib/repl/colors.js~YELLOW",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
+    "importStyle": "{YELLOW}",
     "description": null,
     "lineNumber": 6,
     "undocument": true,
@@ -3198,20 +2525,19 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 193,
+    "__docId__": 162,
     "kind": "variable",
     "name": "BLUE",
     "memberof": "lib/repl/colors.js",
     "static": true,
     "longname": "lib/repl/colors.js~BLUE",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
+    "importStyle": "{BLUE}",
     "description": null,
     "lineNumber": 7,
     "undocument": true,
@@ -3219,20 +2545,19 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 194,
+    "__docId__": 163,
     "kind": "variable",
     "name": "DEFAULT",
     "memberof": "lib/repl/colors.js",
     "static": true,
     "longname": "lib/repl/colors.js~DEFAULT",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/colors.js",
-    "importStyle": null,
+    "importStyle": "{DEFAULT}",
     "description": null,
     "lineNumber": 8,
     "undocument": true,
@@ -3240,11 +2565,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 195,
+    "__docId__": 164,
     "kind": "file",
     "name": "lib/repl/extensions.js",
     "content": "const process = require(\"process\");\nconst fs = require(\"fs\");\n\nconst { SpecialForms } = require(\"../interp/registry.js\");\nconst { TopEnv } = require(\"../interp/environment.js\");\nconst { Eggvm } = require(\"../interp/eggvm.js\");\n\nconst colors = require(\"./colors.js\");\n\n// PROMPT\n\nTopEnv[\"__PROMPT__\"] = \"> \";\n\nconst getPromptLine = () => {\n  return `${colors.YELLOW} ${TopEnv[\"__PROMPT__\"]} ${colors.DEFAULT}`;\n};\n\n// Extra methods\n\nconst eggExit = (TopEnv[\"exit\"] = () => {\n  console.log(colors.BLUE + \"Closing the REPL... Bye!\" + colors.DEFAULT);\n  process.exit(0);\n});\n\nconst HELP = [\n  `${colors.BLUE} help() ${colors.DEFAULT} show this help menu`,\n  `${colors.RED} exit() | Ctrl-D ${colors.DEFAULT} close the REPL`,\n  `${colors.GREEN} run() ${colors.DEFAULT} execute a .egg file`,\n  `${colors.YELLOW} clear() ${colors.DEFAULT} clear the console`\n];\n\nconst eggHelp = (TopEnv[\"help\"] = () => {\n  console.log(\" Egg help menu:\");\n  HELP.forEach(line => {\n    console.log(line);\n  });\n\n  return \"-\".repeat(HELP[0].length - 10);\n});\n\nconst eggInfo = (TopEnv[\"info\"] = () => {\n  console.log(\n    colors.BLUE +\n      `\n                   _                 _          _\n                  | |               | |        | |\n   ___  __ _  __ _| |_ ___ _ __   __| | ___  __| |\n  / _ \\\\/ _\\` |/ _\\` | __/ _ \\\\ '_ \\\\ / _\\` |/ _ \\\\/ _\\` |\n |  __/ (_| | (_| | ||  __/ | | | (_| |  __/ (_| |\n  \\\\___|\\\\__, |\\\\__, |\\\\__\\\\___|_| |_|\\\\__,_|\\\\___|\\\\__,_|\n        __/ | __/ |\n       |___/ |___/\n` +\n      colors.DEFAULT\n  );\n  console.log(`Version ${TopEnv[\"__VERSION__\"]}`);\n  console.log(\"Created by David Afonso Dorta. License: GPLv2\");\n});\n\nconst eggClear = (TopEnv[\"clear\"] = () => {\n  console.log(\"\\u001B[2J\\u001B[0;0f\");\n  eggInfo();\n});\n\nconst eggVersion = (TopEnv[\n  \"__VERSION__\"\n] = require(\"../../package.json\").version);\n\nconst eggRun = (TopEnv[\"run\"] = (file, debug) => {\n  if (debug) {\n    console.log(fs.readFileSync(file, \"utf8\"));\n  }\n\n  Eggvm.runFromFile(file);\n});\n\nconst eggCompleter = (line, env) => {\n  // Test if get hits from current directory\n  let hits = dirHits(line);\n\n  // Show hits from the REPL variables\n  if (hits.length === 0) {\n    const word = line.split(/[\\s(),\"]+/).slice(-1)[0];\n    hits = _filter(Object.keys(SpecialForms).concat(_allProperties(env)), word);\n  }\n\n  return [hits, line];\n};\n\nconst _allProperties = obj => {\n  let keys = [];\n\n  let proto = obj;\n  while (proto) {\n    keys = keys.concat(Object.keys(proto));\n    proto = Object.getPrototypeOf(proto);\n  }\n\n  return keys;\n};\n\nconst dirHits = line => {\n  const match = line.match(/(?:run)\\((.*)/);\n  if (match) {\n    const path = match[1]\n      .replace(/[\"'`]/, \"\")\n      .trim()\n      .split(\"/\");\n    const dirPath = path.slice(0, -1);\n    const filePath = path.slice(-1);\n\n    try {\n      return _filter(fs.readdirSync(`./${dirPath}`), filePath);\n    } catch (err) {\n      return [];\n    }\n  }\n\n  return [];\n};\n\nconst _filter = (hits, word) => {\n  return hits.filter(hit => {\n    return hit.indexOf(word) === 0;\n  });\n};\n\nmodule.exports = {\n  getPromptLine,\n  eggExit,\n  eggHelp,\n  eggInfo,\n  eggClear,\n  eggVersion,\n  eggRun,\n  eggCompleter\n};\n",
@@ -3255,178 +2579,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 196,
-    "kind": "variable",
-    "name": "process",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~process",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 197,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 198,
-    "kind": "variable",
-    "name": "SpecialForms",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~SpecialForms",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 199,
-    "kind": "variable",
-    "name": "TopEnv",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~TopEnv",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 200,
-    "kind": "variable",
-    "name": "Eggvm",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~Eggvm",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 201,
-    "kind": "variable",
-    "name": "colors",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~colors",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 8,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 202,
-    "kind": "function",
-    "name": "getPromptLine",
-    "memberof": "lib/repl/extensions.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "lib/repl/extensions.js~getPromptLine",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
-    "params": [],
-    "return": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 203,
-    "kind": "variable",
-    "name": "eggExit",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggExit",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 204,
+    "__docId__": 165,
     "kind": "variable",
     "name": "HELP",
     "memberof": "lib/repl/extensions.js",
@@ -3447,149 +2600,7 @@
     "ignore": true
   },
   {
-    "__docId__": 205,
-    "kind": "variable",
-    "name": "eggHelp",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggHelp",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 32,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 206,
-    "kind": "variable",
-    "name": "eggInfo",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggInfo",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 41,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 207,
-    "kind": "variable",
-    "name": "eggClear",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggClear",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 60,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 208,
-    "kind": "variable",
-    "name": "eggVersion",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggVersion",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 65,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 209,
-    "kind": "variable",
-    "name": "eggRun",
-    "memberof": "lib/repl/extensions.js",
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggRun",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 69,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 210,
-    "kind": "function",
-    "name": "eggCompleter",
-    "memberof": "lib/repl/extensions.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "lib/repl/extensions.js~eggCompleter",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/extensions.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 77,
-    "undocument": true,
-    "params": [
-      {
-        "name": "line",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "env",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "undefined[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 211,
+    "__docId__": 166,
     "kind": "function",
     "name": "_allProperties",
     "memberof": "lib/repl/extensions.js",
@@ -3620,7 +2631,7 @@
     "ignore": true
   },
   {
-    "__docId__": 212,
+    "__docId__": 167,
     "kind": "function",
     "name": "dirHits",
     "memberof": "lib/repl/extensions.js",
@@ -3651,7 +2662,7 @@
     "ignore": true
   },
   {
-    "__docId__": 213,
+    "__docId__": 168,
     "kind": "function",
     "name": "_filter",
     "memberof": "lib/repl/extensions.js",
@@ -3688,7 +2699,186 @@
     "ignore": true
   },
   {
-    "__docId__": 214,
+    "__docId__": 169,
+    "kind": "function",
+    "name": "getPromptLine",
+    "memberof": "lib/repl/extensions.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/repl/extensions.js~getPromptLine",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{getPromptLine}",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 170,
+    "kind": "variable",
+    "name": "eggExit",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggExit",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggExit}",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 171,
+    "kind": "variable",
+    "name": "eggHelp",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggHelp",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggHelp}",
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 172,
+    "kind": "variable",
+    "name": "eggInfo",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggInfo",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggInfo}",
+    "description": null,
+    "lineNumber": 41,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 173,
+    "kind": "variable",
+    "name": "eggClear",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggClear",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggClear}",
+    "description": null,
+    "lineNumber": 60,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 174,
+    "kind": "variable",
+    "name": "eggVersion",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggVersion",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggVersion}",
+    "description": null,
+    "lineNumber": 65,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 175,
+    "kind": "variable",
+    "name": "eggRun",
+    "memberof": "lib/repl/extensions.js",
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggRun",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggRun}",
+    "description": null,
+    "lineNumber": 69,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 176,
+    "kind": "function",
+    "name": "eggCompleter",
+    "memberof": "lib/repl/extensions.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/repl/extensions.js~eggCompleter",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/repl/extensions.js",
+    "importStyle": "{eggCompleter}",
+    "description": null,
+    "lineNumber": 77,
+    "undocument": true,
+    "params": [
+      {
+        "name": "line",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "env",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 177,
     "kind": "file",
     "name": "lib/repl/repl.js",
     "content": "const process = require(\"process\");\nconst readline = require(\"readline\");\n\nconst { Lexer } = require(\"../parser/lexer.js\");\nconst { Parser } = require(\"../parser/parse.js\");\nconst { TopEnv } = require(\"../interp/environment.js\");\nconst { Eggvm } = require(\"../interp/eggvm.js\");\n\nconst extensions = require(\"./extensions.js\");\nconst colors = require(\"./colors.js\");\n\nconst repl = () => {\n  // Create the REPL environment\n  const topEnv = Object.create(TopEnv);\n  const lexer = new Lexer();\n  const parser = new Parser();\n\n  let program = \"\";\n  let stack = 0;\n\n  extensions.eggInfo();\n\n  try {\n    const rl = readline.createInterface(process.stdin, process.stdout, line => {\n      return extensions.eggCompleter(line, topEnv);\n    });\n\n    rl.setPrompt(extensions.getPromptLine());\n    rl.prompt();\n\n    rl.on(\"line\", line => {\n      program += line + \"\\n\";\n\n      // Count the number of LPS (+) or RPS (-)\n      stack = lexer.getParBalance(program);\n\n      if (stack <= 0) {\n        try {\n          Eggvm.eval(parser.parse(program), topEnv);\n        } catch (err) {\n          console.log(`${colors.RED} Error:: ${err} ${colors.DEFAULT}`);\n        } finally {\n          program = \"\";\n          stack = 0;\n        }\n      }\n\n      rl.setPrompt(extensions.getPromptLine() + \"..\".repeat(stack));\n      rl.prompt();\n    });\n\n    rl.on(\"close\", extensions.eggExit);\n\n    rl.on(\"SIGINT\", () => {\n      console.log(\n        `\\n${colors.GREEN}\\n--> Expression discarded ${colors.DEFAULT}`\n      );\n\n      program = \"\";\n      stack = 0;\n\n      rl.clearLine(process.stdout);\n\n      rl.setPrompt(extensions.getPromptLine());\n      rl.prompt();\n    });\n  } catch (err) {\n    console.log(err);\n    extensions.eggHelp();\n  }\n};\n\nmodule.exports = {\n  repl\n};\n",
@@ -3699,175 +2889,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 215,
-    "kind": "variable",
-    "name": "process",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~process",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 216,
-    "kind": "variable",
-    "name": "readline",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~readline",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 217,
-    "kind": "variable",
-    "name": "Lexer",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~Lexer",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 218,
-    "kind": "variable",
-    "name": "Parser",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~Parser",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 219,
-    "kind": "variable",
-    "name": "TopEnv",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~TopEnv",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 220,
-    "kind": "variable",
-    "name": "Eggvm",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~Eggvm",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 7,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 221,
-    "kind": "variable",
-    "name": "extensions",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~extensions",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 9,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 222,
-    "kind": "variable",
-    "name": "colors",
-    "memberof": "lib/repl/repl.js",
-    "static": true,
-    "longname": "lib/repl/repl.js~colors",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 223,
+    "__docId__": 178,
     "kind": "function",
     "name": "repl",
     "memberof": "lib/repl/repl.js",
@@ -3876,18 +2898,17 @@
     "static": true,
     "longname": "lib/repl/repl.js~repl",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/repl/repl.js",
-    "importStyle": null,
+    "importStyle": "{repl}",
     "description": null,
     "lineNumber": 12,
     "undocument": true,
     "params": [],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 224,
+    "__docId__": 179,
     "kind": "file",
     "name": "lib/utils.js",
     "content": "const inspect = require(\"util\").inspect;\n\nconst ins = x => inspect(x, { depth: \"null\" });\n\nconst chunk = function*(arr, step) {\n  for (let i = 0; i < arr.length; i += step) {\n    yield arr.slice(i, i + step);\n  }\n};\n\nconst checkIterable = (object, length) => {\n  if (length === 0) {\n    throw new SyntaxError(\"At least one index must be passed to sub\");\n  }\n\n  if (object instanceof Number || object instanceof String) {\n    throw new TypeError(`The object '${object}'' is not indexable!`);\n  }\n};\n\nconst getValidIndex = (length, index) => {\n  if (index < 0) {\n    index = length + index;\n  }\n\n  if (index > length) {\n    throw new RangeError(`Index ${index} is out of bounds. Array size: ${length}`);\n  }\n\n  return index;\n};\n\nmodule.exports = {\n  chunk,\n  checkIterable,\n  getValidIndex,\n  ins\n};\n",
@@ -3898,55 +2919,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 225,
-    "kind": "variable",
-    "name": "inspect",
-    "memberof": "lib/utils.js",
-    "static": true,
-    "longname": "lib/utils.js~inspect",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 226,
-    "kind": "function",
-    "name": "ins",
-    "memberof": "lib/utils.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "lib/utils.js~ins",
-    "access": "public",
-    "export": false,
-    "importPath": "eggtended-js/lib/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "params": [
-      {
-        "name": "x",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 227,
+    "__docId__": 180,
     "kind": "function",
     "name": "chunk",
     "memberof": "lib/utils.js",
@@ -3955,9 +2928,9 @@
     "static": true,
     "longname": "lib/utils.js~chunk",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/utils.js",
-    "importStyle": null,
+    "importStyle": "{chunk}",
     "description": null,
     "lineNumber": 5,
     "undocument": true,
@@ -3975,11 +2948,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 228,
+    "__docId__": 181,
     "kind": "function",
     "name": "checkIterable",
     "memberof": "lib/utils.js",
@@ -3988,9 +2960,9 @@
     "static": true,
     "longname": "lib/utils.js~checkIterable",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/utils.js",
-    "importStyle": null,
+    "importStyle": "{checkIterable}",
     "description": null,
     "lineNumber": 11,
     "undocument": true,
@@ -4008,11 +2980,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 229,
+    "__docId__": 182,
     "kind": "function",
     "name": "getValidIndex",
     "memberof": "lib/utils.js",
@@ -4021,9 +2992,9 @@
     "static": true,
     "longname": "lib/utils.js~getValidIndex",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "eggtended-js/lib/utils.js",
-    "importStyle": null,
+    "importStyle": "{getValidIndex}",
     "description": null,
     "lineNumber": 21,
     "undocument": true,
@@ -4045,8 +3016,33 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
+  },
+  {
+    "__docId__": 183,
+    "kind": "function",
+    "name": "ins",
+    "memberof": "lib/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/utils.js~ins",
+    "access": "public",
+    "export": true,
+    "importPath": "eggtended-js/lib/utils.js",
+    "importStyle": "{ins}",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "params": [
+      {
+        "name": "x",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
   },
   {
     "kind": "index",
@@ -4058,14 +3054,14 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"eggtended-js\",\n  \"version\": \"1.5.0\",\n  \"description\": \"A extended version of the Egg programming language from the Eloquent Javascript book.\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"test\": \"nyc mocha\",\n    \"coverage\": \"nyc report --reporter=text-lcov | coveralls\",\n    \"docs\": \"./node_modules/.bin/esdoc -c esdoc.json\",\n    \"pre-commit-install\": \"pre-commit install\"\n  },\n  \"keywords\": [\n    \"Egg\",\n    \"Parser\",\n    \"Interpreter\",\n    \"Programming\",\n    \"Language\"\n  ],\n  \"author\": \"David Afonso Dorta\",\n  \"license\": \"GPL2\",\n  \"devDependencies\": {\n    \"coveralls\": \"^3.0.3\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.16.0\",\n    \"husky\": \"^2.3.0\",\n    \"lint-staged\": \"^8.1.7\",\n    \"mocha\": \"^6.1.2\",\n    \"mocha-lcov-reporter\": \"^1.3.0\",\n    \"nyc\": \"^13.3.0\",\n    \"pre-commit\": \"^1.2.2\",\n    \"should\": \"^13.2.3\",\n    \"sinon\": \"^7.3.1\"\n  },\n  \"dependencies\": {\n    \"ansi-styles\": \"^3.2.1\",\n    \"xregexp\": \"^4.2.4\"\n  },\n  \"husky\": {\n    \"hooks\": {\n      \"pre-commit\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"*.js\": [\n      \"prettier --write\",\n      \"eslint --fix\",\n      \"nyc mocha\",\n      \"git add\"\n    ],\n    \"ignore\": [\"**/docs/**/*.js\"]\n  }\n}\n",
+    "content": "{\n  \"name\": \"eggtended-js\",\n  \"version\": \"1.5.0\",\n  \"description\": \"A extended version of the Egg programming language from the Eloquent Javascript book.\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"test\": \"nyc mocha\",\n    \"coverage\": \"nyc report --reporter=text-lcov | coveralls\",\n    \"docs\": \"./node_modules/.bin/esdoc -c esdoc.json\",\n    \"pre-commit-install\": \"pre-commit install\"\n  },\n  \"keywords\": [\n    \"Egg\",\n    \"Parser\",\n    \"Interpreter\",\n    \"Programming\",\n    \"Language\"\n  ],\n  \"author\": \"David Afonso Dorta\",\n  \"license\": \"GPL2\",\n  \"devDependencies\": {\n    \"coveralls\": \"^3.0.3\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.16.0\",\n    \"husky\": \"^2.3.0\",\n    \"lint-staged\": \"^8.1.7\",\n    \"mocha\": \"^6.1.2\",\n    \"mocha-lcov-reporter\": \"^1.3.0\",\n    \"nyc\": \"^13.3.0\",\n    \"pre-commit\": \"^1.2.2\",\n    \"should\": \"^13.2.3\",\n    \"sinon\": \"^7.3.1\"\n  },\n  \"dependencies\": {\n    \"ansi-styles\": \"^3.2.1\",\n    \"xregexp\": \"^4.2.4\"\n  },\n  \"husky\": {\n    \"hooks\": {\n      \"pre-commit\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"linters\": {\n      \"*.js\": [\n        \"prettier --write\",\n        \"eslint --fix\",\n        \"nyc mocha\",\n        \"npm run docs --\",\n        \"git add\"\n      ]\n    },\n    \"ignore\": [\n      \"**/docs/**/*.js\"\n    ]\n  }\n}\n",
     "longname": "/home/dav/eggtended-js/package.json",
     "name": "package.json",
     "static": true,
     "access": "public"
   },
   {
-    "__docId__": 230,
+    "__docId__": 184,
     "kind": "testFile",
     "name": "test/examples-test.js",
     "content": "const fs = require(\"fs\");\nconst should = require(\"should\");\nconst sinon = require(\"sinon\");\n\nconst { Parser } = require(\"../lib/parser/parse.js\");\nconst { Eggvm } = require(\"../lib/interp/eggvm.js\");\nconst parser = new Parser();\n\ndescribe(\"Testing programs from 'examples/' folder\", () => {\n  // Spy calls to 'console.log'\n  beforeEach(() => {\n    this.logSpy = sinon.spy(console, \"log\");\n  });\n\n  afterEach(() => {\n    this.logSpy.restore();\n  });\n\n  // Method to test the number and values of 'logSpy' calls\n  const assertOutput = outs => {\n    this.logSpy.callCount.should.be.eql(outs.length);\n    outs.forEach((output, index) => {\n      this.logSpy\n        .getCall(index)\n        .calledWithExactly(output)\n        .should.be.true();\n    });\n  };\n\n  // Method for creating and executing the dynamic tests\n  const executeTests = tests => {\n    tests.forEach((outputs, file) => {\n      // Path to the related .evm file\n      const fileEVM = file + \".evm\";\n\n      describe(`Test for ${file}`, () => {\n        // -- TEST PARSING --\n        it(\"should be parsed correctly\", () => {\n          const rawData = fs.readFileSync(fileEVM);\n          const expectedTree = JSON.parse(rawData);\n\n          parser.parseFromFile(file).should.match(expectedTree);\n        });\n\n        // -- TEST EXECUTION --\n        if (Array.isArray(outputs)) {\n          it(\"should print the expected output after execution\", () => {\n            // Eggvm.runFromEVM(fileEVM);\n            Eggvm.runFromEVM(fileEVM);\n            assertOutput(outputs);\n          });\n        } else {\n          it(`should throw an exception of type ${outputs.name}`, () => {\n            should.throws(() => {\n              Eggvm.runFromFile(file);\n            }, outputs);\n          });\n        }\n      });\n    });\n  };\n\n  // Define tests\n  const tests = new Map();\n\n  tests.set(\"examples/one.egg\", [50]);\n  tests.set(\"examples/two.egg\", [9]);\n  tests.set(\"examples/scope.egg\", [9, 8]);\n  tests.set(\"examples/scope-err.egg\", ReferenceError);\n  tests.set(\"examples/boolean.egg\", [\"true\"]);\n\n  tests.set(\"examples/string.egg\", [\"s\"]);\n  tests.set(\"examples/sum.egg\", [395.5]);\n  tests.set(\"examples/reto.egg\", [\"sum(array[1, 2, 3]) := 6\"]);\n\n  tests.set(\"examples/array.egg\", [[1, 4], 5]);\n  tests.set(\"examples/array-index.egg\", [1, [2, 3], 3, 3, 2]);\n  tests.set(\"examples/array-properties.egg\", [1, [5, 3], 3]);\n\n  tests.set(\"examples/set-error.egg\", TypeError);\n  tests.set(\"examples/set-error2.egg\", TypeError);\n\n  tests.set(\"examples/method3.egg\", [\"A-B-C\"]);\n  tests.set(\"examples/method-concatenation.egg\", [\"1-hello egg\"]);\n  tests.set(\"examples/property.egg\", [2, 3]);\n\n  tests.set(\"examples/string-apply.egg\", [5, \"4.00\", 19]);\n  tests.set(\"examples/operators-arithm.egg\", [6, 5, 10, -5, 0, -10]);\n\n  tests.set(\"examples/map.egg\", [\n    new Map([[\"x\", 4], [\"y\", new Map([[\"z\", 3]])]]),\n    4,\n    new Map([[\"z\", 3]]),\n    3,\n    new Map([[\"z\", 50]])\n  ]);\n\n  tests.set(\"examples/map-colon.egg\", [\n    new Map([[\"x\", 4], [\"y\", new Map([[\"z\", 3]])]]),\n    4,\n    new Map([[\"z\", 3]]),\n    3,\n    new Map([[\"z\", 50]])\n  ]);\n\n  tests.set(\"examples/multi-sub-set.egg\", [\n    1,\n    new Map([[\"x\", 2], [\"y\", [3, 4]]]),\n    [3, 4],\n    new Map([[\"x\", 2], [\"y\", 5]]),\n    [0, 1]\n  ]);\n\n  tests.set(\"examples/map-sub.egg\", [1, new Map([[\"d\", 5], [\"e\", 3]]), 3]);\n  tests.set(\"examples/fun-inside-map.egg\", [7, 4]);\n\n  tests.set(\"examples/missing.egg\", [9]);\n  tests.set(\"examples/missing-err.egg\", SyntaxError);\n  tests.set(\"examples/objects.egg\", [0, 4, 5]);\n  tests.set(\"examples/regex.egg\", [true, 0, \"2015\", \"02\"]);\n\n  tests.set(\"examples/dot.egg\", [\"1-4-5\", 5]);\n  tests.set(\"examples/dot-obj-2.egg\", [0, 0, 0, 5, 5, 5]);\n  tests.set(\"examples/dot-num.egg\", [\"4.00\", \"4.00\", \"4.00\"]);\n\n  tests.set(\"examples/for.egg\", [0, 1, 2, 3, 4]);\n  tests.set(\"examples/foreach.egg\", [1, 2, 3, \"A\", \"B\", \"C\"]);\n\n  tests.set(\"examples/client.egg\", [\"inside module\", 5, 5, 3]);\n  tests.set(\"examples/ects-context.egg\", [0, 4, 5]);\n  tests.set(\"examples/child.egg\", [5, 5, 5]);\n\n  tests.set(\"examples/const.egg\", ReferenceError);\n  tests.set(\"examples/const-2.egg\", [5, 5]);\n  tests.set(\"examples/const-3.egg\", ReferenceError);\n\n  tests.set(\"examples/trycatch.egg\", [\"Caught error! 42\", 20, \"Finally called\"]);\n  tests.set(\"examples/trycatch-2.egg\", [\n    \"Inner catch. Rethrowing...\",\n    \"Outer catch. 42\"\n  ]);\n\n  // Execute all the defined tests\n  executeTests(tests);\n});\n",
@@ -4076,7 +3072,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 231,
+    "__docId__": 185,
     "kind": "test",
     "name": "describe0",
     "testId": 0,
@@ -4089,7 +3085,7 @@
     "lineNumber": 9
   },
   {
-    "__docId__": 232,
+    "__docId__": 186,
     "kind": "test",
     "name": "describe1",
     "testId": 1,
@@ -4101,7 +3097,7 @@
     "lineNumber": 36
   },
   {
-    "__docId__": 233,
+    "__docId__": 187,
     "kind": "test",
     "name": "it2",
     "testId": 2,
@@ -4114,7 +3110,7 @@
     "lineNumber": 38
   },
   {
-    "__docId__": 234,
+    "__docId__": 188,
     "kind": "test",
     "name": "it3",
     "testId": 3,
@@ -4127,7 +3123,7 @@
     "lineNumber": 47
   },
   {
-    "__docId__": 235,
+    "__docId__": 189,
     "kind": "test",
     "name": "it4",
     "testId": 4,
@@ -4139,7 +3135,7 @@
     "lineNumber": 53
   },
   {
-    "__docId__": 236,
+    "__docId__": 190,
     "kind": "testFile",
     "name": "test/tokenRegex-test.js",
     "content": "const tokenRegex = require(\"../lib/parser/tokenRegex.js\");\nconst should = require(\"should\");\n\ndescribe(\"Regex for LP token\", () => {\n  it(\"should recognize ( as valid a token\", () => {\n    const expected = { type: \"LP\", value: \"(\", start: 1, end: 1 };\n    tokenRegex.LP.reset()\n      .exec(\"(\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should treat { as a synonym for (\", () => {\n    const expected = { type: \"LP\", value: \"{\", start: 1, end: 1 };\n    tokenRegex.LP.reset()\n      .exec(\"{\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should treat [ as a synonym for (\", () => {\n    const expected = { type: \"LP\", value: \"[\", start: 1, end: 1 };\n    tokenRegex.LP.reset()\n      .exec(\"[\")\n      .should.be.eql(expected);\n  });\n});\n\ndescribe(\"Regex for RP token\", () => {\n  it(\"should recognize ) as valid a token\", () => {\n    const expected = { type: \"RP\", value: \")\", start: 1, end: 1 };\n    tokenRegex.RP.reset()\n      .exec(\")\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should treat } as a synonym for )\", () => {\n    const expected = { type: \"RP\", value: \"}\", start: 1, end: 1 };\n    tokenRegex.RP.reset()\n      .exec(\"}\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should treat ] as a synonym for )\", () => {\n    const expected = { type: \"RP\", value: \"]\", start: 1, end: 1 };\n    tokenRegex.RP.reset()\n      .exec(\"]\")\n      .should.be.eql(expected);\n  });\n});\n\ndescribe(\"Regex for COMMA token\", () => {\n  it(\"should recognize , as valid a token\", () => {\n    const expected = { type: \"COMMA\", value: \",\", start: 1, end: 1 };\n    tokenRegex.COMMA.reset()\n      .exec(\",\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should recognize the : as an alias for ,\", () => {\n    const expected = { type: \"COMMA\", value: \":\", start: 1, end: 1 };\n    tokenRegex.COMMA.reset()\n      .exec(\":\")\n      .should.be.eql(expected);\n\n    // Only when is not followed by a =\n    should.not.exists(tokenRegex.COMMA.reset().exec(\":=\"));\n  });\n});\n\ndescribe(\"Regex for WHITES token\", () => {\n  it(\"should recognize any quantity of space\", () => {\n    const expected = { type: \"WHITE\", value: \"  \", start: 1, end: 2 };\n    tokenRegex.WHITES.reset()\n      .exec(\"  \")\n      .should.be.eql(expected);\n  });\n\n  it(\"should recognize as white even strings with newlines\", () => {\n    const expected = { type: \"WHITE\", value: \"  \\n  \", start: 1, end: 5 };\n    tokenRegex.WHITES.reset()\n      .exec(\"  \\n  \")\n      .should.be.eql(expected);\n  });\n\n  it(\"should recognize as white one-line comments with # or ;\", () => {\n    let expected = { type: \"WHITE\", value: \"# commen t\", start: 1, end: 10 };\n    tokenRegex.WHITES.reset()\n      .exec(\"# commen t\")\n      .should.be.eql(expected);\n\n    expected = { type: \"WHITE\", value: \"; commen t\", start: 1, end: 10 };\n    tokenRegex.WHITES.reset()\n      .exec(\"; commen t\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should recognize as white multiline commments with /* */\", () => {\n    const expected = {\n      type: \"WHITE\",\n      value: \"/* this is \\n a multiline\\n comment */\",\n      start: 1,\n      end: 36\n    };\n    tokenRegex.WHITES.reset()\n      .exec(\"/* this is \\n a multiline\\n comment */\")\n      .should.be.eql(expected);\n  });\n});\n\ndescribe(\"Regex for STRING token\", () => {\n  it('should recognize anything between \" \" as valid a token', () => {\n    const expected = {\n      type: \"STRING\",\n      value: \"hello world\",\n      start: 3,\n      end: 13\n    };\n    tokenRegex.STRING.reset()\n      .exec('\"hello world\"')\n      .should.be.eql(expected);\n  });\n\n  it('shouldn\\'t recognize strings without \" \". Those are words', () => {\n    should.not.exists(tokenRegex.STRING.reset().exec(\"hello world\"));\n  });\n});\n\ndescribe(\"Regex for WORD token\", () => {\n  it(\"shouldn't include some special characters on the identifier\", () => {\n    const expected = { type: \"WORD\", value: \"fun\", start: 1, end: 3 };\n    tokenRegex.WORD.reset()\n      .exec(\"fun()\")\n      .should.be.eql(expected);\n    tokenRegex.WORD.reset()\n      .exec(\"fun[]\")\n      .should.be.eql(expected);\n    tokenRegex.WORD.reset()\n      .exec(\"fun{}\")\n      .should.be.eql(expected);\n    tokenRegex.WORD.reset()\n      .exec(\"fun, \")\n      .should.be.eql(expected);\n    tokenRegex.WORD.reset()\n      .exec(\"fun:, \")\n      .should.be.eql(expected);\n  });\n\n  it(\"should detect [] as a whole WORD, instead of LP, RP\", () => {\n    const expected = { type: \"WORD\", value: \"[]\", start: 1, end: 2 };\n    tokenRegex.WORD.reset()\n      .exec(\"[]\")\n      .should.be.eql(expected);\n  });\n\n  it(\"should detect := as a whole WORD; instead of COMMA, WORD\", () => {\n    const expected = { type: \"WORD\", value: \":=\", start: 1, end: 2 };\n    tokenRegex.WORD.reset()\n      .exec(\":=\")\n      .should.be.eql(expected);\n  });\n});\n\ndescribe(\"Regex for NUMBER token\", () => {\n  it(\"should match integers, with and without sign\", () => {\n    // Normal int\n    let expected = { type: \"NUMBER\", value: \"323\", start: 1, end: 3 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"323\")\n      .should.be.eql(expected);\n\n    // With positive sign\n    expected = { type: \"NUMBER\", value: \"+2\", start: 1, end: 2 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"+2\")\n      .should.be.eql(expected);\n\n    // With negative sign\n    expected = { type: \"NUMBER\", value: \"-123\", start: 1, end: 4 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"-123\")\n      .should.be.eql(expected);\n\n    // Signs can't go alone!!\n    should.not.exists(tokenRegex.NUMBER.reset().exec(\"-\"));\n    should.not.exists(tokenRegex.NUMBER.reset().exec(\"+\"));\n  });\n\n  it(\"should match for floats, floating point and exponential notation\", () => {\n    // Normal float\n    let expected = { type: \"NUMBER\", value: \"12.34\", start: 1, end: 5 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"12.34\")\n      .should.be.eql(expected);\n\n    // Float starting with .\n    expected = { type: \"NUMBER\", value: \".35\", start: 1, end: 3 };\n    tokenRegex.NUMBER.reset()\n      .exec(\".35\")\n      .should.be.eql(expected);\n\n    // Float in exponential notation\n    expected = { type: \"NUMBER\", value: \"2e5\", start: 1, end: 3 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"2e5\")\n      .should.be.eql(expected);\n\n    // Float with decimals and exponential notation\n    expected = { type: \"NUMBER\", value: \"45.8e5\", start: 1, end: 6 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"45.8e5\")\n      .should.be.eql(expected);\n\n    // Float with exponential notation with sign and E\n    expected = { type: \"NUMBER\", value: \"8E-34\", start: 1, end: 5 };\n    tokenRegex.NUMBER.reset()\n      .exec(\"8E-34\")\n      .should.be.eql(expected);\n\n    // Shouldn't match exponential alone or without exponential num\n    should.not.exists(tokenRegex.NUMBER.reset().exec(\"e45\"));\n    should.not.exists(tokenRegex.NUMBER.reset().exec(\"E\"));\n  });\n});\n",
@@ -4150,7 +3146,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 237,
+    "__docId__": 191,
     "kind": "test",
     "name": "describe5",
     "testId": 5,
@@ -4163,7 +3159,7 @@
     "lineNumber": 4
   },
   {
-    "__docId__": 238,
+    "__docId__": 192,
     "kind": "test",
     "name": "it6",
     "testId": 6,
@@ -4176,7 +3172,7 @@
     "lineNumber": 5
   },
   {
-    "__docId__": 239,
+    "__docId__": 193,
     "kind": "test",
     "name": "it7",
     "testId": 7,
@@ -4189,7 +3185,7 @@
     "lineNumber": 12
   },
   {
-    "__docId__": 240,
+    "__docId__": 194,
     "kind": "test",
     "name": "it8",
     "testId": 8,
@@ -4202,7 +3198,7 @@
     "lineNumber": 19
   },
   {
-    "__docId__": 241,
+    "__docId__": 195,
     "kind": "test",
     "name": "describe9",
     "testId": 9,
@@ -4215,7 +3211,7 @@
     "lineNumber": 27
   },
   {
-    "__docId__": 242,
+    "__docId__": 196,
     "kind": "test",
     "name": "it10",
     "testId": 10,
@@ -4228,7 +3224,7 @@
     "lineNumber": 28
   },
   {
-    "__docId__": 243,
+    "__docId__": 197,
     "kind": "test",
     "name": "it11",
     "testId": 11,
@@ -4241,7 +3237,7 @@
     "lineNumber": 35
   },
   {
-    "__docId__": 244,
+    "__docId__": 198,
     "kind": "test",
     "name": "it12",
     "testId": 12,
@@ -4254,7 +3250,7 @@
     "lineNumber": 42
   },
   {
-    "__docId__": 245,
+    "__docId__": 199,
     "kind": "test",
     "name": "describe13",
     "testId": 13,
@@ -4267,7 +3263,7 @@
     "lineNumber": 50
   },
   {
-    "__docId__": 246,
+    "__docId__": 200,
     "kind": "test",
     "name": "it14",
     "testId": 14,
@@ -4280,7 +3276,7 @@
     "lineNumber": 51
   },
   {
-    "__docId__": 247,
+    "__docId__": 201,
     "kind": "test",
     "name": "it15",
     "testId": 15,
@@ -4293,7 +3289,7 @@
     "lineNumber": 58
   },
   {
-    "__docId__": 248,
+    "__docId__": 202,
     "kind": "test",
     "name": "describe16",
     "testId": 16,
@@ -4306,7 +3302,7 @@
     "lineNumber": 69
   },
   {
-    "__docId__": 249,
+    "__docId__": 203,
     "kind": "test",
     "name": "it17",
     "testId": 17,
@@ -4319,7 +3315,7 @@
     "lineNumber": 70
   },
   {
-    "__docId__": 250,
+    "__docId__": 204,
     "kind": "test",
     "name": "it18",
     "testId": 18,
@@ -4332,7 +3328,7 @@
     "lineNumber": 77
   },
   {
-    "__docId__": 251,
+    "__docId__": 205,
     "kind": "test",
     "name": "it19",
     "testId": 19,
@@ -4345,7 +3341,7 @@
     "lineNumber": 84
   },
   {
-    "__docId__": 252,
+    "__docId__": 206,
     "kind": "test",
     "name": "it20",
     "testId": 20,
@@ -4358,7 +3354,7 @@
     "lineNumber": 96
   },
   {
-    "__docId__": 253,
+    "__docId__": 207,
     "kind": "test",
     "name": "describe21",
     "testId": 21,
@@ -4371,7 +3367,7 @@
     "lineNumber": 109
   },
   {
-    "__docId__": 254,
+    "__docId__": 208,
     "kind": "test",
     "name": "it22",
     "testId": 22,
@@ -4384,7 +3380,7 @@
     "lineNumber": 110
   },
   {
-    "__docId__": 255,
+    "__docId__": 209,
     "kind": "test",
     "name": "it23",
     "testId": 23,
@@ -4397,7 +3393,7 @@
     "lineNumber": 122
   },
   {
-    "__docId__": 256,
+    "__docId__": 210,
     "kind": "test",
     "name": "describe24",
     "testId": 24,
@@ -4410,7 +3406,7 @@
     "lineNumber": 127
   },
   {
-    "__docId__": 257,
+    "__docId__": 211,
     "kind": "test",
     "name": "it25",
     "testId": 25,
@@ -4423,7 +3419,7 @@
     "lineNumber": 128
   },
   {
-    "__docId__": 258,
+    "__docId__": 212,
     "kind": "test",
     "name": "it26",
     "testId": 26,
@@ -4436,7 +3432,7 @@
     "lineNumber": 147
   },
   {
-    "__docId__": 259,
+    "__docId__": 213,
     "kind": "test",
     "name": "it27",
     "testId": 27,
@@ -4449,7 +3445,7 @@
     "lineNumber": 154
   },
   {
-    "__docId__": 260,
+    "__docId__": 214,
     "kind": "test",
     "name": "describe28",
     "testId": 28,
@@ -4462,7 +3458,7 @@
     "lineNumber": 162
   },
   {
-    "__docId__": 261,
+    "__docId__": 215,
     "kind": "test",
     "name": "it29",
     "testId": 29,
@@ -4475,7 +3471,7 @@
     "lineNumber": 163
   },
   {
-    "__docId__": 262,
+    "__docId__": 216,
     "kind": "test",
     "name": "it30",
     "testId": 30,

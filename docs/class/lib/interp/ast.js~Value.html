@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/interp/ast.js | eggtended-js</title>
+  <title data-ice="title">Value | eggtended-js</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -71,135 +71,378 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/interp/ast.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// AST class nodes
-const xRegExp = require(&quot;xregexp&quot;);
-const utils = require(&quot;../utils.js&quot;);
+<div class="content" data-ice="content"><div class="header-notice">
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Value} from &apos;<span><a href="file/lib/interp/ast.js.html#lineNumber7">eggtended-js/lib/interp/ast.js</a></span>&apos;</code></pre></div>
+  <span data-ice="access">public</span>
+  <span data-ice="kind">class</span>
+  
+  
+  
+  <span data-ice="source">| <span><a href="file/lib/interp/ast.js.html#lineNumber7">source</a></span></span>
+</div>
 
-const { SpecialForms } = require(&quot;./environment.js&quot;);
+<div class="self-detail detail">
+  <h1 data-ice="name">Value</h1>
 
-class Value {
-  constructor(token) {
-    this.type = &quot;value&quot;;
-    this.value = token.value;
-  }
+  
 
-  evaluate() {
-    return this.value;
-  }
-}
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-class Word {
-  constructor(token) {
-    this.type = &quot;word&quot;;
-    this.name = token.value;
-  }
+  
+  
+  
+  
 
-  evaluate(env) {
-    // Variable
-    if (this.name in env) {
-      return env[this.name];
+  
 
-      // Variable in const scope
-    } else if (this.name in env[&quot;__const__&quot;]) {
-      return env[&quot;__const__&quot;][this.name];
+  
 
-      // Object variable referenced without using &apos;this&apos;
-    } else if (&quot;this&quot; in env &amp;&amp; this.name in env[&quot;this&quot;]) {
-      return env[&quot;this&quot;][this.name];
-    } else {
-      throw new ReferenceError(`Undefined variable: ${this.name}`);
-    }
-  }
-}
+  
 
-class Apply {
-  constructor(expr) {
-    this.type = &quot;apply&quot;;
-    this.operator = expr;
-    this.args = [];
-  }
+  
+</div>
 
-  evaluate(env) {
-    // Check if its a specialForm function
-    if (this.operator.type === &quot;word&quot; &amp;&amp; this.operator.name in SpecialForms) {
-      return SpecialForms[this.operator.name](this.args, env);
-    }
 
-    // Evaluated operator
-    let op = this.operator.evaluate(env);
-    // Evaluated arguments
-    let evArgs = this.args.map(arg =&gt; arg.evaluate(env));
 
-    if (typeof op === &quot;function&quot;) {
-      // Is a function
-      return op(...evArgs);
-    }
+<div data-ice="constructorSummary"><h2>Constructor Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Public Constructor</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/ast.js~Value.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/ast.js~Value.html#instance-member-type">type</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/ast.js~Value.html#instance-member-value">value</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/ast.js~Value.html#instance-method-evaluate">evaluate</a></span></span><span class="code" data-ice="signature">(): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
 
-    if (typeof op !== &quot;undefined&quot;) {
-      // Is an object, number, string or boolean
-      let name = evArgs[0];
-      let methodArgs = evArgs.slice(1);
 
-      // Check if the name of the method/property is defined on the object
-      if (typeof op[name] !== &quot;undefined&quot;) {
-        // Execute as function
-        if (typeof op[name] === &quot;function&quot;) {
-          return op[name](...methodArgs);
 
-          // Return as property
-        } else {
-          return op[name];
-        }
 
-        // If the name of the method is not defined on the object...
-      } else {
-        // Check if its a Map property.
-        if (op instanceof Map) {
-          if (typeof op.get(name) === &quot;function&quot;) {
-            return op.get(name)(...methodArgs);
-          } else {
-            return op.get(name);
-          }
-        }
 
-        // Try to call the &apos;missing&apos; method
-        if (typeof op[&quot;__missing__&quot;] === &quot;function&quot;) {
-          return op[&quot;__missing__&quot;](...methodArgs);
+<div data-ice="constructorDetails"><h2 data-ice="title">Public Constructors</h2>
 
-          // As a last resort, throw an Exception
-        } else {
-          throw new SyntaxError(`The method &apos;${name}&apos; was not found on the
-          object &apos;${utils.ins(op)}&apos;`);
-        }
-      }
-    }
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-constructor-constructor">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/ast.js.html#lineNumber8">source</a></span></span>
+    </span>
+  </h3>
 
-    throw new TypeError(`Could not resolve the apply expression`);
-  }
-}
+  
+  
+  
+  
 
-class Regex {
-  constructor(token) {
-    this.type = &quot;regex&quot;;
+  
 
-    this.body = token.body;
-    this.flags = token.flags;
-  }
+  <div data-ice="properties">
+</div>
 
-  evaluate() {
-    return new xRegExp(this.body, this.flags);
-  }
-}
+  
 
-module.exports = {
-  Value,
-  Word,
-  Apply,
-  Regex
-};
-</code></pre>
+  
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
+<div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-type">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">type</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/ast.js.html#lineNumber9">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-value">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">value</span><span class="code" data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/ast.js.html#lineNumber10">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
+<div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-evaluate">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">evaluate</span><span class="code" data-ice="signature">(): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/ast.js.html#lineNumber13">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
 </div>
 
 <footer class="footer">
