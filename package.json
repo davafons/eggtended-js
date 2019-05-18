@@ -42,12 +42,15 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "nyc mocha",
-      "git add"
-    ],
+    "linters": {
+      "*.js": [
+        "prettier --write",
+        "eslint --fix",
+        "nyc mocha",
+        "docs",
+        "git add"
+      ]
+    },
     "ignore": ["**/docs/**/*.js"]
   }
 }
