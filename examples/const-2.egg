@@ -1,0 +1,7 @@
+do(
+  const(x, 5),
+  print(5),
+  define(myfun, fun(do(define(x, 10)))), # Should work
+  myfun(),
+  print(x),
+)

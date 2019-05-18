@@ -135,6 +135,8 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/child.egg', [5, 5, 5]);
 
   tests.set('examples/const.egg', ReferenceError);
+  tests.set('examples/const-2.egg', [5, 5]);
+  tests.set('examples/const-3.egg', ReferenceError);
 
   // Execute all the defined tests
   executeTests(tests);
