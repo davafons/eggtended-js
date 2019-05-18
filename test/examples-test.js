@@ -134,11 +134,7 @@ describe("Testing programs from 'examples/' folder", () => {
   tests.set("examples/const-2.egg", [5, 5]);
   tests.set("examples/const-3.egg", ReferenceError);
 
-  tests.set("examples/trycatch.egg", [
-    "Caught error! 42",
-    20,
-    "Finally called"
-  ]);
+  tests.set("examples/trycatch.egg", ["Caught error! 42", 20, "Finally called"]);
   tests.set("examples/trycatch-2.egg", [
     "Inner catch. Rethrowing...",
     "Outer catch. 42"
