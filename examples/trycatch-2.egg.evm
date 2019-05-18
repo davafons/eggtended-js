@@ -1,0 +1,128 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "try"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "try"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "do"
+                  },
+                  "args": [
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "throw"
+                      },
+                      "args": [
+                        {
+                          "type": "value",
+                          "value": 42
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "do"
+                  },
+                  "args": [
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "print"
+                      },
+                      "args": [
+                        {
+                          "type": "value",
+                          "value": "Inner catch. Rethrowing..."
+                        }
+                      ]
+                    },
+                    {
+                      "type": "apply",
+                      "operator": {
+                        "type": "word",
+                        "name": "throw"
+                      },
+                      "args": [
+                        {
+                          "type": "word",
+                          "name": "__error__"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "+"
+                  },
+                  "args": [
+                    {
+                      "type": "value",
+                      "value": "Outer catch. "
+                    },
+                    {
+                      "type": "word",
+                      "name": "__error__"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

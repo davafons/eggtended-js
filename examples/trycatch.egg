@@ -1,0 +1,21 @@
+do(
+  try(
+    do {  # Try
+      throw(42)
+    },
+    do {  # Catch
+      print(+("Caught error! ", __error__))
+    }
+  ),
+  try(
+    do {  # Try
+      print(20)
+    },
+    do {  # Catch
+      print(+("Caught error! ", __error__))
+    },
+    do {  # Finally
+      print("Finally called")
+    }
+  )
+)
