@@ -47,6 +47,7 @@
       "eslint --fix",
       "nyc mocha",
       "git add"
-    ]
+    ],
+    "ignore": ["**/docs/**/*.js"]
   }
 }

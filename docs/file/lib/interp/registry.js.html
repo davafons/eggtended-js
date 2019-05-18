@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/interp/registry.js | eggtended-js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A extended version of the Egg programming language from the Eloquent Javascript book."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eggtended-js"><meta property="twitter:description" content="A extended version of the Egg programming language from the Eloquent Javascript book."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/interp/registry.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const xRegExp = require(&quot;xregexp&quot;);
+
+const utils = require(&quot;../utils.js&quot;);
+
+// specialForms and topEnv maps
+const SpecialForms = Object.create(null);
+const TopEnv = Object.create(null);
+
+SpecialForms[&quot;if&quot;] = (args, env) =&gt; {
+  if (args.length !== 3) {
+    throw new SyntaxError(&quot;Bad number of args passed to if&quot;);
+  }
+
+  if (args[0].evaluate(env) === true) {
+    return args[1].evaluate(env);
+  } else {
+    return args[2].evaluate(env);
+  }
+};
+
+SpecialForms[&quot;while&quot;] = (args, env) =&gt; {
+  if (args.length !== 2) {
+    throw new SyntaxError(&quot;Bad number of args passed to while&quot;);
+  }
+
+  while (args[0].evaluate(env) === true) {
+    args[1].evaluate(env);
+  }
+
+  // Egg has no undefined so we return false when there&apos;s no meaningful result
+  return false;
+};
+
+SpecialForms[&quot;for&quot;] = (args, env) =&gt; {
+  if (args.length !== 4) {
+    throw new SyntaxError(&quot;Bad number of args passed to for&quot;);
+  }
+
+  const forEnv = Object.create(env);
+  forEnv[&quot;__const__&quot;] = {};
+
+  // Variable
+  args[0].evaluate(forEnv);
+
+  // Condition
+  while (args[1].evaluate(forEnv) === true) {
+    // Body
+    args[3].evaluate(forEnv);
+
+    // Increment
+    args[2].evaluate(forEnv);
+  }
+
+  return false;
+};
+
+SpecialForms[&quot;foreach&quot;] = (args, env) =&gt; {
+  if (args.length !== 3) {
+    throw new SyntaxError(&quot;Bad number of args passed to foreach&quot;);
+  }
+
+  if (args[0].type !== &quot;word&quot;) {
+    throw new SyntaxError(&quot;The first argument to foreach must be a valid word&quot;);
+  }
+
+  const localEnv = Object.create(env);
+
+  const iterable = args[1].evaluate(localEnv);
+  for (const val of iterable) {
+    localEnv[args[0].name] = val;
+    args[2].evaluate(localEnv);
+  }
+
+  return false;
+};
+
+SpecialForms[&quot;do&quot;] = (args, env) =&gt; {
+  let value = false;
+
+  args.forEach(arg =&gt; {
+    value = arg.evaluate(env);
+  });
+
+  return value;
+};
+
+SpecialForms[&quot;def&quot;] = SpecialForms[&quot;define&quot;] = SpecialForms[&quot;:=&quot;] = (args, env) =&gt; {
+  if (args.length !== 2 || args[0].type !== &quot;word&quot;) {
+    throw new SyntaxError(&quot;Bad use of define&quot;);
+  }
+
+  let value = args[1].evaluate(env);
+
+  let valName = args[0].name;
+
+  if (valName in env[&quot;__const__&quot;]) {
+    throw new ReferenceError(`Trying to change &apos;const&apos; variable ${args[0].name}`);
+  }
+
+  env[valName] = value;
+  return value;
+};
+
+SpecialForms[&quot;fun&quot;] = SpecialForms[&quot;-&gt;&quot;] = (args, env) =&gt; {
+  if (!args.length) {
+    throw new SyntaxError(&quot;Functions need a body.&quot;);
+  }
+
+  function name(expr) {
+    if (expr.type !== &quot;word&quot;) {
+      throw new SyntaxError(&quot;Arg names must be words&quot;);
+    }
+
+    return expr.name;
+  }
+
+  let argNames = args.slice(0, args.length - 1).map(name);
+  let body = args[args.length - 1];
+
+  return function() {
+    if (arguments.length !== argNames.length) {
+      throw new TypeError(&quot;Wrong number of arguments&quot;);
+    }
+
+    let localEnv = Object.create(env);
+    localEnv[&quot;__const__&quot;] = {};
+
+    for (let i = 0; i &lt; arguments.length; i++) {
+      localEnv[argNames[i]] = arguments[i];
+    }
+
+    return body.evaluate(localEnv);
+  };
+};
+
+SpecialForms[&quot;set&quot;] = SpecialForms[&quot;=&quot;] = (args, env) =&gt; {
+  if (args[0].type !== &quot;word&quot;) {
+    throw new SyntaxError(&quot;Bad use of set&quot;);
+  }
+
+  let valName = args[0].name;
+
+  let indices = args.slice(1, -1).map(arg =&gt; arg.evaluate(env));
+
+  let value = args[args.length - 1].evaluate(env);
+
+  for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {
+    if (valName in scope[&quot;__const__&quot;]) {
+      throw new ReferenceError(`Trying to change &apos;const&apos; variable ${args[0].name}`);
+    }
+
+    // TODO: Reduce code duplication
+    if (&quot;this&quot; in scope) {
+      // TODO: use hasOwnProperty ?
+
+      if (Object.prototype.hasOwnProperty.call(scope[&quot;this&quot;], valName)) {
+        if (indices.length === 0) {
+          scope[&quot;this&quot;][valName] = value;
+        } else {
+          scope[&quot;this&quot;][valName].setelem(value, ...indices);
+        }
+
+        return value;
+      }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(scope, valName)) {
+      if (indices.length === 0) {
+        scope[valName] = value;
+      } else {
+        scope[valName].setelem(value, ...indices);
+      }
+
+      return value;
+    }
+  }
+
+  throw new ReferenceError(`Tried setting an undefined variable: ${valName}`);
+};
+
+SpecialForms[&quot;object&quot;] = (args, env) =&gt; {
+  // Create a new object and a new scope
+  const object = {};
+  const objectEnv = Object.create(env);
+  objectEnv[&quot;__const__&quot;] = {};
+
+  // Add the variable &apos;this&apos; as a reference to the current object
+  objectEnv[&quot;this&quot;] = object;
+
+  // Evaluate the arguments and add the methods/properties to the object
+  const evArgs = args.map(arg =&gt; arg.evaluate(objectEnv));
+
+  for (const pair of utils.chunk(evArgs, 2)) {
+    const name = pair[0];
+    const value = pair[1];
+
+    object[name] = value;
+  }
+
+  return object;
+};
+
+SpecialForms[&quot;const&quot;] = (args, env) =&gt; {
+  if (args[0].type !== &quot;word&quot;) {
+    throw new SyntaxError(&quot;Bad number of arguments&quot;);
+  }
+
+  let value = args[1].evaluate(env);
+  env[&quot;__const__&quot;][args[0].name] = value;
+
+  return value;
+};
+
+SpecialForms[&quot;try&quot;] = (args, env) =&gt; {
+  if (args.length &lt; 2) {
+    throw new SyntaxError(&quot;Bad use of try-catch block&quot;);
+  }
+
+  const body = args[0];
+  const catch_body = args[1];
+
+  try {
+    body.evaluate(env);
+  } catch (err) {
+    env[&quot;__error__&quot;] = err;
+    catch_body.evaluate(env);
+  } finally {
+    if (args.length === 3) {
+      const finally_body = args[2];
+
+      finally_body.evaluate(env);
+    }
+  }
+
+  return false;
+};
+
+// TODO: Continue implementing class?
+//
+// SpecialForms[&apos;class&apos;] = (args, env) =&gt; {
+//   // const evArgs = args.map((arg) =&gt; evaluate(arg, env));
+//
+//   const newClass = function(x, y) {
+//     this.x = x;
+//     this.y = y;
+//   }
+//
+//   return newClass;
+// }
+
+[&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot;, &quot;==&quot;, &quot;!=&quot;, &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;&gt;=&quot;, &quot;&lt;=&quot;, &quot;&amp;&amp;&quot;, &quot;||&quot;].forEach(op =&gt; {
+  TopEnv[op] = new Function(&quot;a, b&quot;, `return a ${op} b;`);
+});
+
+TopEnv[&quot;true&quot;] = true;
+TopEnv[&quot;false&quot;] = false;
+TopEnv[&quot;null&quot;] = null;
+
+TopEnv[&quot;__const__&quot;] = {};
+
+TopEnv[&quot;print&quot;] = value =&gt; {
+  console.log(value);
+  return value;
+};
+
+TopEnv[&quot;arr&quot;] = TopEnv[&quot;array&quot;] = (...args) =&gt; {
+  return args;
+};
+
+TopEnv[&quot;map&quot;] = TopEnv[&quot;dict&quot;] = (...args) =&gt; {
+  return new Map(utils.chunk(args, 2));
+};
+
+TopEnv[&quot;&lt;-&quot;] = TopEnv[&quot;[]&quot;] = TopEnv[&quot;element&quot;] = (object, ...indices) =&gt; {
+  return object.sub(...indices);
+};
+
+TopEnv[&quot;length&quot;] = array =&gt; {
+  return array.length;
+};
+
+TopEnv[&quot;RegExp&quot;] = (method, ...args) =&gt; {
+  return xRegExp[method](...args);
+};
+
+TopEnv[&quot;child&quot;] = parent =&gt; {
+  return Object.create(parent);
+};
+
+TopEnv[&quot;throw&quot;] = obj =&gt; {
+  throw obj;
+};
+
+// WIP: Continue implementing class?
+// TopEnv[&apos;new&apos;] = (...args) =&gt; {
+//   const className = args[0];
+//
+//   // TODO: Check for more exceptions
+//   if(typeof className !== &quot;function&quot;) {
+//     throw new SyntaxError(`${className} must be a class with a constructor.`)
+//   }
+//
+//   return new className(...args.slice(1));
+//
+
+module.exports = {
+  SpecialForms,
+  TopEnv
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

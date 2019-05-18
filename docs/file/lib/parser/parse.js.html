@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parser/parse.js | eggtended-js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A extended version of the Egg programming language from the Eloquent Javascript book."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eggtended-js"><meta property="twitter:description" content="A extended version of the Egg programming language from the Eloquent Javascript book."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parser/parse.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
+
+const { Lexer } = require(&quot;./lexer.js&quot;);
+const { Value, Word, Apply, Regex } = require(&quot;../interp/ast.js&quot;);
+
+/**
+ * Parser class. Iterates through the given string, tokenizes it and returns a AST tree.
+ */
+class Parser {
+  constructor() {
+    this.index = 0;
+    this.tokens = [];
+    this.lookahead = null;
+  }
+
+  setProgram(program) {
+    this.program = program;
+
+    this.index = 0;
+    this.tokens = [];
+    this.lookahead = null;
+
+    return this;
+  }
+
+  parse(program) {
+    this.setProgram(program);
+
+    // Get array of tokens
+    this.tokens = Lexer.tokenize(program);
+
+    let tree = null;
+
+    // Parse if the array is not empty
+    if (this.tokens.length &gt; 0) {
+      this.lookahead = this.__nextToken();
+      tree = this.parseExpression();
+    }
+
+    if (this.lookahead !== null) {
+      throw this.__parserSyntaxError(&quot;Unexpected input after the end of file.&quot;);
+    }
+
+    return tree;
+  }
+
+  static parse(program) {
+    return new Parser().parse(program);
+  }
+
+  parseFromFile(file) {
+    const program = fs.readFileSync(file, &quot;utf8&quot;);
+
+    return this.parse(program);
+  }
+
+  static parseFromFile(file) {
+    return new Parser().parseFromFile(file);
+  }
+
+  parseExpression() {
+    let expr;
+    if (this.lookahead.type === &quot;STRING&quot;) {
+      expr = new Value(this.lookahead);
+    } else if (this.lookahead.type === &quot;NUMBER&quot;) {
+      this.lookahead.value = Number(this.lookahead.value);
+      expr = new Value(this.lookahead);
+    } else if (this.lookahead.type === &quot;REGEX&quot;) {
+      const fields = this.lookahead.value.split(&quot;/&quot;);
+      expr = new Regex({ body: fields[1], flags: fields[2] });
+    } else if (this.lookahead.type === &quot;WORD&quot;) {
+      expr = new Word(this.lookahead);
+    } else {
+      throw this.__parserSyntaxError(&quot;Unrecognized token while parsing the expression.&quot;);
+    }
+
+    return this.parseApply(expr);
+  }
+
+  parseApply(expr) {
+    // Get next token
+    this.lookahead = this.__nextToken();
+
+    // Return if apply is empty (not left parenthesis or null)
+    if (!this.lookahead || this.lookahead.type !== &quot;LP&quot;) {
+      return expr;
+    }
+
+    let tree = new Apply(expr);
+
+    this.lookahead = this.__nextToken();
+    // Parse all arguments inside the parenthesis
+    while (this.lookahead &amp;&amp; this.lookahead.type !== &quot;RP&quot;) {
+      let arg = this.parseExpression();
+      tree.args.push(arg);
+
+      if (
+        !this.lookahead ||
+        (this.lookahead.type !== &quot;COMMA&quot; &amp;&amp; this.lookahead.type !== &quot;RP&quot;)
+      ) {
+        throw this.__parserSyntaxError(`Missing , or ) after the expression`);
+      }
+
+      // Don&apos;t consume RPs as argument tokens
+      if (this.lookahead &amp;&amp; this.lookahead.type !== &quot;RP&quot;) {
+        this.lookahead = this.__nextToken();
+      }
+    }
+
+    return this.parseApply(tree);
+  }
+
+  __nextToken() {
+    const token = this.tokens[this.index++];
+
+    return token !== undefined ? token : null;
+  }
+
+  __parserSyntaxError(message) {
+    let start = this.lookahead ? this.lookahead.start : this.lastIndex;
+
+    return new SyntaxError(
+      `Parser::Line ${this.line}::Col ${start}\n${message}\n${this.program.slice(
+        start - 1,
+        start + 10
+      )}`
+    );
+  }
+}
+
+module.exports = {
+  Parser
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

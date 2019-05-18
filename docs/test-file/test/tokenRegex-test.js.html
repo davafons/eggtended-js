@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">test/tokenRegex-test.js | eggtended-js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A extended version of the Egg programming language from the Eloquent Javascript book."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eggtended-js"><meta property="twitter:description" content="A extended version of the Egg programming language from the Eloquent Javascript book."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">test/tokenRegex-test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const tokenRegex = require(&quot;../lib/parser/tokenRegex.js&quot;);
+const should = require(&quot;should&quot;);
+
+describe(&quot;Regex for LP token&quot;, () =&gt; {
+  it(&quot;should recognize ( as valid a token&quot;, () =&gt; {
+    const expected = { type: &quot;LP&quot;, value: &quot;(&quot;, start: 1, end: 1 };
+    tokenRegex.LP.reset()
+      .exec(&quot;(&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should treat { as a synonym for (&quot;, () =&gt; {
+    const expected = { type: &quot;LP&quot;, value: &quot;{&quot;, start: 1, end: 1 };
+    tokenRegex.LP.reset()
+      .exec(&quot;{&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should treat [ as a synonym for (&quot;, () =&gt; {
+    const expected = { type: &quot;LP&quot;, value: &quot;[&quot;, start: 1, end: 1 };
+    tokenRegex.LP.reset()
+      .exec(&quot;[&quot;)
+      .should.be.eql(expected);
+  });
+});
+
+describe(&quot;Regex for RP token&quot;, () =&gt; {
+  it(&quot;should recognize ) as valid a token&quot;, () =&gt; {
+    const expected = { type: &quot;RP&quot;, value: &quot;)&quot;, start: 1, end: 1 };
+    tokenRegex.RP.reset()
+      .exec(&quot;)&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should treat } as a synonym for )&quot;, () =&gt; {
+    const expected = { type: &quot;RP&quot;, value: &quot;}&quot;, start: 1, end: 1 };
+    tokenRegex.RP.reset()
+      .exec(&quot;}&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should treat ] as a synonym for )&quot;, () =&gt; {
+    const expected = { type: &quot;RP&quot;, value: &quot;]&quot;, start: 1, end: 1 };
+    tokenRegex.RP.reset()
+      .exec(&quot;]&quot;)
+      .should.be.eql(expected);
+  });
+});
+
+describe(&quot;Regex for COMMA token&quot;, () =&gt; {
+  it(&quot;should recognize , as valid a token&quot;, () =&gt; {
+    const expected = { type: &quot;COMMA&quot;, value: &quot;,&quot;, start: 1, end: 1 };
+    tokenRegex.COMMA.reset()
+      .exec(&quot;,&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should recognize the : as an alias for ,&quot;, () =&gt; {
+    const expected = { type: &quot;COMMA&quot;, value: &quot;:&quot;, start: 1, end: 1 };
+    tokenRegex.COMMA.reset()
+      .exec(&quot;:&quot;)
+      .should.be.eql(expected);
+
+    // Only when is not followed by a =
+    should.not.exists(tokenRegex.COMMA.reset().exec(&quot;:=&quot;));
+  });
+});
+
+describe(&quot;Regex for WHITES token&quot;, () =&gt; {
+  it(&quot;should recognize any quantity of space&quot;, () =&gt; {
+    const expected = { type: &quot;WHITE&quot;, value: &quot;  &quot;, start: 1, end: 2 };
+    tokenRegex.WHITES.reset()
+      .exec(&quot;  &quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should recognize as white even strings with newlines&quot;, () =&gt; {
+    const expected = { type: &quot;WHITE&quot;, value: &quot;  \n  &quot;, start: 1, end: 5 };
+    tokenRegex.WHITES.reset()
+      .exec(&quot;  \n  &quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should recognize as white one-line comments with # or ;&quot;, () =&gt; {
+    let expected = { type: &quot;WHITE&quot;, value: &quot;# commen t&quot;, start: 1, end: 10 };
+    tokenRegex.WHITES.reset()
+      .exec(&quot;# commen t&quot;)
+      .should.be.eql(expected);
+
+    expected = { type: &quot;WHITE&quot;, value: &quot;; commen t&quot;, start: 1, end: 10 };
+    tokenRegex.WHITES.reset()
+      .exec(&quot;; commen t&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should recognize as white multiline commments with /* */&quot;, () =&gt; {
+    const expected = {
+      type: &quot;WHITE&quot;,
+      value: &quot;/* this is \n a multiline\n comment */&quot;,
+      start: 1,
+      end: 36
+    };
+    tokenRegex.WHITES.reset()
+      .exec(&quot;/* this is \n a multiline\n comment */&quot;)
+      .should.be.eql(expected);
+  });
+});
+
+describe(&quot;Regex for STRING token&quot;, () =&gt; {
+  it(&apos;should recognize anything between &quot; &quot; as valid a token&apos;, () =&gt; {
+    const expected = {
+      type: &quot;STRING&quot;,
+      value: &quot;hello world&quot;,
+      start: 3,
+      end: 13
+    };
+    tokenRegex.STRING.reset()
+      .exec(&apos;&quot;hello world&quot;&apos;)
+      .should.be.eql(expected);
+  });
+
+  it(&apos;shouldn\&apos;t recognize strings without &quot; &quot;. Those are words&apos;, () =&gt; {
+    should.not.exists(tokenRegex.STRING.reset().exec(&quot;hello world&quot;));
+  });
+});
+
+describe(&quot;Regex for WORD token&quot;, () =&gt; {
+  it(&quot;shouldn&apos;t include some special characters on the identifier&quot;, () =&gt; {
+    const expected = { type: &quot;WORD&quot;, value: &quot;fun&quot;, start: 1, end: 3 };
+    tokenRegex.WORD.reset()
+      .exec(&quot;fun()&quot;)
+      .should.be.eql(expected);
+    tokenRegex.WORD.reset()
+      .exec(&quot;fun[]&quot;)
+      .should.be.eql(expected);
+    tokenRegex.WORD.reset()
+      .exec(&quot;fun{}&quot;)
+      .should.be.eql(expected);
+    tokenRegex.WORD.reset()
+      .exec(&quot;fun, &quot;)
+      .should.be.eql(expected);
+    tokenRegex.WORD.reset()
+      .exec(&quot;fun:, &quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should detect [] as a whole WORD, instead of LP, RP&quot;, () =&gt; {
+    const expected = { type: &quot;WORD&quot;, value: &quot;[]&quot;, start: 1, end: 2 };
+    tokenRegex.WORD.reset()
+      .exec(&quot;[]&quot;)
+      .should.be.eql(expected);
+  });
+
+  it(&quot;should detect := as a whole WORD; instead of COMMA, WORD&quot;, () =&gt; {
+    const expected = { type: &quot;WORD&quot;, value: &quot;:=&quot;, start: 1, end: 2 };
+    tokenRegex.WORD.reset()
+      .exec(&quot;:=&quot;)
+      .should.be.eql(expected);
+  });
+});
+
+describe(&quot;Regex for NUMBER token&quot;, () =&gt; {
+  it(&quot;should match integers, with and without sign&quot;, () =&gt; {
+    // Normal int
+    let expected = { type: &quot;NUMBER&quot;, value: &quot;323&quot;, start: 1, end: 3 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;323&quot;)
+      .should.be.eql(expected);
+
+    // With positive sign
+    expected = { type: &quot;NUMBER&quot;, value: &quot;+2&quot;, start: 1, end: 2 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;+2&quot;)
+      .should.be.eql(expected);
+
+    // With negative sign
+    expected = { type: &quot;NUMBER&quot;, value: &quot;-123&quot;, start: 1, end: 4 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;-123&quot;)
+      .should.be.eql(expected);
+
+    // Signs can&apos;t go alone!!
+    should.not.exists(tokenRegex.NUMBER.reset().exec(&quot;-&quot;));
+    should.not.exists(tokenRegex.NUMBER.reset().exec(&quot;+&quot;));
+  });
+
+  it(&quot;should match for floats, floating point and exponential notation&quot;, () =&gt; {
+    // Normal float
+    let expected = { type: &quot;NUMBER&quot;, value: &quot;12.34&quot;, start: 1, end: 5 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;12.34&quot;)
+      .should.be.eql(expected);
+
+    // Float starting with .
+    expected = { type: &quot;NUMBER&quot;, value: &quot;.35&quot;, start: 1, end: 3 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;.35&quot;)
+      .should.be.eql(expected);
+
+    // Float in exponential notation
+    expected = { type: &quot;NUMBER&quot;, value: &quot;2e5&quot;, start: 1, end: 3 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;2e5&quot;)
+      .should.be.eql(expected);
+
+    // Float with decimals and exponential notation
+    expected = { type: &quot;NUMBER&quot;, value: &quot;45.8e5&quot;, start: 1, end: 6 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;45.8e5&quot;)
+      .should.be.eql(expected);
+
+    // Float with exponential notation with sign and E
+    expected = { type: &quot;NUMBER&quot;, value: &quot;8E-34&quot;, start: 1, end: 5 };
+    tokenRegex.NUMBER.reset()
+      .exec(&quot;8E-34&quot;)
+      .should.be.eql(expected);
+
+    // Shouldn&apos;t match exponential alone or without exponential num
+    should.not.exists(tokenRegex.NUMBER.reset().exec(&quot;e45&quot;));
+    should.not.exists(tokenRegex.NUMBER.reset().exec(&quot;E&quot;));
+  });
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

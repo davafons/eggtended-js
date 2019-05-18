@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/repl/extensions.js | eggtended-js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A extended version of the Egg programming language from the Eloquent Javascript book."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eggtended-js"><meta property="twitter:description" content="A extended version of the Egg programming language from the Eloquent Javascript book."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/repl/extensions.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const process = require(&quot;process&quot;);
+const fs = require(&quot;fs&quot;);
+
+const { SpecialForms } = require(&quot;../interp/registry.js&quot;);
+const { TopEnv } = require(&quot;../interp/environment.js&quot;);
+const { Eggvm } = require(&quot;../interp/eggvm.js&quot;);
+
+const colors = require(&quot;./colors.js&quot;);
+
+// PROMPT
+
+TopEnv[&quot;__PROMPT__&quot;] = &quot;&gt; &quot;;
+
+const getPromptLine = () =&gt; {
+  return `${colors.YELLOW} ${TopEnv[&quot;__PROMPT__&quot;]} ${colors.DEFAULT}`;
+};
+
+// Extra methods
+
+const eggExit = (TopEnv[&quot;exit&quot;] = () =&gt; {
+  console.log(colors.BLUE + &quot;Closing the REPL... Bye!&quot; + colors.DEFAULT);
+  process.exit(0);
+});
+
+const HELP = [
+  `${colors.BLUE} help() ${colors.DEFAULT} show this help menu`,
+  `${colors.RED} exit() | Ctrl-D ${colors.DEFAULT} close the REPL`,
+  `${colors.GREEN} run() ${colors.DEFAULT} execute a .egg file`,
+  `${colors.YELLOW} clear() ${colors.DEFAULT} clear the console`
+];
+
+const eggHelp = (TopEnv[&quot;help&quot;] = () =&gt; {
+  console.log(&quot; Egg help menu:&quot;);
+  HELP.forEach(line =&gt; {
+    console.log(line);
+  });
+
+  return &quot;-&quot;.repeat(HELP[0].length - 10);
+});
+
+const eggInfo = (TopEnv[&quot;info&quot;] = () =&gt; {
+  console.log(
+    colors.BLUE +
+      `
+                   _                 _          _
+                  | |               | |        | |
+   ___  __ _  __ _| |_ ___ _ __   __| | ___  __| |
+  / _ \\/ _\` |/ _\` | __/ _ \\ &apos;_ \\ / _\` |/ _ \\/ _\` |
+ |  __/ (_| | (_| | ||  __/ | | | (_| |  __/ (_| |
+  \\___|\\__, |\\__, |\\__\\___|_| |_|\\__,_|\\___|\\__,_|
+        __/ | __/ |
+       |___/ |___/
+` +
+      colors.DEFAULT
+  );
+  console.log(`Version ${TopEnv[&quot;__VERSION__&quot;]}`);
+  console.log(&quot;Created by David Afonso Dorta. License: GPLv2&quot;);
+});
+
+const eggClear = (TopEnv[&quot;clear&quot;] = () =&gt; {
+  console.log(&quot;\u001B[2J\u001B[0;0f&quot;);
+  eggInfo();
+});
+
+const eggVersion = (TopEnv[
+  &quot;__VERSION__&quot;
+] = require(&quot;../../package.json&quot;).version);
+
+const eggRun = (TopEnv[&quot;run&quot;] = (file, debug) =&gt; {
+  if (debug) {
+    console.log(fs.readFileSync(file, &quot;utf8&quot;));
+  }
+
+  Eggvm.runFromFile(file);
+});
+
+const eggCompleter = (line, env) =&gt; {
+  // Test if get hits from current directory
+  let hits = dirHits(line);
+
+  // Show hits from the REPL variables
+  if (hits.length === 0) {
+    const word = line.split(/[\s(),&quot;]+/).slice(-1)[0];
+    hits = _filter(Object.keys(SpecialForms).concat(_allProperties(env)), word);
+  }
+
+  return [hits, line];
+};
+
+const _allProperties = obj =&gt; {
+  let keys = [];
+
+  let proto = obj;
+  while (proto) {
+    keys = keys.concat(Object.keys(proto));
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return keys;
+};
+
+const dirHits = line =&gt; {
+  const match = line.match(/(?:run)\((.*)/);
+  if (match) {
+    const path = match[1]
+      .replace(/[&quot;&apos;`]/, &quot;&quot;)
+      .trim()
+      .split(&quot;/&quot;);
+    const dirPath = path.slice(0, -1);
+    const filePath = path.slice(-1);
+
+    try {
+      return _filter(fs.readdirSync(`./${dirPath}`), filePath);
+    } catch (err) {
+      return [];
+    }
+  }
+
+  return [];
+};
+
+const _filter = (hits, word) =&gt; {
+  return hits.filter(hit =&gt; {
+    return hit.indexOf(word) === 0;
+  });
+};
+
+module.exports = {
+  getPromptLine,
+  eggExit,
+  eggHelp,
+  eggInfo,
+  eggClear,
+  eggVersion,
+  eggRun,
+  eggCompleter
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/parser/lexer.js | eggtended-js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A extended version of the Egg programming language from the Eloquent Javascript book."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eggtended-js"><meta property="twitter:description" content="A extended version of the Egg programming language from the Eloquent Javascript book."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/parser/lexer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const tokenRegex = require(&quot;./tokenRegex.js&quot;);
+const fs = require(&quot;fs&quot;);
+
+class Lexer {
+  constructor() {
+    this.lastIndex = 0;
+    this.line = 1;
+  }
+
+  setProgram(program) {
+    this.program = program;
+
+    this.lastIndex = 0;
+    this.line = 1;
+
+    return this;
+  }
+
+  tokenize(program) {
+    this.setProgram(program);
+
+    return this._getTokens();
+  }
+
+  static tokenize(program) {
+    return new Lexer().tokenize(program);
+  }
+
+  tokenizeFromFile(file) {
+    const program = fs.readFileSync(file, &quot;utf8&quot;);
+
+    return this.tokenize(program);
+  }
+
+  static tokenizeFromFile(file) {
+    return new Lexer().tokenizeFromFile(file);
+  }
+
+  static setTokens(tokens) {
+    Lexer.TOKENS = tokens;
+  }
+
+  getParBalance(program) {
+    this.setProgram(program);
+
+    let stack = 0;
+    const tokens = this._getTokens();
+    for (const token of tokens) {
+      if (token.type === &quot;LP&quot;) {
+        ++stack;
+      } else if (token.type === &quot;RP&quot;) {
+        --stack;
+      }
+    }
+
+    return stack;
+  }
+
+  _getTokens() {
+    const tokens = [];
+
+    let currentToken = this._getToken();
+    while (currentToken !== null) {
+      tokens.push(currentToken);
+
+      currentToken = this._getToken();
+    }
+
+    return this.__transformTokens(tokens);
+  }
+
+  _getToken() {
+    // Update lastIndex property for each expression used
+    this.__updateLastIndices();
+
+    // Match and ignore whitespaces and newlines
+    let whitespaces = Lexer.WHITES.exec(this.program);
+    if (whitespaces !== null) {
+      if (Lexer.NEWLINE.exec(whitespaces.value)) {
+        ++this.line;
+      }
+      this.lastIndex = Lexer.WHITES.lastIndex;
+
+      return this._getToken();
+    }
+
+    // Iterate through each regex
+    let token = null;
+    for (let i = 0; i &lt; Lexer.TOKENS.length; ++i) {
+      let match = Lexer.TOKENS[i].exec(this.program);
+
+      // When matching a expression, add the current line and set the token
+      if (match !== null) {
+        match.line = this.line;
+        this.lastIndex = Lexer.TOKENS[i].lastIndex;
+
+        token = match;
+        break;
+      }
+    }
+
+    // Return the matched token, or null if anything was found
+    return token;
+  }
+
+  __transformTokens(tokens) {
+    for (let i = 0; i &lt; tokens.length; ++i) {
+      // x: =&gt; &quot;x&quot;,
+      if (tokens[i].type === &quot;WORD&quot;) {
+        const nextToken = tokens[i + 1];
+        if (nextToken &amp;&amp; nextToken.value === &quot;:&quot;) {
+          tokens[i].type = &quot;STRING&quot;;
+        }
+      }
+
+      // Replace dots with parentehsis
+      // a.b   =&gt;    a(&quot;b&quot;)
+      // a.b.c   =&gt;  a(&quot;b&quot;)(&quot;c&quot;)
+      // a.b(c, d)   =&gt; a(&quot;b&quot;, c, d)
+      if (tokens[i].type === &quot;LP&quot; &amp;&amp; tokens[i].value === &quot;.&quot;) {
+        tokens[i].value = &quot;(&quot;;
+
+        const expr = tokens[i + 1];
+        const arg = tokens[i + 2];
+
+        if (expr &amp;&amp; expr.type === &quot;WORD&quot;) {
+          expr.type = &quot;STRING&quot;;
+        }
+
+        if (arg &amp;&amp; arg.type === &quot;LP&quot; &amp;&amp; arg.value !== &quot;.&quot;) {
+          arg.type = &quot;COMMA&quot;;
+          arg.value = &quot;,&quot;;
+        } else {
+          tokens.splice(i + 2, 0, { type: &quot;RP&quot;, value: &quot;)&quot; });
+        }
+      }
+    }
+
+    return tokens;
+  }
+
+  __updateLastIndices() {
+    Lexer.TOKENS.forEach(expr =&gt; {
+      expr.lastIndex = this.lastIndex;
+    });
+    Lexer.WHITES.lastIndex = this.lastIndex;
+    Lexer.NEWLINE.lastIndex = this.lastIndex;
+  }
+}
+
+Lexer.TOKENS = [
+  tokenRegex.NUMBER,
+  tokenRegex.STRING,
+  tokenRegex.REGEX,
+  tokenRegex.WORD,
+  tokenRegex.LP,
+  tokenRegex.RP,
+  tokenRegex.COMMA
+];
+
+Lexer.WHITES = tokenRegex.WHITES;
+Lexer.NEWLINE = tokenRegex.NEWLINE;
+
+module.exports = {
+  Lexer
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
