@@ -23,7 +23,7 @@ describe("Testing programs from 'examples/' folder", () => {
       this.logSpy
         .getCall(index)
         .calledWithExactly(output)
-        .should.be.true();
+        .should.be.false();
     });
   };
 
