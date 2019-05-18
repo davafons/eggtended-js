@@ -134,6 +134,8 @@ describe('Testing programs from \'examples/\' folder', () => {
   tests.set('examples/ects-context.egg', [0, 4, 5]);
   tests.set('examples/child.egg', [5, 5, 5]);
 
+  tests.set('examples/const.egg', ReferenceError);
+
   // Execute all the defined tests
   executeTests(tests);
 });

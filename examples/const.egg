@@ -1,0 +1,6 @@
+do(
+  const(x, 5),
+  print(5),
+  define(x, 10),
+  print(10)
+)
