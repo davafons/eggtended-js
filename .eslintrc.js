@@ -15,6 +15,12 @@ module.exports = {
   },
   rules: {
     "no-console": 0,
-    "dot-notation": 0
+    "dot-notation": 0,
+    "max-len": [
+      "error",
+      {
+        code: 89
+      }
+    ]
   }
 };
