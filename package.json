@@ -43,7 +43,9 @@
   },
   "lint-staged": {
     "*.js": [
+      "prettier --write",
       "eslint --fix",
+      "nyc mocha",
       "git add"
     ]
   }
