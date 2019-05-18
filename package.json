@@ -47,7 +47,7 @@
         "prettier --write",
         "eslint --fix",
         "nyc mocha",
-        "docs",
+        "npm run docs --",
         "git add"
       ]
     },
