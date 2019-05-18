@@ -34,10 +34,5 @@
   "dependencies": {
     "ansi-styles": "^3.2.1",
     "xregexp": "^4.2.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
   }
 }
