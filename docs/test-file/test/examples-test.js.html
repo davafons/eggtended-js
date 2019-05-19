@@ -160,6 +160,12 @@ describe(&quot;Testing programs from &apos;examples/&apos; folder&quot;, () =&gt
 
   tests.set(&quot;examples/string-apply.egg&quot;, [5, &quot;4.00&quot;, 19]);
   tests.set(&quot;examples/operators-arithm.egg&quot;, [6, 5, 10, -5, 0, -10]);
+  tests.set(&quot;examples/operators-arithm-errors.egg&quot;, [
+    &quot;Bad use of ++&quot;,
+    &quot;Bad use of --&quot;,
+    &quot;Bad use of +=&quot;,
+    &quot;Bad use of -=&quot;
+  ]);
 
   tests.set(&quot;examples/map.egg&quot;, [
     new Map([[&quot;x&quot;, 4], [&quot;y&quot;, new Map([[&quot;z&quot;, 3]])]]),
