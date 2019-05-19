@@ -1,0 +1,298 @@
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "define"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "x"
+        },
+        {
+          "type": "value",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "define"
+      },
+      "args": [
+        {
+          "type": "word",
+          "name": "inc"
+        },
+        {
+          "type": "value",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "try"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "++"
+                  },
+                  "args": [
+                    {
+                      "type": "word",
+                      "name": "x"
+                    },
+                    {
+                      "type": "word",
+                      "name": "x"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": "Bad use of ++"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "try"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "--"
+                  },
+                  "args": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": "Bad use of --"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "try"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "+="
+                  },
+                  "args": [
+                    {
+                      "type": "value",
+                      "value": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": "Bad use of +="
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "try"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "apply",
+                  "operator": {
+                    "type": "word",
+                    "name": "-="
+                  },
+                  "args": [
+                    {
+                      "type": "value",
+                      "value": 2
+                    },
+                    {
+                      "type": "value",
+                      "value": 3
+                    },
+                    {
+                      "type": "value",
+                      "value": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "do"
+          },
+          "args": [
+            {
+              "type": "apply",
+              "operator": {
+                "type": "word",
+                "name": "print"
+              },
+              "args": [
+                {
+                  "type": "value",
+                  "value": "Bad use of -="
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
