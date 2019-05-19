@@ -385,6 +385,24 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/lexer-test.js.html#lineNumber7",
+    "Testing Lexer class behaviour",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/lexer-test.js.html#lineNumber21",
+    "Testing Lexer class behaviour should be able to tokenize a line and count the LP-RP balance",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/lexer-test.js.html#lineNumber36",
+    "Testing Lexer class behaviour should tokenize from a file",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/examples-test.js.html#lineNumber9",
     "Testing programs from 'examples/' folder",
     "test"
@@ -1105,13 +1123,13 @@ window.esdocSearchIndex = [
   ],
   [
     "lib/parser/tokenregex.js~tokenregex#lastindex",
-    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-set-lastIndex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-get-lastIndex",
     "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
     "member"
   ],
   [
     "lib/parser/tokenregex.js~tokenregex#lastindex",
-    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-get-lastIndex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-set-lastIndex",
     "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
     "member"
   ],
@@ -1161,6 +1179,12 @@ window.esdocSearchIndex = [
     "test/examples-test.js",
     "test-file/test/examples-test.js.html",
     "test/examples-test.js",
+    "testFile"
+  ],
+  [
+    "test/lexer-test.js",
+    "test-file/test/lexer-test.js.html",
+    "test/lexer-test.js",
     "testFile"
   ],
   [
