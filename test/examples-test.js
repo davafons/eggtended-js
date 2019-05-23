@@ -146,6 +146,8 @@ describe("Testing programs from 'examples/' folder", () => {
     "Outer catch. 42"
   ]);
 
+  tests.set("examples/type-conversion.egg", [false]);
+
   // Execute all the defined tests
   executeTests(tests);
 });
