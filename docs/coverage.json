@@ -1,6 +1,6 @@
 {
-  "coverage": "1.9%",
-  "expectCount": 105,
+  "coverage": "1.83%",
+  "expectCount": 109,
   "actualCount": 2,
   "files": {
     "lib/interp/arithm.js": {
@@ -24,30 +24,30 @@
         20,
         21,
         24,
+        38,
+        39,
+        40,
+        41,
         42,
-        43,
-        44,
         45,
-        46,
-        49,
+        104,
+        105,
+        106,
         108,
         109,
-        110,
-        112,
-        113,
-        116
+        112
       ]
     },
     "lib/interp/eggvm.js": {
       "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
-        12,
-        13,
-        19,
-        25,
-        34,
-        43
+        14,
+        15,
+        21,
+        27,
+        36,
+        45
       ]
     },
     "lib/interp/monkey-patching.js": {
@@ -62,8 +62,18 @@
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        6,
-        7
+        8,
+        9
+      ]
+    },
+    "lib/interp/symboltable.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        4,
+        10
       ]
     },
     "lib/parser/json2AST.js": {

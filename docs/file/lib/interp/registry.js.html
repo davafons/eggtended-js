@@ -38,6 +38,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/interp/ast.js~Value.html">Value</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/interp/ast.js~Word.html">Word</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/interp/eggvm.js~Eggvm.html">Eggvm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/interp/symboltable.js~SymbolTable.html">SymbolTable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SpecialForms">SpecialForms</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TopEnv">TopEnv</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parser">parser</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/parser/lexer.js~Lexer.html">Lexer</a></span></span></li>
@@ -76,6 +77,8 @@
 
 const utils = require(&quot;../utils.js&quot;);
 
+const { SymbolTable } = require(&quot;./symboltable.js&quot;);
+
 // specialForms and topEnv maps
 const SpecialForms = Object.create(null);
 const TopEnv = Object.create(null);
@@ -111,7 +114,7 @@ SpecialForms[&quot;for&quot;] = (args, env) =&gt; {
   }
 
   const forEnv = Object.create(env);
-  forEnv[&quot;__const__&quot;] = {};
+  forEnv[&quot;__symbol__&quot;] = new SymbolTable();
 
   // Variable
   args[0].evaluate(forEnv);
@@ -138,6 +141,7 @@ SpecialForms[&quot;foreach&quot;] = (args, env) =&gt; {
   }
 
   const localEnv = Object.create(env);
+  localEnv[&quot;__symbol__&quot;] = new SymbolTable();
 
   const iterable = args[1].evaluate(localEnv);
   for (const val of iterable) {
@@ -159,17 +163,15 @@ SpecialForms[&quot;do&quot;] = (args, env) =&gt; {
 };
 
 SpecialForms[&quot;def&quot;] = SpecialForms[&quot;define&quot;] = SpecialForms[&quot;:=&quot;] = (args, env) =&gt; {
-  if (args.length !== 2 || args[0].type !== &quot;word&quot;) {
+  if (args.length !== 2) {
     throw new SyntaxError(&quot;Bad use of define&quot;);
   }
 
+  // Value to assign to the variable
   let value = args[1].evaluate(env);
 
+  // Variable name
   let valName = args[0].name;
-
-  if (valName in env[&quot;__const__&quot;]) {
-    throw new ReferenceError(`Trying to change &apos;const&apos; variable ${args[0].name}`);
-  }
 
   env[valName] = value;
   return value;
@@ -196,8 +198,8 @@ SpecialForms[&quot;fun&quot;] = SpecialForms[&quot;-&gt;&quot;] = (args, env) =&
       throw new TypeError(&quot;Wrong number of arguments&quot;);
     }
 
-    let localEnv = Object.create(env);
-    localEnv[&quot;__const__&quot;] = {};
+    const localEnv = Object.create(env);
+    localEnv[&quot;__symbol__&quot;] = new SymbolTable();
 
     for (let i = 0; i &lt; arguments.length; i++) {
       localEnv[argNames[i]] = arguments[i];
@@ -219,7 +221,7 @@ SpecialForms[&quot;set&quot;] = SpecialForms[&quot;=&quot;] = (args, env) =&gt; 
   let value = args[args.length - 1].evaluate(env);
 
   for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {
-    if (valName in scope[&quot;__const__&quot;]) {
+    if (scope[&quot;__symbol__&quot;].checkAttribute(&quot;const&quot;, valName)) {
       throw new ReferenceError(`Trying to change &apos;const&apos; variable ${args[0].name}`);
     }
 
@@ -256,7 +258,7 @@ SpecialForms[&quot;object&quot;] = (args, env) =&gt; {
   // Create a new object and a new scope
   const object = {};
   const objectEnv = Object.create(env);
-  objectEnv[&quot;__const__&quot;] = {};
+  objectEnv[&quot;__symbol__&quot;] = new SymbolTable();
 
   // Add the variable &apos;this&apos; as a reference to the current object
   objectEnv[&quot;this&quot;] = object;
@@ -272,41 +274,6 @@ SpecialForms[&quot;object&quot;] = (args, env) =&gt; {
   }
 
   return object;
-};
-
-SpecialForms[&quot;const&quot;] = (args, env) =&gt; {
-  if (args[0].type !== &quot;word&quot;) {
-    throw new SyntaxError(&quot;Bad number of arguments&quot;);
-  }
-
-  let value = args[1].evaluate(env);
-  env[&quot;__const__&quot;][args[0].name] = value;
-
-  return value;
-};
-
-SpecialForms[&quot;try&quot;] = (args, env) =&gt; {
-  if (args.length &lt; 2) {
-    throw new SyntaxError(&quot;Bad use of try-catch block&quot;);
-  }
-
-  const body = args[0];
-  const catch_body = args[1];
-
-  try {
-    body.evaluate(env);
-  } catch (err) {
-    env[&quot;__error__&quot;] = err;
-    catch_body.evaluate(env);
-  } finally {
-    if (args.length === 3) {
-      const finally_body = args[2];
-
-      finally_body.evaluate(env);
-    }
-  }
-
-  return false;
 };
 
 // TODO: Continue implementing class?
@@ -329,8 +296,6 @@ SpecialForms[&quot;try&quot;] = (args, env) =&gt; {
 TopEnv[&quot;true&quot;] = true;
 TopEnv[&quot;false&quot;] = false;
 TopEnv[&quot;null&quot;] = null;
-
-TopEnv[&quot;__const__&quot;] = {};
 
 TopEnv[&quot;print&quot;] = value =&gt; {
   console.log(value);
@@ -361,9 +326,7 @@ TopEnv[&quot;child&quot;] = parent =&gt; {
   return Object.create(parent);
 };
 
-TopEnv[&quot;throw&quot;] = obj =&gt; {
-  throw obj;
-};
+TopEnv[&quot;__symbol__&quot;] = new SymbolTable();
 
 // WIP: Continue implementing class?
 // TopEnv[&apos;new&apos;] = (...args) =&gt; {

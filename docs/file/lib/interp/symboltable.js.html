@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">test/examples-test.js | eggtended-js</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/interp/symboltable.js | eggtended-js</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,160 +72,28 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">test/examples-test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
-const should = require(&quot;should&quot;);
-const sinon = require(&quot;sinon&quot;);
+<div class="content" data-ice="content"><h1 data-ice="title">lib/interp/symboltable.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">class SymbolTable {
+  addAttribute(attribute, value, name) {
+    if (!(name in this)) {
+      this[name] = {};
+    }
 
-const { Parser } = require(&quot;../lib/parser/parse.js&quot;);
-const { Eggvm } = require(&quot;../lib/interp/eggvm.js&quot;);
-const parser = new Parser();
+    this[name][attribute] = value;
+  }
 
-describe(&quot;Testing programs from &apos;examples/&apos; folder&quot;, () =&gt; {
-  // Spy calls to &apos;console.log&apos;
-  beforeEach(() =&gt; {
-    this.logSpy = sinon.spy(console, &quot;log&quot;);
-  });
+  checkAttribute(attribute, name) {
+    if (name in this &amp;&amp; attribute in this[name]) {
+      return true;
+    }
 
-  afterEach(() =&gt; {
-    this.logSpy.restore();
-  });
+    return false;
+  }
+}
 
-  // Method to test the number and values of &apos;logSpy&apos; calls
-  const assertOutput = outs =&gt; {
-    this.logSpy.callCount.should.be.eql(outs.length);
-    outs.forEach((output, index) =&gt; {
-      this.logSpy
-        .getCall(index)
-        .calledWithExactly(output)
-        .should.be.true();
-    });
-  };
-
-  // Method for creating and executing the dynamic tests
-  const executeTests = tests =&gt; {
-    tests.forEach((outputs, file) =&gt; {
-      // Path to the related .evm file
-      const fileEVM = file + &quot;.evm&quot;;
-
-      describe(`Test for ${file}`, () =&gt; {
-        // -- TEST PARSING --
-        it(&quot;should be parsed correctly&quot;, () =&gt; {
-          const rawData = fs.readFileSync(fileEVM);
-          const expectedTree = JSON.parse(rawData);
-
-          parser.parseFromFile(file).should.match(expectedTree);
-        });
-
-        // -- TEST EXECUTION --
-        if (Array.isArray(outputs)) {
-          it(&quot;should print the expected output after execution&quot;, () =&gt; {
-            // Eggvm.runFromEVM(fileEVM);
-            Eggvm.runFromEVM(fileEVM);
-            assertOutput(outputs);
-          });
-        } else {
-          it(`should throw an exception of type ${outputs.name}`, () =&gt; {
-            should.throws(() =&gt; {
-              Eggvm.runFromFile(file);
-            }, outputs);
-          });
-        }
-      });
-    });
-  };
-
-  // Define tests
-  const tests = new Map();
-
-  tests.set(&quot;examples/one.egg&quot;, [50]);
-  tests.set(&quot;examples/two.egg&quot;, [9]);
-  tests.set(&quot;examples/scope.egg&quot;, [9, 8]);
-  tests.set(&quot;examples/scope-err.egg&quot;, ReferenceError);
-  tests.set(&quot;examples/boolean.egg&quot;, [&quot;true&quot;]);
-
-  tests.set(&quot;examples/string.egg&quot;, [&quot;s&quot;]);
-  tests.set(&quot;examples/sum.egg&quot;, [395.5]);
-  tests.set(&quot;examples/reto.egg&quot;, [&quot;sum(array[1, 2, 3]) := 6&quot;]);
-
-  tests.set(&quot;examples/array.egg&quot;, [[1, 4], 5]);
-  tests.set(&quot;examples/array-index.egg&quot;, [1, [2, 3], 3, 3, 2]);
-  tests.set(&quot;examples/array-properties.egg&quot;, [1, [5, 3], 3]);
-
-  tests.set(&quot;examples/set-error.egg&quot;, TypeError);
-  tests.set(&quot;examples/set-error2.egg&quot;, TypeError);
-
-  tests.set(&quot;examples/method3.egg&quot;, [&quot;A-B-C&quot;]);
-  tests.set(&quot;examples/method-concatenation.egg&quot;, [&quot;1-hello egg&quot;]);
-  tests.set(&quot;examples/property.egg&quot;, [2, 3]);
-
-  tests.set(&quot;examples/string-apply.egg&quot;, [5, &quot;4.00&quot;, 19]);
-  tests.set(&quot;examples/operators-arithm.egg&quot;, [6, 5, 10, -5, 0, -10]);
-  tests.set(&quot;examples/operators-arithm-errors.egg&quot;, [
-    &quot;Bad use of ++&quot;,
-    &quot;Bad use of --&quot;,
-    &quot;Bad use of +=&quot;,
-    &quot;Bad use of -=&quot;
-  ]);
-
-  tests.set(&quot;examples/map.egg&quot;, [
-    new Map([[&quot;x&quot;, 4], [&quot;y&quot;, new Map([[&quot;z&quot;, 3]])]]),
-    4,
-    new Map([[&quot;z&quot;, 3]]),
-    3,
-    new Map([[&quot;z&quot;, 50]])
-  ]);
-
-  tests.set(&quot;examples/map-colon.egg&quot;, [
-    new Map([[&quot;x&quot;, 4], [&quot;y&quot;, new Map([[&quot;z&quot;, 3]])]]),
-    4,
-    new Map([[&quot;z&quot;, 3]]),
-    3,
-    new Map([[&quot;z&quot;, 50]])
-  ]);
-
-  tests.set(&quot;examples/multi-sub-set.egg&quot;, [
-    1,
-    new Map([[&quot;x&quot;, 2], [&quot;y&quot;, [3, 4]]]),
-    [3, 4],
-    new Map([[&quot;x&quot;, 2], [&quot;y&quot;, 5]]),
-    [0, 1]
-  ]);
-
-  tests.set(&quot;examples/map-sub.egg&quot;, [1, new Map([[&quot;d&quot;, 5], [&quot;e&quot;, 3]]), 3]);
-  tests.set(&quot;examples/fun-inside-map.egg&quot;, [7, 4]);
-
-  tests.set(&quot;examples/missing.egg&quot;, [9]);
-  tests.set(&quot;examples/missing-err.egg&quot;, SyntaxError);
-  tests.set(&quot;examples/objects.egg&quot;, [0, 4, 5]);
-  tests.set(&quot;examples/regex.egg&quot;, [true, 0, &quot;2015&quot;, &quot;02&quot;]);
-
-  tests.set(&quot;examples/dot.egg&quot;, [&quot;1-4-5&quot;, 5]);
-  tests.set(&quot;examples/dot-obj-2.egg&quot;, [0, 0, 0, 5, 5, 5]);
-  tests.set(&quot;examples/dot-num.egg&quot;, [&quot;4.00&quot;, &quot;4.00&quot;, &quot;4.00&quot;]);
-
-  tests.set(&quot;examples/for.egg&quot;, [0, 1, 2, 3, 4]);
-  tests.set(&quot;examples/foreach.egg&quot;, [1, 2, 3, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;]);
-
-  tests.set(&quot;examples/client.egg&quot;, [&quot;inside module&quot;, 5, 5, 3]);
-  tests.set(&quot;examples/ects-context.egg&quot;, [0, 4, 5]);
-  tests.set(&quot;examples/child.egg&quot;, [5, 5, 5]);
-
-  tests.set(&quot;examples/const.egg&quot;, ReferenceError);
-  // tests.set(&quot;examples/const-2.egg&quot;, [5, 5]);
-  tests.set(&quot;examples/const-3.egg&quot;, ReferenceError);
-
-  tests.set(&quot;examples/trycatch.egg&quot;, [&quot;Caught error! 42&quot;, 20, &quot;Finally called&quot;]);
-  tests.set(&quot;examples/trycatch-2.egg&quot;, [
-    &quot;Inner catch. Rethrowing...&quot;,
-    &quot;Outer catch. 42&quot;
-  ]);
-
-  tests.set(&quot;examples/type-conversion.egg&quot;, [false]);
-
-  // Execute all the defined tests
-  executeTests(tests);
-});
+module.exports = {
+  SymbolTable
+};
 </code></pre>
 
 </div>

@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">test/examples-test.js | eggtended-js</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">SymbolTable | eggtended-js</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,162 +72,349 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">test/examples-test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
-const should = require(&quot;should&quot;);
-const sinon = require(&quot;sinon&quot;);
+<div class="content" data-ice="content"><div class="header-notice">
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SymbolTable} from &apos;<span><a href="file/lib/interp/symboltable.js.html#lineNumber1">eggtended-js/lib/interp/symboltable.js</a></span>&apos;</code></pre></div>
+  <span data-ice="access">public</span>
+  <span data-ice="kind">class</span>
+  
+  
+  
+  <span data-ice="source">| <span><a href="file/lib/interp/symboltable.js.html#lineNumber1">source</a></span></span>
+</div>
 
-const { Parser } = require(&quot;../lib/parser/parse.js&quot;);
-const { Eggvm } = require(&quot;../lib/interp/eggvm.js&quot;);
-const parser = new Parser();
+<div class="self-detail detail">
+  <h1 data-ice="name">SymbolTable</h1>
 
-describe(&quot;Testing programs from &apos;examples/&apos; folder&quot;, () =&gt; {
-  // Spy calls to &apos;console.log&apos;
-  beforeEach(() =&gt; {
-    this.logSpy = sinon.spy(console, &quot;log&quot;);
-  });
+  
 
-  afterEach(() =&gt; {
-    this.logSpy.restore();
-  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  // Method to test the number and values of &apos;logSpy&apos; calls
-  const assertOutput = outs =&gt; {
-    this.logSpy.callCount.should.be.eql(outs.length);
-    outs.forEach((output, index) =&gt; {
-      this.logSpy
-        .getCall(index)
-        .calledWithExactly(output)
-        .should.be.true();
-    });
-  };
+  
+  
+  
+  
 
-  // Method for creating and executing the dynamic tests
-  const executeTests = tests =&gt; {
-    tests.forEach((outputs, file) =&gt; {
-      // Path to the related .evm file
-      const fileEVM = file + &quot;.evm&quot;;
+  
 
-      describe(`Test for ${file}`, () =&gt; {
-        // -- TEST PARSING --
-        it(&quot;should be parsed correctly&quot;, () =&gt; {
-          const rawData = fs.readFileSync(fileEVM);
-          const expectedTree = JSON.parse(rawData);
+  
 
-          parser.parseFromFile(file).should.match(expectedTree);
-        });
+  
 
-        // -- TEST EXECUTION --
-        if (Array.isArray(outputs)) {
-          it(&quot;should print the expected output after execution&quot;, () =&gt; {
-            // Eggvm.runFromEVM(fileEVM);
-            Eggvm.runFromEVM(fileEVM);
-            assertOutput(outputs);
-          });
-        } else {
-          it(`should throw an exception of type ${outputs.name}`, () =&gt; {
-            should.throws(() =&gt; {
-              Eggvm.runFromFile(file);
-            }, outputs);
-          });
-        }
-      });
-    });
-  };
+  
+</div>
 
-  // Define tests
-  const tests = new Map();
 
-  tests.set(&quot;examples/one.egg&quot;, [50]);
-  tests.set(&quot;examples/two.egg&quot;, [9]);
-  tests.set(&quot;examples/scope.egg&quot;, [9, 8]);
-  tests.set(&quot;examples/scope-err.egg&quot;, ReferenceError);
-  tests.set(&quot;examples/boolean.egg&quot;, [&quot;true&quot;]);
 
-  tests.set(&quot;examples/string.egg&quot;, [&quot;s&quot;]);
-  tests.set(&quot;examples/sum.egg&quot;, [395.5]);
-  tests.set(&quot;examples/reto.egg&quot;, [&quot;sum(array[1, 2, 3]) := 6&quot;]);
 
-  tests.set(&quot;examples/array.egg&quot;, [[1, 4], 5]);
-  tests.set(&quot;examples/array-index.egg&quot;, [1, [2, 3], 3, 3, 2]);
-  tests.set(&quot;examples/array-properties.egg&quot;, [1, [5, 3], 3]);
+<div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/symboltable.js~SymbolTable.html#instance-member-[name]">[name]</a></span></span><span class="code" data-ice="signature">: {}</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/symboltable.js~SymbolTable.html#instance-method-addAttribute">addAttribute</a></span></span><span class="code" data-ice="signature">(attribute: <span>*</span>, value: <span>*</span>, name: <span>*</span>)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/lib/interp/symboltable.js~SymbolTable.html#instance-method-checkAttribute">checkAttribute</a></span></span><span class="code" data-ice="signature">(attribute: <span>*</span>, name: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
 
-  tests.set(&quot;examples/set-error.egg&quot;, TypeError);
-  tests.set(&quot;examples/set-error2.egg&quot;, TypeError);
 
-  tests.set(&quot;examples/method3.egg&quot;, [&quot;A-B-C&quot;]);
-  tests.set(&quot;examples/method-concatenation.egg&quot;, [&quot;1-hello egg&quot;]);
-  tests.set(&quot;examples/property.egg&quot;, [2, 3]);
 
-  tests.set(&quot;examples/string-apply.egg&quot;, [5, &quot;4.00&quot;, 19]);
-  tests.set(&quot;examples/operators-arithm.egg&quot;, [6, 5, 10, -5, 0, -10]);
-  tests.set(&quot;examples/operators-arithm-errors.egg&quot;, [
-    &quot;Bad use of ++&quot;,
-    &quot;Bad use of --&quot;,
-    &quot;Bad use of +=&quot;,
-    &quot;Bad use of -=&quot;
-  ]);
 
-  tests.set(&quot;examples/map.egg&quot;, [
-    new Map([[&quot;x&quot;, 4], [&quot;y&quot;, new Map([[&quot;z&quot;, 3]])]]),
-    4,
-    new Map([[&quot;z&quot;, 3]]),
-    3,
-    new Map([[&quot;z&quot;, 50]])
-  ]);
 
-  tests.set(&quot;examples/map-colon.egg&quot;, [
-    new Map([[&quot;x&quot;, 4], [&quot;y&quot;, new Map([[&quot;z&quot;, 3]])]]),
-    4,
-    new Map([[&quot;z&quot;, 3]]),
-    3,
-    new Map([[&quot;z&quot;, 50]])
-  ]);
 
-  tests.set(&quot;examples/multi-sub-set.egg&quot;, [
-    1,
-    new Map([[&quot;x&quot;, 2], [&quot;y&quot;, [3, 4]]]),
-    [3, 4],
-    new Map([[&quot;x&quot;, 2], [&quot;y&quot;, 5]]),
-    [0, 1]
-  ]);
+<div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
-  tests.set(&quot;examples/map-sub.egg&quot;, [1, new Map([[&quot;d&quot;, 5], [&quot;e&quot;, 3]]), 3]);
-  tests.set(&quot;examples/fun-inside-map.egg&quot;, [7, 4]);
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-[name]">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">[name]</span><span class="code" data-ice="signature">: {}</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/symboltable.js.html#lineNumber4">source</a></span></span>
+    </span>
+  </h3>
 
-  tests.set(&quot;examples/missing.egg&quot;, [9]);
-  tests.set(&quot;examples/missing-err.egg&quot;, SyntaxError);
-  tests.set(&quot;examples/objects.egg&quot;, [0, 4, 5]);
-  tests.set(&quot;examples/regex.egg&quot;, [true, 0, &quot;2015&quot;, &quot;02&quot;]);
+  
+  
+  
+  
 
-  tests.set(&quot;examples/dot.egg&quot;, [&quot;1-4-5&quot;, 5]);
-  tests.set(&quot;examples/dot-obj-2.egg&quot;, [0, 0, 0, 5, 5, 5]);
-  tests.set(&quot;examples/dot-num.egg&quot;, [&quot;4.00&quot;, &quot;4.00&quot;, &quot;4.00&quot;]);
+  
 
-  tests.set(&quot;examples/for.egg&quot;, [0, 1, 2, 3, 4]);
-  tests.set(&quot;examples/foreach.egg&quot;, [1, 2, 3, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;]);
+  <div data-ice="properties">
+</div>
 
-  tests.set(&quot;examples/client.egg&quot;, [&quot;inside module&quot;, 5, 5, 3]);
-  tests.set(&quot;examples/ects-context.egg&quot;, [0, 4, 5]);
-  tests.set(&quot;examples/child.egg&quot;, [5, 5, 5]);
+  
 
-  tests.set(&quot;examples/const.egg&quot;, ReferenceError);
-  // tests.set(&quot;examples/const-2.egg&quot;, [5, 5]);
-  tests.set(&quot;examples/const-3.egg&quot;, ReferenceError);
+  
 
-  tests.set(&quot;examples/trycatch.egg&quot;, [&quot;Caught error! 42&quot;, 20, &quot;Finally called&quot;]);
-  tests.set(&quot;examples/trycatch-2.egg&quot;, [
-    &quot;Inner catch. Rethrowing...&quot;,
-    &quot;Outer catch. 42&quot;
-  ]);
+  
 
-  tests.set(&quot;examples/type-conversion.egg&quot;, [false]);
+  
 
-  // Execute all the defined tests
-  executeTests(tests);
-});
-</code></pre>
+  
 
+  
+
+  
+
+  
+  
+</div>
+</div>
+<div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-addAttribute">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">addAttribute</span><span class="code" data-ice="signature">(attribute: <span>*</span>, value: <span>*</span>, name: <span>*</span>)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/symboltable.js.html#lineNumber2">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">attribute</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">value</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">name</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-checkAttribute">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">checkAttribute</span><span class="code" data-ice="signature">(attribute: <span>*</span>, name: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/interp/symboltable.js.html#lineNumber10">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">attribute</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">name</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
 </div>
 
 <footer class="footer">

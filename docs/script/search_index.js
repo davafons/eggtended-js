@@ -102,6 +102,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "eggtended-js/lib/interp/symboltable.js~symboltable",
+    "class/lib/interp/symboltable.js~SymbolTable.html",
+    "<span>SymbolTable</span> <span class=\"search-result-import-path\">eggtended-js/lib/interp/symboltable.js</span>",
+    "class"
+  ],
+  [
     "eggtended-js/lib/parser/tokenregex.js~tokenregex",
     "class/lib/parser/tokenRegex.js~TokenRegex.html",
     "<span>TokenRegex</span> <span class=\"search-result-import-path\">eggtended-js/lib/parser/tokenRegex.js</span>",
@@ -876,6 +882,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/interp/exceptions.js",
+    "file/lib/interp/exceptions.js.html",
+    "lib/interp/exceptions.js",
+    "file"
+  ],
+  [
     "lib/interp/index.js",
     "file/lib/interp/index.js.html",
     "lib/interp/index.js",
@@ -897,6 +909,36 @@ window.esdocSearchIndex = [
     "lib/interp/require.js",
     "file/lib/interp/require.js.html",
     "lib/interp/require.js",
+    "file"
+  ],
+  [
+    "lib/interp/symboltable.js",
+    "file/lib/interp/symboltable.js.html",
+    "lib/interp/symboltable.js",
+    "file"
+  ],
+  [
+    "lib/interp/symboltable.js~symboltable#[name]",
+    "class/lib/interp/symboltable.js~SymbolTable.html#instance-member-[name]",
+    "lib/interp/symboltable.js~SymbolTable#[name]",
+    "member"
+  ],
+  [
+    "lib/interp/symboltable.js~symboltable#addattribute",
+    "class/lib/interp/symboltable.js~SymbolTable.html#instance-method-addAttribute",
+    "lib/interp/symboltable.js~SymbolTable#addAttribute",
+    "method"
+  ],
+  [
+    "lib/interp/symboltable.js~symboltable#checkattribute",
+    "class/lib/interp/symboltable.js~SymbolTable.html#instance-method-checkAttribute",
+    "lib/interp/symboltable.js~SymbolTable#checkAttribute",
+    "method"
+  ],
+  [
+    "lib/interp/typing.js",
+    "file/lib/interp/typing.js.html",
+    "lib/interp/typing.js",
     "file"
   ],
   [
@@ -1123,13 +1165,13 @@ window.esdocSearchIndex = [
   ],
   [
     "lib/parser/tokenregex.js~tokenregex#lastindex",
-    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-get-lastIndex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-set-lastIndex",
     "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
     "member"
   ],
   [
     "lib/parser/tokenregex.js~tokenregex#lastindex",
-    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-set-lastIndex",
+    "class/lib/parser/tokenRegex.js~TokenRegex.html#instance-get-lastIndex",
     "lib/parser/tokenRegex.js~TokenRegex#lastIndex",
     "member"
   ],
