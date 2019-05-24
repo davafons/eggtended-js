@@ -1,0 +1,18 @@
+do(
+  try(
+    do {  # Try
+      try (
+        do {
+          throw(SyntaxError("message", "asdf", 10))
+        },
+        do {
+          print("Inner catch. Rethrowing..."),
+          throw(__error__)
+        }
+      )
+    },
+    do {  # Catch
+      print(+("Outer catch. ", __error__))
+    }
+  )
+)
