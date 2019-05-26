@@ -1,5 +1,5 @@
 const { Lexer, Parser, TokenRegex, json2AST } = require("./lib/parser");
-const { Eggvm, Value, Word, Apply, Regex } = require("./lib/interp");
+const { Eggvm, Value, Word, Apply, Regex, TopEnv, SpecialForms } = require("./lib/interp");
 
 module.exports = {
   Lexer,
@@ -10,5 +10,7 @@ module.exports = {
   Value,
   Word,
   Apply,
-  Regex
+  Regex,
+  TopEnv,
+  SpecialForms
 };
