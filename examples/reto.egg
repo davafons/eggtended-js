@@ -1,17 +1,17 @@
-  do {
-    def(sum,  ; function
-      -> { nums,
-        do {
-           := (i, 0), # Creates a local variable i and sets to 0
-           := (s, 0), # Creates local var s and sets to 0
-           while { <(i, length(nums)),
-             do { =(s, +(s, <-(nums, i))),
-                =(i, +(i, 1))
-             }
-           },
-           s
-        }
-     )
-   },
-   print(+("sum(array[1, 2, 3]) := ", sum(array[1, 2, 3])))
-  }
+do {
+  def(sum,  ; function
+    -> { nums,
+      do {
+          := (i, 0), # Creates a local variable i and sets to 0
+          := (s, 0), # Creates local var s and sets to 0
+          while { <(i, length(nums)),
+            do { =(s, +(s, <-(nums, i))),
+              =(i, +(i, 1))
+            }
+          },
+          s
+      }
+    )
+  },
+  print(+("sum(array[1, 2, 3]) := ", sum(array[1, 2, 3])))
+}
