@@ -1,6 +1,6 @@
 {
   "name": "eggtended-js",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "A extended version of the Egg programming language from the Eloquent Javascript book.",
   "main": "index.js",
   "bin": {
