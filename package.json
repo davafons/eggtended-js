@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "acorn": "^6.1.1",
-    "commander": "^2.20.0",
     "ansi-styles": "^3.2.1",
+    "commander": "^2.20.0",
     "xregexp": "^4.2.4"
   },
   "husky": {
