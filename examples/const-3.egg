@@ -1,7 +1,0 @@
-do(
-  const(x, 5),
-  print(5),
-  define(myfun, fun(do(set(x, 10)))), # Fail!!
-  myfun(),
-  print(x),
-)

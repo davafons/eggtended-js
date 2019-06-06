@@ -1,4 +1,0 @@
-do(
-  define(a, "0"),
-  print(boolean(number(a)))
-)

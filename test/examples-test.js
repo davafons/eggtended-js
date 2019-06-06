@@ -136,17 +136,11 @@ describe("Testing programs from 'examples/' folder", () => {
   tests.set("examples/ects-context.egg", [0, 4, 5]);
   tests.set("examples/child.egg", [5, 5, 5]);
 
-  tests.set("examples/const.egg", ReferenceError);
-  // tests.set("examples/const-2.egg", [5, 5]);
-  tests.set("examples/const-3.egg", ReferenceError);
-
   tests.set("examples/trycatch.egg", ["Caught error! 42", 20, "Finally called"]);
   tests.set("examples/trycatch-2.egg", [
     "Inner catch. Rethrowing...",
     "Outer catch. 42"
   ]);
-
-  tests.set("examples/type-conversion.egg", [false]);
 
   // Execute all the defined tests
   executeTests(tests);
