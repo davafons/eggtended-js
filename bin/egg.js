@@ -6,6 +6,7 @@ const process = require("process");
 const { Eggvm } = require("../lib/interp/eggvm.js");
 const { Parser } = require("../lib/parser/parse.js");
 const { Lexer } = require("../lib/parser/lexer.js");
+const { Semantic } = require("../lib/parser/semantic.js");
 const { Optimizer } = require("../lib/parser/optimizer.js");
 const { repl } = require("../lib/repl/repl.js");
 
@@ -23,10 +24,7 @@ commander
     "-t --tokenize <fileName.egg>",
     "tokenize the input egg program and print the array of tokens produced"
   )
-  .option(
-    "-o --optimize",
-    "optimize the resulting AST, generating a smaller one"
-  )
+  .option("-o --optimize", "optimize the resulting AST, generating a smaller one")
   .option("-i --interpret <fileName>", "interprets the input egg AST")
   .parse(process.argv);
 
@@ -36,8 +34,9 @@ if (commander.run) {
   console.log(`Return value: ${output}`);
 } else if (commander.compile) {
   let tree = Parser.parseFromFile(commander.compile);
+  tree = Semantic.check(tree);
 
-  if(commander.optimize) {
+  if (commander.optimize) {
     tree = Optimizer.optimize(tree);
   }
 
