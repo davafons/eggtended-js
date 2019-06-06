@@ -86,12 +86,6 @@ describe("Testing programs from 'examples/' folder", () => {
 
   tests.set("examples/string-apply.egg", [5, "4.00", 19]);
   tests.set("examples/operators-arithm.egg", [6, 5, 10, -5, 0, -10]);
-  tests.set("examples/operators-arithm-errors.egg", [
-    "Bad use of ++",
-    "Bad use of --",
-    "Bad use of +=",
-    "Bad use of -="
-  ]);
 
   tests.set("examples/map.egg", [
     new Map([["x", 4], ["y", new Map([["z", 3]])]]),
