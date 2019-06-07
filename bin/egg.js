@@ -28,8 +28,17 @@ commander
   .option("-i --interpret <fileName>", "interprets the input egg AST")
   .parse(process.argv);
 
+// Interpreter args
+const args = {
+  optimize: false
+};
+
+if (commander.optimize) {
+  args.optimize = true;
+}
+
 if (commander.run) {
-  const output = Eggvm.runFromFile(commander.run);
+  const output = Eggvm.runFromFile(commander.run, args);
 
   console.log(`Return value: ${output}`);
 } else if (commander.compile) {
@@ -37,6 +46,7 @@ if (commander.run) {
   tree = Semantic.check(tree);
 
   if (commander.optimize) {
+    console.log("Optimizer called");
     tree = Optimizer.optimize(tree);
   }
 
@@ -49,7 +59,7 @@ if (commander.run) {
 
   console.log(tokens);
 } else if (commander.interpret) {
-  const output = Eggvm.runFromEVM(commander.interpret);
+  const output = Eggvm.runFromEVM(commander.interpret, args);
 
   console.log(`Return value: ${output}`);
 } else {

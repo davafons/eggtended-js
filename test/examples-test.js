@@ -52,7 +52,7 @@ describe("Testing programs from 'examples/' folder", () => {
         } else {
           it(`should throw an exception of type ${outputs.name}`, () => {
             should.throws(() => {
-              Eggvm.runFromFile(file);
+              Eggvm.runFromEVM(fileEVM);
             }, outputs);
           });
         }
