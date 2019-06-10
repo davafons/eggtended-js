@@ -29,20 +29,22 @@ commander
   .parse(process.argv);
 
 // Interpreter args
-const args = {
-  optimize: false
-};
-
-if (commander.optimize) {
-  args.optimize = true;
-}
-
 if (commander.run) {
-  const output = Eggvm.runFromFile(commander.run, args);
+  let tree = Parser.parseFromFile(commander.run);
+
+  tree = Semantic.check(tree);
+
+  if (commander.optimize) {
+    console.log("Optimizer called");
+    tree = Optimizer.optimize(tree);
+  }
+
+  const output = Eggvm.eval(tree);
 
   console.log(`Return value: ${output}`);
 } else if (commander.compile) {
   let tree = Parser.parseFromFile(commander.compile);
+
   tree = Semantic.check(tree);
 
   if (commander.optimize) {
@@ -59,7 +61,7 @@ if (commander.run) {
 
   console.log(tokens);
 } else if (commander.interpret) {
-  const output = Eggvm.runFromEVM(commander.interpret, args);
+  const output = Eggvm.runFromEVM(commander.interpret);
 
   console.log(`Return value: ${output}`);
 } else {
