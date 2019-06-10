@@ -3,6 +3,7 @@ const should = require("should");
 const sinon = require("sinon");
 
 const { Parser } = require("../lib/parser/parse.js");
+const { Semantic } = require("../lib/parser/semantic.js");
 const { Eggvm } = require("../lib/interp/eggvm.js");
 const parser = new Parser();
 
@@ -39,7 +40,10 @@ describe("Testing programs from 'examples/' folder", () => {
           const rawData = fs.readFileSync(fileEVM);
           const expectedTree = JSON.parse(rawData);
 
-          parser.parseFromFile(file).should.match(expectedTree);
+          const tree = parser.parseFromFile(file);
+          Semantic.check(tree);
+
+          tree.should.match(expectedTree);
         });
 
         // -- TEST EXECUTION --
@@ -66,7 +70,6 @@ describe("Testing programs from 'examples/' folder", () => {
   tests.set("examples/one.egg", [50]);
   tests.set("examples/two.egg", [9]);
   tests.set("examples/scope.egg", [9, 8]);
-  tests.set("examples/scope-err.egg", ReferenceError);
   tests.set("examples/boolean.egg", ["true"]);
 
   tests.set("examples/string.egg", ["s"]);
