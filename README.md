@@ -86,6 +86,50 @@ do {
 }
 ```
 
+## AST Generation
+
+From this program:
+```ruby
+do(
+  print(true.toString())
+)
+```
+The following AST is generated:
+```text
+{
+  "type": "apply",
+  "operator": {
+    "type": "word",
+    "name": "do"
+  },
+  "args": [
+    {
+      "type": "apply",
+      "operator": {
+        "type": "word",
+        "name": "print"
+      },
+      "args": [
+        {
+          "type": "apply",
+          "operator": {
+            "type": "word",
+            "name": "true"
+          },
+          "args": [
+            {
+              "type": "value",
+              "value": "toString"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+This AST is the __interpreter's input__ for executing a program.
 
 ## Author
 
