@@ -6,7 +6,35 @@ An extended version of the **Egg** programming language from the _"Eloquent Java
 | :---------------------------------------------------------------------------------------------------------------------: | :-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
 | [![Build Status](https://travis-ci.org/davafons/eggtended-js.svg?branch=master)](https://travis-ci.org/davafons/eggtended-js) |[![npm version](https://badge.fury.io/js/eggtended-js.svg)](https://badge.fury.io/js/eggtended-js)| [![Coverage Status](https://coveralls.io/repos/github/Dibad/eggtended-js/badge.svg?branch=master)](https://coveralls.io/github/Dibad/eggtended-js?branch=master) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/60277e744287497ebf0433a7c004b650)](https://www.codacy.com/app/Dibad/eggtended-js?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dibad/eggtended-js&amp;utm_campaign=Badge_Grade) | [![Document Badge](https://doc.esdoc.org/github.com/Dibad/eggtended-js/badge.svg)](https://doc.esdoc.org/github.com/Dibad/eggtended-js/) | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
+## REPL Loop
+![https://i.imgur.com/Yo8XjPr.png](https://i.imgur.com/Yo8XjPr.png)
+
+## Help
+```text
+$ egg --help
+
+Usage: egg [options]
+
+Options:
+  -V, --version                 output the version number
+  -r --run <fileName.egg>       compiles the input egg program and runs it using the egg interpreter
+  -c --compile <fileName.egg>   compile the input egg program to produce a JSON containing the resulting egg AST
+  -t --tokenize <fileName.egg>  tokenize the input egg program and print the array of tokens produced
+  -o --optimize                 optimize the resulting AST, generating a smaller one
+  -i --interpret <fileName>     interprets the input egg AST
+  -h, --help                    output usage information
+```
+
 ## Code examples
+
+### If
+```ruby
+def(x, 5),
+if(<(x, 10),
+  print(x, "lower than 10"),
+  print(x, "bigger or equal to 10")
+)
+```
 
 ### For loops
 ```ruby
